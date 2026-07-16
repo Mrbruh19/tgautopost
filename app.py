@@ -1,4 +1,5 @@
 import hashlib
+import logging
 import json
 import os
 import re
@@ -18,11 +19,12 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, HttpUrl
 
-app = FastAPI(title="Telegram Car Publisher", version="2.1.0")
+app = FastAPI(title="Telegram Car Publisher", version="2.2.0")
+logger = logging.getLogger("tgautopost")
 
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
-CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
-API_KEY = os.getenv("PUBLISH_API_KEY", "")
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
+API_KEY = os.getenv("PUBLISH_API_KEY", "").strip()
 MEDIA_TTL_HOURS = int(os.getenv("MEDIA_TTL_HOURS", "24"))
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT", "/tmp/tgautopost_media"))
@@ -309,6 +311,18 @@ def remove_wall_logo(image: np.ndarray) -> tuple[np.ndarray, bool]:
     return cleaned, True
 
 
+def optimize_for_telegram(image: np.ndarray) -> np.ndarray:
+    """Resize large photos to reduce Telegram upload size and avoid timeouts."""
+    height, width = image.shape[:2]
+    max_side = 1920
+    longest = max(width, height)
+    if longest <= max_side:
+        return image
+    scale = max_side / longest
+    new_size = (max(1, int(width * scale)), max(1, int(height * scale)))
+    return cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
+
+
 async def download_first_four_images(page_url: str, output_dir: Path) -> list[dict]:
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(45.0),
@@ -354,20 +368,31 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
             hashes.add(digest)
 
             cleaned, logo_removed = remove_wall_logo(image)
+            cleaned = optimize_for_telegram(cleaned)
+            out_height, out_width = cleaned.shape[:2]
             destination = output_dir / f"photo_{len(accepted) + 1}.jpg"
             if not cv2.imwrite(
                 str(destination),
                 cleaned,
-                [int(cv2.IMWRITE_JPEG_QUALITY), 94],
+                [int(cv2.IMWRITE_JPEG_QUALITY), 88],
             ):
                 continue
+            # Keep every file comfortably below Telegram's per-photo limit.
+            if destination.stat().st_size > 9_000_000:
+                if not cv2.imwrite(
+                    str(destination),
+                    cleaned,
+                    [int(cv2.IMWRITE_JPEG_QUALITY), 78],
+                ):
+                    continue
             accepted.append(
                 {
                     "file": destination.name,
                     "source_url": candidate,
                     "logo_removed": logo_removed,
-                    "width": int(width),
-                    "height": int(height),
+                    "width": int(out_width),
+                    "height": int(out_height),
+                    "size_bytes": int(destination.stat().st_size),
                 }
             )
 
@@ -381,7 +406,7 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
 
 @app.get("/health")
 async def health() -> dict:
-    return {"status": "ok", "version": "2.1.0"}
+    return {"status": "ok", "version": "2.2.0"}
 
 
 @app.post("/prepare")
@@ -465,6 +490,11 @@ async def publish_prepared_car(
             status_code=404,
             detail="Подготовленные фотографии не найдены или срок хранения истёк.",
         )
+    if len(payload.caption) > 1024:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Подпись содержит {len(payload.caption)} символов. Telegram допускает не более 1024 символов для подписи к альбому.",
+        )
 
     media = []
     for index, path in enumerate(photo_paths, start=1):
@@ -480,15 +510,30 @@ async def publish_prepared_car(
     }
 
     telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMediaGroup"
-    async with httpx.AsyncClient(timeout=60.0) as client:
-        response = await client.post(
-            telegram_url,
-            data={
-                "chat_id": CHAT_ID,
-                "media": json.dumps(media, ensure_ascii=False),
-            },
-            files=upload_files,
-        )
+    try:
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(connect=30.0, read=180.0, write=180.0, pool=30.0)
+        ) as client:
+            response = await client.post(
+                telegram_url,
+                data={
+                    "chat_id": CHAT_ID,
+                    "media": json.dumps(media, ensure_ascii=False),
+                },
+                files=upload_files,
+            )
+    except httpx.TimeoutException as exc:
+        logger.exception("Telegram upload timed out")
+        raise HTTPException(
+            status_code=504,
+            detail="Истекло время отправки фотографий в Telegram. Фотографии не опубликованы.",
+        ) from exc
+    except httpx.RequestError as exc:
+        logger.exception("Telegram request failed")
+        raise HTTPException(
+            status_code=502,
+            detail=f"Не удалось подключиться к Telegram: {exc.__class__.__name__}.",
+        ) from exc
 
     try:
         result = response.json()
@@ -499,9 +544,11 @@ async def publish_prepared_car(
         ) from exc
 
     if not result.get("ok"):
+        description = result.get("description", "неизвестная ошибка")
+        error_code = result.get("error_code", response.status_code)
         raise HTTPException(
             status_code=502,
-            detail=f"Telegram вернул ошибку: {result}",
+            detail=f"Telegram API {error_code}: {description}",
         )
 
     return {
