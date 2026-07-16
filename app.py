@@ -18,12 +18,13 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, HttpUrl
 
-app = FastAPI(title="Telegram Car Publisher", version="2.0.0")
+app = FastAPI(title="Telegram Car Publisher", version="2.1.0")
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
 API_KEY = os.getenv("PUBLISH_API_KEY", "")
 MEDIA_TTL_HOURS = int(os.getenv("MEDIA_TTL_HOURS", "24"))
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
 MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT", "/tmp/tgautopost_media"))
 MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
 
@@ -380,7 +381,7 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
 
 @app.get("/health")
 async def health() -> dict:
-    return {"status": "ok", "version": "2.0.0"}
+    return {"status": "ok", "version": "2.1.0"}
 
 
 @app.post("/prepare")
@@ -412,7 +413,13 @@ async def prepare_car_photos(
         shutil.rmtree(job_dir, ignore_errors=True)
         raise
 
-    base_url = str(request.base_url).rstrip("/")
+    if PUBLIC_BASE_URL:
+        base_url = PUBLIC_BASE_URL
+    else:
+        forwarded_proto = request.headers.get("x-forwarded-proto", request.url.scheme)
+        forwarded_host = request.headers.get("x-forwarded-host") or request.headers.get("host")
+        base_url = f"{forwarded_proto}://{forwarded_host}".rstrip("/")
+
     public_photos = [
         f"{base_url}/media/{job_id}/photo_{index}.jpg" for index in range(1, 5)
     ]
