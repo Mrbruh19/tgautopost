@@ -1,3 +1,5 @@
+import asyncio
+import gc
 import hashlib
 import logging
 import json
@@ -19,8 +21,9 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, HttpUrl
 
-app = FastAPI(title="Telegram Car Publisher", version="2.2.0")
+app = FastAPI(title="Telegram Car Publisher", version="2.4.0")
 logger = logging.getLogger("tgautopost")
+PREPARE_LOCK = asyncio.Lock()
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
@@ -311,10 +314,10 @@ def remove_wall_logo(image: np.ndarray) -> tuple[np.ndarray, bool]:
     return cleaned, True
 
 
-def optimize_for_telegram(image: np.ndarray) -> np.ndarray:
-    """Resize large photos to reduce Telegram upload size and avoid timeouts."""
+def resize_for_processing(image: np.ndarray) -> np.ndarray:
+    """Limit memory use before logo detection and seamless cloning."""
     height, width = image.shape[:2]
-    max_side = 1920
+    max_side = 1600
     longest = max(width, height)
     if longest <= max_side:
         return image
@@ -367,8 +370,8 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
                 continue
             hashes.add(digest)
 
+            image = resize_for_processing(image)
             cleaned, logo_removed = remove_wall_logo(image)
-            cleaned = optimize_for_telegram(cleaned)
             out_height, out_width = cleaned.shape[:2]
             destination = output_dir / f"photo_{len(accepted) + 1}.jpg"
             if not cv2.imwrite(
@@ -395,6 +398,8 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
                     "size_bytes": int(destination.stat().st_size),
                 }
             )
+            del image, cleaned, array, content
+            gc.collect()
 
     if len(accepted) < 4:
         raise HTTPException(
@@ -406,7 +411,7 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
 
 @app.get("/health")
 async def health() -> dict:
-    return {"status": "ok", "version": "2.2.0"}
+    return {"status": "ok", "version": "2.4.0"}
 
 
 @app.post("/prepare")
@@ -416,45 +421,76 @@ async def prepare_car_photos(
     x_api_key: str | None = Header(default=None),
 ) -> dict:
     verify_api_key(x_api_key)
-    cleanup_expired_jobs()
 
-    job_id = uuid.uuid4().hex
-    job_dir = MEDIA_ROOT / job_id
-    job_dir.mkdir(parents=True, exist_ok=False)
+    # Railway has limited memory. Serialize image preparation so two vehicles
+    # cannot run OpenCV processing at the same time.
+    async with PREPARE_LOCK:
+        cleanup_expired_jobs()
 
-    try:
-        photos = await download_first_four_images(str(payload.page_url), job_dir)
-        metadata = {
+        job_id = uuid.uuid4().hex
+        job_dir = MEDIA_ROOT / job_id
+        job_dir.mkdir(parents=True, exist_ok=False)
+
+        if PUBLIC_BASE_URL:
+            base_url = PUBLIC_BASE_URL
+        else:
+            forwarded_proto = request.headers.get("x-forwarded-proto", request.url.scheme)
+            forwarded_host = request.headers.get("x-forwarded-host") or request.headers.get("host")
+            base_url = f"{forwarded_proto}://{forwarded_host}".rstrip("/")
+
+        try:
+            photos = await download_first_four_images(str(payload.page_url), job_dir)
+            metadata = {
+                "job_id": job_id,
+                "page_url": str(payload.page_url),
+                "created_at": int(time.time()),
+                "public_base_url": base_url,
+                "photos": photos,
+            }
+            (job_dir / "metadata.json").write_text(
+                json.dumps(metadata, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except HTTPException:
+            shutil.rmtree(job_dir, ignore_errors=True)
+            raise
+        except httpx.HTTPStatusError as exc:
+            shutil.rmtree(job_dir, ignore_errors=True)
+            logger.exception("Source page returned HTTP error")
+            raise HTTPException(
+                status_code=502,
+                detail=(
+                    f"Страница автомобиля вернула HTTP {exc.response.status_code}. "
+                    "Не удалось получить фотографии."
+                ),
+            ) from exc
+        except httpx.RequestError as exc:
+            shutil.rmtree(job_dir, ignore_errors=True)
+            logger.exception("Source page request failed")
+            raise HTTPException(
+                status_code=502,
+                detail=f"Не удалось подключиться к странице автомобиля: {exc.__class__.__name__}.",
+            ) from exc
+        except Exception as exc:
+            shutil.rmtree(job_dir, ignore_errors=True)
+            logger.exception("Unexpected photo preparation error")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Ошибка обработки фотографий: {exc.__class__.__name__}: {str(exc)[:240]}",
+            ) from exc
+        finally:
+            gc.collect()
+
+        public_photos = [
+            f"{base_url}/media/{job_id}/photo_{index}.jpg" for index in range(1, 5)
+        ]
+        return {
+            "ok": True,
             "job_id": job_id,
-            "page_url": str(payload.page_url),
-            "created_at": int(time.time()),
-            "photos": photos,
+            "photo_urls": public_photos,
+            "logo_removed": [photo["logo_removed"] for photo in photos],
+            "message": "Фотографии подготовлены. Покажите их пользователю до публикации.",
         }
-        (job_dir / "metadata.json").write_text(
-            json.dumps(metadata, ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
-    except Exception:
-        shutil.rmtree(job_dir, ignore_errors=True)
-        raise
-
-    if PUBLIC_BASE_URL:
-        base_url = PUBLIC_BASE_URL
-    else:
-        forwarded_proto = request.headers.get("x-forwarded-proto", request.url.scheme)
-        forwarded_host = request.headers.get("x-forwarded-host") or request.headers.get("host")
-        base_url = f"{forwarded_proto}://{forwarded_host}".rstrip("/")
-
-    public_photos = [
-        f"{base_url}/media/{job_id}/photo_{index}.jpg" for index in range(1, 5)
-    ]
-    return {
-        "ok": True,
-        "job_id": job_id,
-        "photo_urls": public_photos,
-        "logo_removed": [photo["logo_removed"] for photo in photos],
-        "message": "Фотографии подготовлены. Покажите их пользователю до публикации.",
-    }
 
 
 @app.get("/media/{job_id}/{filename}")
@@ -475,44 +511,89 @@ async def publish_prepared_car(
     x_api_key: str | None = Header(default=None),
 ) -> dict:
     verify_api_key(x_api_key)
+
     if not BOT_TOKEN or not CHAT_ID:
         raise HTTPException(
             status_code=500,
             detail="TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не настроены.",
         )
+
     if not re.fullmatch(r"[0-9a-f]{32}", payload.job_id):
         raise HTTPException(status_code=400, detail="Некорректный job_id.")
 
     job_dir = MEDIA_ROOT / payload.job_id
     photo_paths = [job_dir / f"photo_{index}.jpg" for index in range(1, 5)]
+
     if not all(path.is_file() for path in photo_paths):
         raise HTTPException(
             status_code=404,
             detail="Подготовленные фотографии не найдены или срок хранения истёк.",
         )
+
     if len(payload.caption) > 1024:
         raise HTTPException(
             status_code=400,
-            detail=f"Подпись содержит {len(payload.caption)} символов. Telegram допускает не более 1024 символов для подписи к альбому.",
+            detail=(
+                f"Подпись содержит {len(payload.caption)} символов. "
+                "Telegram допускает не более 1024 символов для подписи к альбому."
+            ),
         )
 
+    published_marker = job_dir / "published.json"
+    if published_marker.is_file():
+        try:
+            stored = json.loads(published_marker.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            stored = {}
+        return {
+            "ok": True,
+            "message": "Этот набор фотографий уже был опубликован в Telegram.",
+            "job_id": payload.job_id,
+            "already_published": True,
+            "telegram_message_ids": stored.get("telegram_message_ids", []),
+        }
+
+    metadata_path = job_dir / "metadata.json"
+    metadata = {}
+    if metadata_path.is_file():
+        try:
+            metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            metadata = {}
+
+    railway_domain = os.getenv("RAILWAY_PUBLIC_DOMAIN", "").strip()
+    base_url = (
+        metadata.get("public_base_url")
+        or PUBLIC_BASE_URL
+        or (f"https://{railway_domain}" if railway_domain else "")
+    ).rstrip("/")
+
+    if not base_url:
+        raise HTTPException(
+            status_code=500,
+            detail="Не удалось определить публичный HTTPS-адрес сервиса.",
+        )
+
+    photo_urls = [
+        f"{base_url}/media/{payload.job_id}/photo_{index}.jpg"
+        for index in range(1, 5)
+    ]
+
+    # Telegram сам загружает изображения по HTTPS-ссылкам. Это надёжнее,
+    # чем передавать четыре тяжёлых файла через один multipart-запрос.
     media = []
-    for index, path in enumerate(photo_paths, start=1):
-        item = {"type": "photo", "media": f"attach://photo{index}"}
+    for index, photo_url in enumerate(photo_urls, start=1):
+        item = {"type": "photo", "media": photo_url}
         if index == 1:
             item["caption"] = payload.caption
             item["parse_mode"] = "HTML"
         media.append(item)
 
-    upload_files = {
-        f"photo{index}": (path.name, path.read_bytes(), "image/jpeg")
-        for index, path in enumerate(photo_paths, start=1)
-    }
-
     telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMediaGroup"
+
     try:
         async with httpx.AsyncClient(
-            timeout=httpx.Timeout(connect=30.0, read=180.0, write=180.0, pool=30.0)
+            timeout=httpx.Timeout(connect=20.0, read=120.0, write=30.0, pool=20.0)
         ) as client:
             response = await client.post(
                 telegram_url,
@@ -520,13 +601,15 @@ async def publish_prepared_car(
                     "chat_id": CHAT_ID,
                     "media": json.dumps(media, ensure_ascii=False),
                 },
-                files=upload_files,
             )
     except httpx.TimeoutException as exc:
-        logger.exception("Telegram upload timed out")
+        logger.exception("Telegram request timed out")
         raise HTTPException(
             status_code=504,
-            detail="Истекло время отправки фотографий в Telegram. Фотографии не опубликованы.",
+            detail=(
+                "Telegram не успел получить фотографии по HTTPS-ссылкам. "
+                "Пост не подтверждён как опубликованный."
+            ),
         ) from exc
     except httpx.RequestError as exc:
         logger.exception("Telegram request failed")
@@ -540,7 +623,7 @@ async def publish_prepared_car(
     except ValueError as exc:
         raise HTTPException(
             status_code=502,
-            detail=f"Telegram вернул неожиданный ответ: HTTP {response.status_code}",
+            detail=f"Telegram вернул неожиданный ответ: HTTP {response.status_code}.",
         ) from exc
 
     if not result.get("ok"):
@@ -551,8 +634,30 @@ async def publish_prepared_car(
             detail=f"Telegram API {error_code}: {description}",
         )
 
+    messages = result.get("result", [])
+    message_ids = [
+        message.get("message_id")
+        for message in messages
+        if isinstance(message, dict) and message.get("message_id") is not None
+    ]
+
+    published_marker.write_text(
+        json.dumps(
+            {
+                "published_at": int(time.time()),
+                "telegram_message_ids": message_ids,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
     return {
         "ok": True,
         "message": "Пост опубликован в Telegram.",
         "job_id": payload.job_id,
+        "already_published": False,
+        "telegram_message_ids": message_ids,
     }
+
