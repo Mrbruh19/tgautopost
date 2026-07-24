@@ -365,7 +365,7 @@ def resize_for_processing(image: np.ndarray) -> np.ndarray:
     return cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
 
 
-async def download_first_four_images(page_url: str, output_dir: Path) -> list[dict]:
+async def download_first_six_images(page_url: str, output_dir: Path) -> list[dict]:
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(45.0),
         follow_redirects=True,
@@ -385,7 +385,7 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
         accepted: list[dict] = []
         hashes: set[str] = set()
         for candidate in candidates[:60]:
-            if len(accepted) >= 4:
+            if len(accepted) >= 6:
                 break
             try:
                 response = await client.get(candidate, headers={**HTTP_HEADERS, "Referer": page_url})
@@ -440,10 +440,10 @@ async def download_first_four_images(page_url: str, output_dir: Path) -> list[di
             del image, cleaned, array, content
             gc.collect()
 
-    if len(accepted) < 4:
+    if len(accepted) < 6:
         raise HTTPException(
             status_code=400,
-            detail=f"Удалось получить только {len(accepted)} подходящих фотографий из 4.",
+            detail=f"Удалось получить только {len(accepted)} подходящих фотографий из 6.",
         )
     return accepted
 
@@ -811,7 +811,7 @@ async def send_album_from_job(job_id: str, caption: str) -> list[int]:
         raise RuntimeError("PUBLIC_BASE_URL или RAILWAY_PUBLIC_DOMAIN не настроен.")
 
     media = []
-    for index in range(1, 5):
+    for index in range(1, 7):
         item: dict[str, str] = {
             "type": "photo",
             "media": f"{base_url}/media/{job_id}/photo_{index}.jpg",
@@ -1076,7 +1076,7 @@ async def process_scheduled_slot(slot: datetime) -> None:
             caption = build_auto_caption(car, int(price["rounded_total_rub"]))
 
             async with PREPARE_LOCK:
-                photos = await download_first_four_images(car["page_url"], job_dir)
+                photos = await download_first_six_images(car["page_url"], job_dir)
                 metadata = {
                     "job_id": job_id,
                     "page_url": car["page_url"],
@@ -1198,7 +1198,7 @@ async def prepare_car_photos(
             base_url = f"{forwarded_proto}://{forwarded_host}".rstrip("/")
 
         try:
-            photos = await download_first_four_images(str(payload.page_url), job_dir)
+            photos = await download_first_six_images(str(payload.page_url), job_dir)
             metadata = {
                 "job_id": job_id,
                 "page_url": str(payload.page_url),
@@ -1241,7 +1241,7 @@ async def prepare_car_photos(
             gc.collect()
 
         public_photos = [
-            f"{base_url}/media/{job_id}/photo_{index}.jpg" for index in range(1, 5)
+            f"{base_url}/media/{job_id}/photo_{index}.jpg" for index in range(1, 7)
         ]
         return {
             "ok": True,
@@ -1256,7 +1256,7 @@ async def prepare_car_photos(
 async def get_prepared_photo(job_id: str, filename: str):
     if not re.fullmatch(r"[0-9a-f]{32}", job_id):
         raise HTTPException(status_code=404, detail="Файл не найден.")
-    if not re.fullmatch(r"photo_[1-4]\.jpg", filename):
+    if not re.fullmatch(r"photo_[1-6]\.jpg", filename):
         raise HTTPException(status_code=404, detail="Файл не найден.")
     file_path = MEDIA_ROOT / job_id / filename
     if not file_path.is_file():
@@ -1281,7 +1281,7 @@ async def publish_prepared_car(
         raise HTTPException(status_code=400, detail="Некорректный job_id.")
 
     job_dir = MEDIA_ROOT / payload.job_id
-    photo_paths = [job_dir / f"photo_{index}.jpg" for index in range(1, 5)]
+    photo_paths = [job_dir / f"photo_{index}.jpg" for index in range(1, 7)]
 
     if not all(path.is_file() for path in photo_paths):
         raise HTTPException(
@@ -1335,11 +1335,11 @@ async def publish_prepared_car(
 
     photo_urls = [
         f"{base_url}/media/{payload.job_id}/photo_{index}.jpg"
-        for index in range(1, 5)
+        for index in range(1, 7)
     ]
 
     # Telegram сам загружает изображения по HTTPS-ссылкам. Это надёжнее,
-    # чем передавать четыре тяжёлых файла через один multipart-запрос.
+    # чем передавать шесть тяжёлых файлов через один multipart-запрос.
     media = []
     for index, photo_url in enumerate(photo_urls, start=1):
         item = {"type": "photo", "media": photo_url}
@@ -1419,4 +1419,3 @@ async def publish_prepared_car(
         "already_published": False,
         "telegram_message_ids": message_ids,
     }
-
