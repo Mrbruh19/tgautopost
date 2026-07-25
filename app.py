@@ -28,7 +28,8 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, HttpUrl
 
-app = FastAPI(title="Telegram Car Publisher", version="3.0.0")
+APP_VERSION = "3.0.2"
+app = FastAPI(title="Telegram Car Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
 AUTO_PUBLISH_LOCK = asyncio.Lock()
@@ -365,7 +366,7 @@ def resize_for_processing(image: np.ndarray) -> np.ndarray:
     return cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
 
 
-async def download_first_six_images(page_url: str, output_dir: Path) -> list[dict]:
+async def download_first_eight_images(page_url: str, output_dir: Path) -> list[dict]:
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(45.0),
         follow_redirects=True,
@@ -384,8 +385,8 @@ async def download_first_six_images(page_url: str, output_dir: Path) -> list[dic
 
         accepted: list[dict] = []
         hashes: set[str] = set()
-        for candidate in candidates[:60]:
-            if len(accepted) >= 6:
+        for candidate in candidates[:80]:
+            if len(accepted) >= 8:
                 break
             try:
                 response = await client.get(candidate, headers={**HTTP_HEADERS, "Referer": page_url})
@@ -440,10 +441,10 @@ async def download_first_six_images(page_url: str, output_dir: Path) -> list[dic
             del image, cleaned, array, content
             gc.collect()
 
-    if len(accepted) < 6:
+    if len(accepted) < 8:
         raise HTTPException(
             status_code=400,
-            detail=f"Удалось получить только {len(accepted)} подходящих фотографий из 6.",
+            detail=f"Удалось получить только {len(accepted)} подходящих фотографий из 8.",
         )
     return accepted
 
@@ -811,7 +812,7 @@ async def send_album_from_job(job_id: str, caption: str) -> list[int]:
         raise RuntimeError("PUBLIC_BASE_URL или RAILWAY_PUBLIC_DOMAIN не настроен.")
 
     media = []
-    for index in range(1, 7):
+    for index in range(1, 9):
         item: dict[str, str] = {
             "type": "photo",
             "media": f"{base_url}/media/{job_id}/photo_{index}.jpg",
@@ -1012,16 +1013,36 @@ def mark_slot_uncertain(slot: datetime, car_id: int, error: str) -> None:
         )
 
 
-def mark_slot_failure(slot: datetime, car_id: int, error: str) -> None:
+def is_permanent_source_error(exc: Exception) -> bool:
+    """Return True when retrying the same listing cannot fix the problem."""
+    if isinstance(exc, HTTPException):
+        return exc.status_code in {400, 404, 410}
+    if isinstance(exc, httpx.HTTPStatusError):
+        return exc.response.status_code in {404, 410}
+    return False
+
+
+def mark_slot_failure(
+    slot: datetime,
+    car_id: int,
+    error: str,
+    *,
+    permanent: bool = False,
+) -> None:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
-    retry_at = datetime.now(timezone) + timedelta(minutes=AUTO_PUBLISH_RETRY_MINUTES)
+    now = datetime.now(timezone)
+    retry_at = (
+        now
+        if permanent
+        else now + timedelta(minutes=AUTO_PUBLISH_RETRY_MINUTES)
+    )
     with db_connect() as connection:
         car = connection.execute(
             "SELECT attempts FROM cars WHERE id=?", (car_id,)
         ).fetchone()
         attempts = int(car["attempts"]) + 1 if car else 1
 
-        if attempts >= 3:
+        if permanent or attempts >= 3:
             connection.execute(
                 """
                 UPDATE cars
@@ -1076,7 +1097,7 @@ async def process_scheduled_slot(slot: datetime) -> None:
             caption = build_auto_caption(car, int(price["rounded_total_rub"]))
 
             async with PREPARE_LOCK:
-                photos = await download_first_six_images(car["page_url"], job_dir)
+                photos = await download_first_eight_images(car["page_url"], job_dir)
                 metadata = {
                     "job_id": job_id,
                     "page_url": car["page_url"],
@@ -1110,6 +1131,7 @@ async def process_scheduled_slot(slot: datetime) -> None:
                 slot,
                 int(car["id"]),
                 f"{exc.__class__.__name__}: {str(exc)[:900]}",
+                permanent=is_permanent_source_error(exc),
             )
         finally:
             gc.collect()
@@ -1164,7 +1186,7 @@ async def health() -> dict:
     counts = queue_counts()
     return {
         "status": "ok",
-        "version": "3.0.0",
+        "version": APP_VERSION,
         "auto_publish_enabled": AUTO_PUBLISH_ENABLED,
         "timezone": AUTO_PUBLISH_TZ,
         "times": list(AUTO_PUBLISH_TIMES),
@@ -1198,7 +1220,7 @@ async def prepare_car_photos(
             base_url = f"{forwarded_proto}://{forwarded_host}".rstrip("/")
 
         try:
-            photos = await download_first_six_images(str(payload.page_url), job_dir)
+            photos = await download_first_eight_images(str(payload.page_url), job_dir)
             metadata = {
                 "job_id": job_id,
                 "page_url": str(payload.page_url),
@@ -1241,7 +1263,7 @@ async def prepare_car_photos(
             gc.collect()
 
         public_photos = [
-            f"{base_url}/media/{job_id}/photo_{index}.jpg" for index in range(1, 7)
+            f"{base_url}/media/{job_id}/photo_{index}.jpg" for index in range(1, 9)
         ]
         return {
             "ok": True,
@@ -1256,7 +1278,7 @@ async def prepare_car_photos(
 async def get_prepared_photo(job_id: str, filename: str):
     if not re.fullmatch(r"[0-9a-f]{32}", job_id):
         raise HTTPException(status_code=404, detail="Файл не найден.")
-    if not re.fullmatch(r"photo_[1-6]\.jpg", filename):
+    if not re.fullmatch(r"photo_[1-8]\.jpg", filename):
         raise HTTPException(status_code=404, detail="Файл не найден.")
     file_path = MEDIA_ROOT / job_id / filename
     if not file_path.is_file():
@@ -1281,7 +1303,7 @@ async def publish_prepared_car(
         raise HTTPException(status_code=400, detail="Некорректный job_id.")
 
     job_dir = MEDIA_ROOT / payload.job_id
-    photo_paths = [job_dir / f"photo_{index}.jpg" for index in range(1, 7)]
+    photo_paths = [job_dir / f"photo_{index}.jpg" for index in range(1, 9)]
 
     if not all(path.is_file() for path in photo_paths):
         raise HTTPException(
@@ -1335,11 +1357,11 @@ async def publish_prepared_car(
 
     photo_urls = [
         f"{base_url}/media/{payload.job_id}/photo_{index}.jpg"
-        for index in range(1, 7)
+        for index in range(1, 9)
     ]
 
     # Telegram сам загружает изображения по HTTPS-ссылкам. Это надёжнее,
-    # чем передавать шесть тяжёлых файлов через один multipart-запрос.
+    # чем передавать восемь тяжёлых файлов через один multipart-запрос.
     media = []
     for index, photo_url in enumerate(photo_urls, start=1):
         item = {"type": "photo", "media": photo_url}
