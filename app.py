@@ -28,8 +28,8 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.0.2"
-app = FastAPI(title="Telegram Car Publisher", version=APP_VERSION)
+APP_VERSION = "3.1.0"
+app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
 AUTO_PUBLISH_LOCK = asyncio.Lock()
@@ -38,6 +38,12 @@ RATE_CACHE: dict[str, tuple[float, float]] = {}
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
+VK_ACCESS_TOKEN = os.getenv("VK_ACCESS_TOKEN", "").strip()
+VK_GROUP_ID = os.getenv("VK_GROUP_ID", "").strip()
+VK_API_VERSION = os.getenv("VK_API_VERSION", "5.199").strip()
+VK_AUTO_PUBLISH_ENABLED = os.getenv(
+    "VK_AUTO_PUBLISH_ENABLED", "false"
+).strip().lower() in {"1", "true", "yes", "on"}
 API_KEY = os.getenv("PUBLISH_API_KEY", "").strip()
 MEDIA_TTL_HOURS = int(os.getenv("MEDIA_TTL_HOURS", "24"))
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "").rstrip("/")
@@ -454,6 +460,10 @@ class TelegramDeliveryUncertainError(RuntimeError):
     """Telegram may have accepted the album even though the response timed out."""
 
 
+class VKAPIError(RuntimeError):
+    """VK API rejected a request."""
+
+
 def db_connect() -> sqlite3.Connection:
     connection = sqlite3.connect(DB_PATH, timeout=30)
     connection.row_factory = sqlite3.Row
@@ -486,7 +496,8 @@ def initialize_queue_database() -> None:
                 attempts INTEGER NOT NULL DEFAULT 0,
                 last_error TEXT,
                 published_at TEXT,
-                telegram_message_ids TEXT
+                telegram_message_ids TEXT,
+                vk_post_id INTEGER
             );
 
             CREATE TABLE IF NOT EXISTS publish_slots (
@@ -499,6 +510,7 @@ def initialize_queue_database() -> None:
                 last_error TEXT,
                 published_at TEXT,
                 telegram_message_ids TEXT,
+                vk_post_id INTEGER,
                 FOREIGN KEY(car_id) REFERENCES cars(id)
             );
 
@@ -506,6 +518,19 @@ def initialize_queue_database() -> None:
             CREATE INDEX IF NOT EXISTS idx_slots_status ON publish_slots(status);
             """
         )
+        # Existing Railway volumes keep their SQLite database between deploys.
+        # Add new delivery columns without resetting the current queue.
+        for table_name in ("cars", "publish_slots"):
+            columns = {
+                str(row["name"])
+                for row in connection.execute(
+                    f"PRAGMA table_info({table_name})"
+                ).fetchall()
+            }
+            if "vk_post_id" not in columns:
+                connection.execute(
+                    f"ALTER TABLE {table_name} ADD COLUMN vk_post_id INTEGER"
+                )
         # Recover safely after an application restart.
         connection.execute(
             "UPDATE cars SET status='pending' WHERE status='processing'"
@@ -803,6 +828,160 @@ def build_auto_caption(car: sqlite3.Row, rounded_total_rub: int) -> str:
     return caption
 
 
+def vk_message_from_html(caption: str) -> str:
+    """Convert the Telegram HTML caption into clean VK wall text."""
+    without_tags = re.sub(r"<[^>]+>", "", caption)
+    return html.unescape(without_tags)
+
+
+def vk_random_id(value: str) -> int:
+    """Build a stable positive 31-bit id so VK can deduplicate retries."""
+    digest = hashlib.sha256(value.encode("utf-8")).digest()
+    return (int.from_bytes(digest[:4], "big") & 0x7FFFFFFF) or 1
+
+
+async def vk_api_call(
+    client: httpx.AsyncClient,
+    method: str,
+    params: dict[str, str | int],
+) -> dict | list:
+    request_params = {
+        **params,
+        "access_token": VK_ACCESS_TOKEN,
+        "v": VK_API_VERSION,
+    }
+    response = await client.post(
+        f"https://api.vk.com/method/{method}",
+        data=request_params,
+    )
+    response.raise_for_status()
+    try:
+        payload = response.json()
+    except ValueError as exc:
+        raise VKAPIError(
+            f"VK API вернул неожиданный ответ HTTP {response.status_code}."
+        ) from exc
+
+    if not isinstance(payload, dict):
+        raise VKAPIError("VK API вернул ответ неизвестного формата.")
+    error = payload.get("error")
+    if error:
+        code = int(error.get("error_code", 0))
+        message = str(error.get("error_msg", "неизвестная ошибка"))
+        if code == 27:
+            message = (
+                "для загрузки фотографий нужен пользовательский VK-токен "
+                "администратора с доступом к стене и фотографиям; "
+                "токен сообщества для этого метода не подходит"
+            )
+        raise VKAPIError(f"VK API {code}: {message}")
+    return payload.get("response", {})
+
+
+async def send_vk_post_from_job(
+    job_id: str,
+    caption: str,
+    *,
+    deduplication_key: str,
+) -> int:
+    """Upload eight prepared photos and publish one post to the VK community."""
+    if not VK_ACCESS_TOKEN or not VK_GROUP_ID:
+        raise RuntimeError("VK_ACCESS_TOKEN или VK_GROUP_ID не настроены.")
+    try:
+        group_id = abs(int(VK_GROUP_ID))
+    except ValueError as exc:
+        raise RuntimeError("VK_GROUP_ID должен быть числовым ID сообщества.") from exc
+
+    job_dir = MEDIA_ROOT / job_id
+    photo_paths = [job_dir / f"photo_{index}.jpg" for index in range(1, 9)]
+    if not all(path.is_file() for path in photo_paths):
+        raise RuntimeError("Не найдены все 8 подготовленных фотографий для VK.")
+
+    attachments: list[str] = []
+    timeout = httpx.Timeout(connect=20.0, read=120.0, write=120.0, pool=20.0)
+    try:
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            for photo_path in photo_paths:
+                upload_server = await vk_api_call(
+                    client,
+                    "photos.getWallUploadServer",
+                    {"group_id": group_id},
+                )
+                if not isinstance(upload_server, dict):
+                    raise VKAPIError("VK не вернул данные сервера загрузки.")
+                upload_url = str(upload_server.get("upload_url", ""))
+                if not upload_url:
+                    raise VKAPIError("VK не вернул адрес загрузки фотографии.")
+
+                with photo_path.open("rb") as photo_file:
+                    upload_response = await client.post(
+                        upload_url,
+                        files={
+                            "photo": (
+                                photo_path.name,
+                                photo_file,
+                                "image/jpeg",
+                            )
+                        },
+                    )
+                upload_response.raise_for_status()
+                try:
+                    uploaded = upload_response.json()
+                except ValueError as exc:
+                    raise VKAPIError(
+                        "Сервер загрузки VK вернул некорректный ответ."
+                    ) from exc
+                if not isinstance(uploaded, dict):
+                    raise VKAPIError(
+                        "Сервер загрузки VK вернул ответ неизвестного формата."
+                    )
+
+                saved_photos = await vk_api_call(
+                    client,
+                    "photos.saveWallPhoto",
+                    {
+                        "group_id": group_id,
+                        "photo": str(uploaded.get("photo", "")),
+                        "server": str(uploaded.get("server", "")),
+                        "hash": str(uploaded.get("hash", "")),
+                    },
+                )
+                if not isinstance(saved_photos, list) or not saved_photos:
+                    raise VKAPIError("VK не сохранил загруженную фотографию.")
+                saved = saved_photos[0]
+                attachment = f"photo{saved['owner_id']}_{saved['id']}"
+                access_key = saved.get("access_key")
+                if access_key:
+                    attachment += f"_{access_key}"
+                attachments.append(attachment)
+
+            published = await vk_api_call(
+                client,
+                "wall.post",
+                {
+                    "owner_id": -group_id,
+                    "from_group": 1,
+                    "message": vk_message_from_html(caption),
+                    "attachments": ",".join(attachments),
+                    "random_id": vk_random_id(deduplication_key),
+                },
+            )
+    except httpx.TimeoutException as exc:
+        raise RuntimeError(
+            "VK не ответил вовремя; публикация будет безопасно повторена "
+            "с тем же random_id."
+        ) from exc
+    except httpx.HTTPError as exc:
+        raise RuntimeError(
+            f"Не удалось подключиться к VK: {exc.__class__.__name__}."
+        ) from exc
+
+    post_id = published.get("post_id") if isinstance(published, dict) else None
+    if post_id is None:
+        raise VKAPIError("VK не вернул ID опубликованного поста.")
+    return int(post_id)
+
+
 async def send_album_from_job(job_id: str, caption: str) -> list[int]:
     if not BOT_TOKEN or not CHAT_ID:
         raise RuntimeError("TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не настроены.")
@@ -967,6 +1146,7 @@ def mark_slot_success(
     slot: datetime,
     car_id: int,
     message_ids: list[int],
+    vk_post_id: int | None,
 ) -> None:
     now_iso = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat()
     encoded = json.dumps(message_ids)
@@ -975,19 +1155,32 @@ def mark_slot_success(
             """
             UPDATE cars
             SET status='published', published_at=?, telegram_message_ids=?,
-                last_error=NULL
+                vk_post_id=?, last_error=NULL
             WHERE id=?
             """,
-            (now_iso, encoded, car_id),
+            (now_iso, encoded, vk_post_id, car_id),
         )
         connection.execute(
             """
             UPDATE publish_slots
             SET status='success', published_at=?, telegram_message_ids=?,
-                last_error=NULL, retry_at=NULL
+                vk_post_id=?, last_error=NULL, retry_at=NULL
             WHERE slot_key=?
             """,
-            (now_iso, encoded, slot.isoformat()),
+            (now_iso, encoded, vk_post_id, slot.isoformat()),
+        )
+
+
+def mark_vk_delivery(slot: datetime, car_id: int, post_id: int) -> None:
+    """Persist VK success before Telegram so a retry cannot duplicate the post."""
+    with db_connect() as connection:
+        connection.execute(
+            "UPDATE cars SET vk_post_id=? WHERE id=?",
+            (post_id, car_id),
+        )
+        connection.execute(
+            "UPDATE publish_slots SET vk_post_id=? WHERE slot_key=?",
+            (post_id, slot.isoformat()),
         )
 
 
@@ -1028,6 +1221,7 @@ def mark_slot_failure(
     error: str,
     *,
     permanent: bool = False,
+    preserve_car: bool = False,
 ) -> None:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
     now = datetime.now(timezone)
@@ -1042,7 +1236,7 @@ def mark_slot_failure(
         ).fetchone()
         attempts = int(car["attempts"]) + 1 if car else 1
 
-        if permanent or attempts >= 3:
+        if not preserve_car and (permanent or attempts >= 3):
             connection.execute(
                 """
                 UPDATE cars
@@ -1082,7 +1276,7 @@ def mark_slot_failure(
 
 async def process_scheduled_slot(slot: datetime) -> None:
     async with AUTO_PUBLISH_LOCK:
-        ensure_slot_record(slot)
+        slot_row = ensure_slot_record(slot)
         car = choose_car_for_slot(slot)
         if car is None:
             return
@@ -1091,6 +1285,11 @@ async def process_scheduled_slot(slot: datetime) -> None:
         job_dir = MEDIA_ROOT / job_id
         job_dir.mkdir(parents=True, exist_ok=False)
 
+        vk_post_id = (
+            int(slot_row["vk_post_id"])
+            if slot_row["vk_post_id"] is not None
+            else None
+        )
         try:
             cny_rub, eur_rub = await fetch_cbr_rates(slot.date())
             price = calculate_final_price(car, slot.date(), cny_rub, eur_rub)
@@ -1116,11 +1315,28 @@ async def process_scheduled_slot(slot: datetime) -> None:
                     encoding="utf-8",
                 )
 
+            if VK_AUTO_PUBLISH_ENABLED and vk_post_id is None:
+                vk_post_id = await send_vk_post_from_job(
+                    job_id,
+                    caption,
+                    deduplication_key=f"{slot.isoformat()}:{int(car['id'])}",
+                )
+                mark_vk_delivery(slot, int(car["id"]), vk_post_id)
+                logger.info(
+                    "Auto-published %s to VK for slot %s; VK post ID: %s",
+                    car["model"], slot.isoformat(), vk_post_id,
+                )
+
             message_ids = await send_album_from_job(job_id, caption)
-            mark_slot_success(slot, int(car["id"]), message_ids)
+            mark_slot_success(
+                slot,
+                int(car["id"]),
+                message_ids,
+                vk_post_id,
+            )
             logger.info(
-                "Auto-published %s for slot %s; Telegram IDs: %s",
-                car["model"], slot.isoformat(), message_ids,
+                "Auto-published %s for slot %s; Telegram IDs: %s; VK ID: %s",
+                car["model"], slot.isoformat(), message_ids, vk_post_id,
             )
         except TelegramDeliveryUncertainError as exc:
             logger.exception("Telegram delivery status is uncertain")
@@ -1132,6 +1348,7 @@ async def process_scheduled_slot(slot: datetime) -> None:
                 int(car["id"]),
                 f"{exc.__class__.__name__}: {str(exc)[:900]}",
                 permanent=is_permanent_source_error(exc),
+                preserve_car=vk_post_id is not None,
             )
         finally:
             gc.collect()
@@ -1188,6 +1405,9 @@ async def health() -> dict:
         "status": "ok",
         "version": APP_VERSION,
         "auto_publish_enabled": AUTO_PUBLISH_ENABLED,
+        "telegram_configured": bool(BOT_TOKEN and CHAT_ID),
+        "vk_auto_publish_enabled": VK_AUTO_PUBLISH_ENABLED,
+        "vk_configured": bool(VK_ACCESS_TOKEN and VK_GROUP_ID),
         "timezone": AUTO_PUBLISH_TZ,
         "times": list(AUTO_PUBLISH_TIMES),
         "next_slot": next_slot_iso(),
