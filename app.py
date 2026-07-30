@@ -28,7 +28,7 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.1.0"
+APP_VERSION = "3.2.0"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -197,6 +197,200 @@ def collect_image_candidates(page_url: str, html: str) -> list[str]:
             seen.add(normalized)
             result.append(normalized)
     return result
+
+
+def clean_source_text(value: str) -> str:
+    return re.sub(r"\s+", " ", html.unescape(value)).strip(" \t\r\n:：-–—|")
+
+
+def extract_labeled_value(soup: BeautifulSoup, labels: tuple[str, ...]) -> str:
+    """Extract a value from common table, list, and `Label: value` layouts."""
+    normalized_labels = tuple(label.casefold() for label in labels)
+
+    for row in soup.find_all("tr"):
+        cells = [
+            clean_source_text(cell.get_text(" ", strip=True))
+            for cell in row.find_all(["th", "td"])
+        ]
+        cells = [cell for cell in cells if cell]
+        if len(cells) < 2:
+            continue
+        label = cells[0].casefold()
+        if any(label == item or label.startswith(f"{item}:") for item in normalized_labels):
+            return clean_source_text(" ".join(cells[1:]))
+
+    for term in soup.find_all("dt"):
+        label = clean_source_text(term.get_text(" ", strip=True)).casefold()
+        if not any(label == item or label.startswith(f"{item}:") for item in normalized_labels):
+            continue
+        value = term.find_next_sibling("dd")
+        if value is not None:
+            return clean_source_text(value.get_text(" ", strip=True))
+
+    lines = [
+        clean_source_text(line)
+        for line in soup.get_text("\n", strip=True).splitlines()
+    ]
+    lines = [line for line in lines if line]
+    for index, line in enumerate(lines):
+        lowered = line.casefold()
+        for label in normalized_labels:
+            if lowered == label:
+                if index + 1 < len(lines):
+                    return lines[index + 1]
+                continue
+            match = re.match(
+                rf"^{re.escape(label)}\s*[:：\-–—|]\s*(.+)$",
+                line,
+                flags=re.IGNORECASE,
+            )
+            if match:
+                return clean_source_text(match.group(1))
+    return ""
+
+
+def normalize_drive(value: str) -> str:
+    lowered = clean_source_text(value).casefold()
+    if not lowered:
+        return ""
+    if any(token in lowered for token in ("полный", "awd", "4wd", "4×4", "4x4", "四驱")):
+        return "полный"
+    if any(token in lowered for token in ("передний", "fwd", "front-wheel", "前驱")):
+        return "передний"
+    if any(token in lowered for token in ("задний", "rwd", "rear-wheel", "后驱")):
+        return "задний"
+    if "2wd" in lowered or "两驱" in lowered:
+        return "2WD"
+    return clean_source_text(value)[:80]
+
+
+EQUIPMENT_KEYWORDS = (
+    (("адаптивн", "acc", "自适应巡航"), "адаптивный круиз-контроль"),
+    (("круиз-контроль", "круиз контроль", "定速巡航"), "круиз-контроль"),
+    (("панорам", "全景天窗"), "панорамная крыша"),
+    (("люк", "天窗"), "люк"),
+    (("камера 360", "360°", "360度"), "камеры 360°"),
+    (("камера заднего", "倒车影像"), "камера заднего вида"),
+    (("кожан", "真皮"), "кожаный салон"),
+    (("вентиляц", "座椅通风"), "вентиляция сидений"),
+    (("подогрев сид", "座椅加热"), "подогрев сидений"),
+    (("электропривод сид", "电动座椅"), "электропривод сидений"),
+    (("климат-контроль", "климат контроль", "自动空调"), "климат-контроль"),
+    (("бесключ", "无钥匙进入"), "бесключевой доступ"),
+    (("запуск с кноп", "一键启动"), "запуск с кнопки"),
+    (("парктроник", "驻车雷达"), "парктроники"),
+    (("контроль слеп", "盲区监测"), "контроль слепых зон"),
+    (("удержание в полос", "车道保持"), "удержание в полосе"),
+    (("carplay",), "Apple CarPlay"),
+    (("led", "светодиод", "лед-фары", "LED大灯"), "LED-фары"),
+)
+
+
+def shorten_equipment(raw_value: str, page_text: str) -> str:
+    """Return no more than six compact equipment items found on the page."""
+    source = clean_source_text(raw_value)
+    items: list[str] = []
+    if source:
+        for part in re.split(r"[,;；、|/•·]+", source):
+            item = clean_source_text(part)
+            if 2 <= len(item) <= 60 and item.casefold() not in {
+                "есть", "да", "стандарт", "стандартное",
+            }:
+                items.append(item)
+
+    if len(items) <= 1:
+        searchable = f"{source} {page_text}".casefold()
+        items = []
+        for aliases, display in EQUIPMENT_KEYWORDS:
+            if any(alias.casefold() in searchable for alias in aliases):
+                if display == "люк" and "панорамная крыша" in items:
+                    continue
+                if display == "круиз-контроль" and "адаптивный круиз-контроль" in items:
+                    continue
+                items.append(display)
+
+    unique: list[str] = []
+    seen: set[str] = set()
+    for item in items:
+        key = item.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(item)
+        if len(unique) >= 6:
+            break
+    return ", ".join(unique)[:240]
+
+
+def normalize_vehicle_condition(value: str) -> str:
+    source = clean_source_text(value)
+    lowered = source.casefold()
+    if not source:
+        return ""
+    replacements = (
+        (("原版原漆",), "оригинальный окрас"),
+        (("无事故",), "без ДТП"),
+        (("без дтп", "без авар"), "без ДТП"),
+        (("оригинальн",), "оригинальный окрас"),
+    )
+    for aliases, display in replacements:
+        if any(alias in lowered for alias in aliases):
+            return display
+    return source[:120]
+
+
+def extract_page_details(source_html: str) -> dict[str, str]:
+    soup = BeautifulSoup(source_html, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+    page_text = clean_source_text(soup.get_text(" ", strip=True))
+
+    drive_raw = extract_labeled_value(
+        soup,
+        (
+            "тип привода",
+            "привод",
+            "ведущие колёса",
+            "drive type",
+            "drivetrain",
+            "驱动方式",
+            "驱动",
+        ),
+    )
+    if not drive_raw:
+        match = re.search(r"\b(AWD|4WD|FWD|RWD|2WD|4X4)\b", page_text, re.IGNORECASE)
+        drive_raw = match.group(1) if match else ""
+
+    equipment_raw = extract_labeled_value(
+        soup,
+        (
+            "оснащение",
+            "оборудование",
+            "ключевые опции",
+            "опции",
+            "配置亮点",
+            "主要配置",
+        ),
+    )
+    condition_raw = extract_labeled_value(
+        soup,
+        (
+            "состояние автомобиля",
+            "техническое состояние",
+            "состояние",
+            "кузов и окрас",
+            "состояние окраса",
+            "окрас",
+            "车辆状况",
+            "车况",
+            "事故情况",
+        ),
+    )
+    return {
+        "drive": normalize_drive(drive_raw),
+        "equipment": shorten_equipment(equipment_raw, page_text),
+        "condition": normalize_vehicle_condition(condition_raw),
+    }
 
 
 def detect_logo_bbox(image: np.ndarray) -> tuple[int, int, int, int] | None:
@@ -372,7 +566,13 @@ def resize_for_processing(image: np.ndarray) -> np.ndarray:
     return cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
 
 
-async def download_first_eight_images(page_url: str, output_dir: Path) -> list[dict]:
+PHOTO_SOURCE_POSITIONS = (1, 2, 3, 4, 7, 8, 9, 10)
+
+
+async def download_selected_eight_images(
+    page_url: str,
+    output_dir: Path,
+) -> tuple[list[dict], dict[str, str]]:
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(45.0),
         follow_redirects=True,
@@ -382,6 +582,7 @@ async def download_first_eight_images(page_url: str, output_dir: Path) -> list[d
         page_response.raise_for_status()
         html = page_response.text
         candidates = collect_image_candidates(str(page_response.url), html)
+        page_details = extract_page_details(html)
 
         if not candidates:
             raise HTTPException(
@@ -391,8 +592,10 @@ async def download_first_eight_images(page_url: str, output_dir: Path) -> list[d
 
         accepted: list[dict] = []
         hashes: set[str] = set()
-        for candidate in candidates[:80]:
-            if len(accepted) >= 8:
+        valid_position = 0
+        selected_positions = set(PHOTO_SOURCE_POSITIONS)
+        for candidate in candidates[:120]:
+            if valid_position >= max(PHOTO_SOURCE_POSITIONS):
                 break
             try:
                 response = await client.get(candidate, headers={**HTTP_HEADERS, "Referer": page_url})
@@ -415,6 +618,12 @@ async def download_first_eight_images(page_url: str, output_dir: Path) -> list[d
             if digest in hashes:
                 continue
             hashes.add(digest)
+            valid_position += 1
+
+            if valid_position not in selected_positions:
+                del image, array, content
+                gc.collect()
+                continue
 
             image = resize_for_processing(image)
             cleaned, logo_removed = remove_wall_logo(image)
@@ -438,6 +647,7 @@ async def download_first_eight_images(page_url: str, output_dir: Path) -> list[d
                 {
                     "file": destination.name,
                     "source_url": candidate,
+                    "source_position": valid_position,
                     "logo_removed": logo_removed,
                     "width": int(out_width),
                     "height": int(out_height),
@@ -447,12 +657,15 @@ async def download_first_eight_images(page_url: str, output_dir: Path) -> list[d
             del image, cleaned, array, content
             gc.collect()
 
-    if len(accepted) < 8:
+    if valid_position < max(PHOTO_SOURCE_POSITIONS) or len(accepted) < 8:
         raise HTTPException(
             status_code=400,
-            detail=f"Удалось получить только {len(accepted)} подходящих фотографий из 8.",
+            detail=(
+                "Для набора 1, 2, 3, 4, 7, 8, 9, 10 на странице должно быть "
+                f"не менее 10 подходящих фотографий. Найдено: {valid_position}."
+            ),
         )
-    return accepted
+    return accepted, page_details
 
 
 
@@ -775,13 +988,21 @@ def normalize_paint_condition(value: str) -> str:
     return value.strip()
 
 
-def build_auto_caption(car: sqlite3.Row, rounded_total_rub: int) -> str:
+def build_auto_caption(
+    car: sqlite3.Row,
+    rounded_total_rub: int,
+    page_details: dict[str, str] | None = None,
+) -> str:
+    page_details = page_details or {}
     model = html.escape(str(car["model"]).strip())
     configuration = html.escape(str(car["configuration"]).strip())
     engine_display = html.escape(str(car["engine_display"]).strip())
     body_color = html.escape(str(car["body_color"]).strip())
     interior_color = html.escape(str(car["interior_color"]).strip())
     paint = html.escape(normalize_paint_condition(str(car["paint_condition"])))
+    drive = html.escape(page_details.get("drive", "").strip())
+    equipment = html.escape(page_details.get("equipment", "").strip())
+    condition = html.escape(page_details.get("condition", "").strip()) or paint
     month = MONTH_NAMES_RU[int(car["production_month"])]
     year = int(car["production_year"])
     mileage = f'{int(car["mileage_km"]):,}'.replace(",", " ")
@@ -802,10 +1023,14 @@ def build_auto_caption(car: sqlite3.Row, rounded_total_rub: int) -> str:
     ]
     if interior_color:
         lines.append(f"▫️ Цвет салона: {interior_color}")
+    if drive:
+        lines.append(f"▫️ Привод: {drive}")
+    if equipment:
+        lines.append(f"▫️ Оснащение: {equipment}")
     lines.extend(
         [
             f"▫️ Комплектация: {configuration}",
-            f"▫️ Состояние окраса: {paint}",
+            f"▫️ Состояние: {condition}",
             "",
             f"💰 <b>Цена с растаможкой и оформлением: {price} ₽</b>",
             "",
@@ -1293,16 +1518,24 @@ async def process_scheduled_slot(slot: datetime) -> None:
         try:
             cny_rub, eur_rub = await fetch_cbr_rates(slot.date())
             price = calculate_final_price(car, slot.date(), cny_rub, eur_rub)
-            caption = build_auto_caption(car, int(price["rounded_total_rub"]))
 
             async with PREPARE_LOCK:
-                photos = await download_first_eight_images(car["page_url"], job_dir)
+                photos, page_details = await download_selected_eight_images(
+                    car["page_url"],
+                    job_dir,
+                )
+                caption = build_auto_caption(
+                    car,
+                    int(price["rounded_total_rub"]),
+                    page_details,
+                )
                 metadata = {
                     "job_id": job_id,
                     "page_url": car["page_url"],
                     "created_at": int(time.time()),
                     "public_base_url": get_public_base_url(),
                     "photos": photos,
+                    "page_details": page_details,
                     "auto_publish": True,
                     "car_id": int(car["id"]),
                     "slot": slot.isoformat(),
@@ -1440,13 +1673,17 @@ async def prepare_car_photos(
             base_url = f"{forwarded_proto}://{forwarded_host}".rstrip("/")
 
         try:
-            photos = await download_first_eight_images(str(payload.page_url), job_dir)
+            photos, page_details = await download_selected_eight_images(
+                str(payload.page_url),
+                job_dir,
+            )
             metadata = {
                 "job_id": job_id,
                 "page_url": str(payload.page_url),
                 "created_at": int(time.time()),
                 "public_base_url": base_url,
                 "photos": photos,
+                "page_details": page_details,
             }
             (job_dir / "metadata.json").write_text(
                 json.dumps(metadata, ensure_ascii=False, indent=2),
@@ -1490,6 +1727,10 @@ async def prepare_car_photos(
             "job_id": job_id,
             "photo_urls": public_photos,
             "logo_removed": [photo["logo_removed"] for photo in photos],
+            "source_positions": [
+                photo["source_position"] for photo in photos
+            ],
+            "page_details": page_details,
             "message": "Фотографии подготовлены. Покажите их пользователю до публикации.",
         }
 
