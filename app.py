@@ -26,13 +26,15 @@ import numpy as np
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse
+from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.2.0"
+APP_VERSION = "3.3.0"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
 AUTO_PUBLISH_LOCK = asyncio.Lock()
+CONTENT_PUBLISH_LOCK = asyncio.Lock()
 SCHEDULER_TASK: asyncio.Task | None = None
 RATE_CACHE: dict[str, tuple[float, float]] = {}
 
@@ -59,6 +61,9 @@ MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT", str(STATE_ROOT / "media")))
 MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
 DB_PATH = STATE_ROOT / "queue.db"
 SEED_PATH = Path(__file__).with_name("queue_seed.json")
+CONTENT_SEED_PATH = Path(__file__).with_name("content_seed.json")
+CONTENT_COVER_ROOT = STATE_ROOT / "content_covers"
+CONTENT_COVER_ROOT.mkdir(parents=True, exist_ok=True)
 
 AUTO_PUBLISH_ENABLED = os.getenv("AUTO_PUBLISH_ENABLED", "true").strip().lower() in {
     "1", "true", "yes", "on"
@@ -74,6 +79,18 @@ AUTO_PUBLISH_START_DATE = date.fromisoformat(
 )
 AUTO_PUBLISH_CATCHUP_MINUTES = int(os.getenv("AUTO_PUBLISH_CATCHUP_MINUTES", "90"))
 AUTO_PUBLISH_RETRY_MINUTES = int(os.getenv("AUTO_PUBLISH_RETRY_MINUTES", "10"))
+CONTENT_AUTO_PUBLISH_ENABLED = os.getenv(
+    "CONTENT_AUTO_PUBLISH_ENABLED", "true"
+).strip().lower() in {"1", "true", "yes", "on"}
+CONTENT_PUBLISH_TIME = os.getenv("CONTENT_PUBLISH_TIME", "10:00").strip()
+CONTENT_PUBLISH_WEEKDAYS = tuple(
+    int(value.strip())
+    for value in os.getenv("CONTENT_PUBLISH_WEEKDAYS", "0,3,5").split(",")
+    if value.strip()
+)
+CONTENT_PUBLISH_CATCHUP_MINUTES = int(
+    os.getenv("CONTENT_PUBLISH_CATCHUP_MINUTES", "90")
+)
 CONTACT_TELEGRAM = os.getenv("CONTACT_TELEGRAM", "@latypovars").strip()
 COMMISSION_RUB = int(os.getenv("COMMISSION_RUB", "50000"))
 BROKER_RUB = int(os.getenv("BROKER_RUB", "49000"))
@@ -197,200 +214,6 @@ def collect_image_candidates(page_url: str, html: str) -> list[str]:
             seen.add(normalized)
             result.append(normalized)
     return result
-
-
-def clean_source_text(value: str) -> str:
-    return re.sub(r"\s+", " ", html.unescape(value)).strip(" \t\r\n:：-–—|")
-
-
-def extract_labeled_value(soup: BeautifulSoup, labels: tuple[str, ...]) -> str:
-    """Extract a value from common table, list, and `Label: value` layouts."""
-    normalized_labels = tuple(label.casefold() for label in labels)
-
-    for row in soup.find_all("tr"):
-        cells = [
-            clean_source_text(cell.get_text(" ", strip=True))
-            for cell in row.find_all(["th", "td"])
-        ]
-        cells = [cell for cell in cells if cell]
-        if len(cells) < 2:
-            continue
-        label = cells[0].casefold()
-        if any(label == item or label.startswith(f"{item}:") for item in normalized_labels):
-            return clean_source_text(" ".join(cells[1:]))
-
-    for term in soup.find_all("dt"):
-        label = clean_source_text(term.get_text(" ", strip=True)).casefold()
-        if not any(label == item or label.startswith(f"{item}:") for item in normalized_labels):
-            continue
-        value = term.find_next_sibling("dd")
-        if value is not None:
-            return clean_source_text(value.get_text(" ", strip=True))
-
-    lines = [
-        clean_source_text(line)
-        for line in soup.get_text("\n", strip=True).splitlines()
-    ]
-    lines = [line for line in lines if line]
-    for index, line in enumerate(lines):
-        lowered = line.casefold()
-        for label in normalized_labels:
-            if lowered == label:
-                if index + 1 < len(lines):
-                    return lines[index + 1]
-                continue
-            match = re.match(
-                rf"^{re.escape(label)}\s*[:：\-–—|]\s*(.+)$",
-                line,
-                flags=re.IGNORECASE,
-            )
-            if match:
-                return clean_source_text(match.group(1))
-    return ""
-
-
-def normalize_drive(value: str) -> str:
-    lowered = clean_source_text(value).casefold()
-    if not lowered:
-        return ""
-    if any(token in lowered for token in ("полный", "awd", "4wd", "4×4", "4x4", "四驱")):
-        return "полный"
-    if any(token in lowered for token in ("передний", "fwd", "front-wheel", "前驱")):
-        return "передний"
-    if any(token in lowered for token in ("задний", "rwd", "rear-wheel", "后驱")):
-        return "задний"
-    if "2wd" in lowered or "两驱" in lowered:
-        return "2WD"
-    return clean_source_text(value)[:80]
-
-
-EQUIPMENT_KEYWORDS = (
-    (("адаптивн", "acc", "自适应巡航"), "адаптивный круиз-контроль"),
-    (("круиз-контроль", "круиз контроль", "定速巡航"), "круиз-контроль"),
-    (("панорам", "全景天窗"), "панорамная крыша"),
-    (("люк", "天窗"), "люк"),
-    (("камера 360", "360°", "360度"), "камеры 360°"),
-    (("камера заднего", "倒车影像"), "камера заднего вида"),
-    (("кожан", "真皮"), "кожаный салон"),
-    (("вентиляц", "座椅通风"), "вентиляция сидений"),
-    (("подогрев сид", "座椅加热"), "подогрев сидений"),
-    (("электропривод сид", "电动座椅"), "электропривод сидений"),
-    (("климат-контроль", "климат контроль", "自动空调"), "климат-контроль"),
-    (("бесключ", "无钥匙进入"), "бесключевой доступ"),
-    (("запуск с кноп", "一键启动"), "запуск с кнопки"),
-    (("парктроник", "驻车雷达"), "парктроники"),
-    (("контроль слеп", "盲区监测"), "контроль слепых зон"),
-    (("удержание в полос", "车道保持"), "удержание в полосе"),
-    (("carplay",), "Apple CarPlay"),
-    (("led", "светодиод", "лед-фары", "LED大灯"), "LED-фары"),
-)
-
-
-def shorten_equipment(raw_value: str, page_text: str) -> str:
-    """Return no more than six compact equipment items found on the page."""
-    source = clean_source_text(raw_value)
-    items: list[str] = []
-    if source:
-        for part in re.split(r"[,;；、|/•·]+", source):
-            item = clean_source_text(part)
-            if 2 <= len(item) <= 60 and item.casefold() not in {
-                "есть", "да", "стандарт", "стандартное",
-            }:
-                items.append(item)
-
-    if len(items) <= 1:
-        searchable = f"{source} {page_text}".casefold()
-        items = []
-        for aliases, display in EQUIPMENT_KEYWORDS:
-            if any(alias.casefold() in searchable for alias in aliases):
-                if display == "люк" and "панорамная крыша" in items:
-                    continue
-                if display == "круиз-контроль" and "адаптивный круиз-контроль" in items:
-                    continue
-                items.append(display)
-
-    unique: list[str] = []
-    seen: set[str] = set()
-    for item in items:
-        key = item.casefold()
-        if key in seen:
-            continue
-        seen.add(key)
-        unique.append(item)
-        if len(unique) >= 6:
-            break
-    return ", ".join(unique)[:240]
-
-
-def normalize_vehicle_condition(value: str) -> str:
-    source = clean_source_text(value)
-    lowered = source.casefold()
-    if not source:
-        return ""
-    replacements = (
-        (("原版原漆",), "оригинальный окрас"),
-        (("无事故",), "без ДТП"),
-        (("без дтп", "без авар"), "без ДТП"),
-        (("оригинальн",), "оригинальный окрас"),
-    )
-    for aliases, display in replacements:
-        if any(alias in lowered for alias in aliases):
-            return display
-    return source[:120]
-
-
-def extract_page_details(source_html: str) -> dict[str, str]:
-    soup = BeautifulSoup(source_html, "html.parser")
-    for tag in soup(["script", "style", "noscript"]):
-        tag.decompose()
-    page_text = clean_source_text(soup.get_text(" ", strip=True))
-
-    drive_raw = extract_labeled_value(
-        soup,
-        (
-            "тип привода",
-            "привод",
-            "ведущие колёса",
-            "drive type",
-            "drivetrain",
-            "驱动方式",
-            "驱动",
-        ),
-    )
-    if not drive_raw:
-        match = re.search(r"\b(AWD|4WD|FWD|RWD|2WD|4X4)\b", page_text, re.IGNORECASE)
-        drive_raw = match.group(1) if match else ""
-
-    equipment_raw = extract_labeled_value(
-        soup,
-        (
-            "оснащение",
-            "оборудование",
-            "ключевые опции",
-            "опции",
-            "配置亮点",
-            "主要配置",
-        ),
-    )
-    condition_raw = extract_labeled_value(
-        soup,
-        (
-            "состояние автомобиля",
-            "техническое состояние",
-            "состояние",
-            "кузов и окрас",
-            "состояние окраса",
-            "окрас",
-            "车辆状况",
-            "车况",
-            "事故情况",
-        ),
-    )
-    return {
-        "drive": normalize_drive(drive_raw),
-        "equipment": shorten_equipment(equipment_raw, page_text),
-        "condition": normalize_vehicle_condition(condition_raw),
-    }
 
 
 def detect_logo_bbox(image: np.ndarray) -> tuple[int, int, int, int] | None:
@@ -566,13 +389,7 @@ def resize_for_processing(image: np.ndarray) -> np.ndarray:
     return cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
 
 
-PHOTO_SOURCE_POSITIONS = (1, 2, 3, 4, 7, 8, 9, 10)
-
-
-async def download_selected_eight_images(
-    page_url: str,
-    output_dir: Path,
-) -> tuple[list[dict], dict[str, str]]:
+async def download_first_eight_images(page_url: str, output_dir: Path) -> list[dict]:
     async with httpx.AsyncClient(
         timeout=httpx.Timeout(45.0),
         follow_redirects=True,
@@ -582,7 +399,6 @@ async def download_selected_eight_images(
         page_response.raise_for_status()
         html = page_response.text
         candidates = collect_image_candidates(str(page_response.url), html)
-        page_details = extract_page_details(html)
 
         if not candidates:
             raise HTTPException(
@@ -592,10 +408,8 @@ async def download_selected_eight_images(
 
         accepted: list[dict] = []
         hashes: set[str] = set()
-        valid_position = 0
-        selected_positions = set(PHOTO_SOURCE_POSITIONS)
-        for candidate in candidates[:120]:
-            if valid_position >= max(PHOTO_SOURCE_POSITIONS):
+        for candidate in candidates[:80]:
+            if len(accepted) >= 8:
                 break
             try:
                 response = await client.get(candidate, headers={**HTTP_HEADERS, "Referer": page_url})
@@ -618,12 +432,6 @@ async def download_selected_eight_images(
             if digest in hashes:
                 continue
             hashes.add(digest)
-            valid_position += 1
-
-            if valid_position not in selected_positions:
-                del image, array, content
-                gc.collect()
-                continue
 
             image = resize_for_processing(image)
             cleaned, logo_removed = remove_wall_logo(image)
@@ -647,7 +455,6 @@ async def download_selected_eight_images(
                 {
                     "file": destination.name,
                     "source_url": candidate,
-                    "source_position": valid_position,
                     "logo_removed": logo_removed,
                     "width": int(out_width),
                     "height": int(out_height),
@@ -657,15 +464,12 @@ async def download_selected_eight_images(
             del image, cleaned, array, content
             gc.collect()
 
-    if valid_position < max(PHOTO_SOURCE_POSITIONS) or len(accepted) < 8:
+    if len(accepted) < 8:
         raise HTTPException(
             status_code=400,
-            detail=(
-                "Для набора 1, 2, 3, 4, 7, 8, 9, 10 на странице должно быть "
-                f"не менее 10 подходящих фотографий. Найдено: {valid_position}."
-            ),
+            detail=f"Удалось получить только {len(accepted)} подходящих фотографий из 8.",
         )
-    return accepted, page_details
+    return accepted
 
 
 
@@ -727,8 +531,38 @@ def initialize_queue_database() -> None:
                 FOREIGN KEY(car_id) REFERENCES cars(id)
             );
 
+            CREATE TABLE IF NOT EXISTS content_posts (
+                id TEXT PRIMARY KEY,
+                sequence INTEGER NOT NULL UNIQUE,
+                title TEXT NOT NULL,
+                body TEXT NOT NULL,
+                image_file TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'pending',
+                attempts INTEGER NOT NULL DEFAULT 0,
+                last_error TEXT,
+                published_at TEXT,
+                telegram_message_id INTEGER
+            );
+
+            CREATE TABLE IF NOT EXISTS content_slots (
+                slot_key TEXT PRIMARY KEY,
+                scheduled_at TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'pending',
+                content_id TEXT,
+                attempts INTEGER NOT NULL DEFAULT 0,
+                retry_at TEXT,
+                last_error TEXT,
+                published_at TEXT,
+                telegram_message_id INTEGER,
+                FOREIGN KEY(content_id) REFERENCES content_posts(id)
+            );
+
             CREATE INDEX IF NOT EXISTS idx_cars_status ON cars(status);
             CREATE INDEX IF NOT EXISTS idx_slots_status ON publish_slots(status);
+            CREATE INDEX IF NOT EXISTS idx_content_posts_status
+            ON content_posts(status, sequence);
+            CREATE INDEX IF NOT EXISTS idx_content_slots_status
+            ON content_slots(status);
             """
         )
         # Existing Railway volumes keep their SQLite database between deploys.
@@ -758,39 +592,71 @@ def initialize_queue_database() -> None:
             """,
             (datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat(),),
         )
+        connection.execute(
+            "UPDATE content_posts SET status='pending' WHERE status='processing'"
+        )
+        connection.execute(
+            """
+            UPDATE content_slots
+            SET status='failed',
+                retry_at=?,
+                last_error=COALESCE(last_error, 'Перезапуск сервиса во время обработки')
+            WHERE status='processing'
+            """,
+            (datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat(),),
+        )
 
-        if not SEED_PATH.is_file():
+        if SEED_PATH.is_file():
+            seed = json.loads(SEED_PATH.read_text(encoding="utf-8"))
+            for car in seed:
+                connection.execute(
+                    """
+                    INSERT OR IGNORE INTO cars (
+                        page_url, model, configuration, production_year,
+                        production_month, mileage_km, body_color, interior_color,
+                        paint_condition, horsepower, price_cny, engine_cc,
+                        engine_display, source_row, status
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+                    """,
+                    (
+                        car["page_url"],
+                        car["model"],
+                        car["configuration"],
+                        car["production_year"],
+                        car["production_month"],
+                        car["mileage_km"],
+                        car.get("body_color", ""),
+                        car.get("interior_color", ""),
+                        car.get("paint_condition", ""),
+                        car["horsepower"],
+                        car["price_cny"],
+                        car["engine_cc"],
+                        car["engine_display"],
+                        car.get("source_row"),
+                    ),
+                )
+        else:
             logger.warning("Queue seed file is missing: %s", SEED_PATH)
-            return
 
-        seed = json.loads(SEED_PATH.read_text(encoding="utf-8"))
-        for car in seed:
-            connection.execute(
-                """
-                INSERT OR IGNORE INTO cars (
-                    page_url, model, configuration, production_year,
-                    production_month, mileage_km, body_color, interior_color,
-                    paint_condition, horsepower, price_cny, engine_cc,
-                    engine_display, source_row, status
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
-                """,
-                (
-                    car["page_url"],
-                    car["model"],
-                    car["configuration"],
-                    car["production_year"],
-                    car["production_month"],
-                    car["mileage_km"],
-                    car.get("body_color", ""),
-                    car.get("interior_color", ""),
-                    car.get("paint_condition", ""),
-                    car["horsepower"],
-                    car["price_cny"],
-                    car["engine_cc"],
-                    car["engine_display"],
-                    car.get("source_row"),
-                ),
-            )
+        if CONTENT_SEED_PATH.is_file():
+            content_seed = json.loads(CONTENT_SEED_PATH.read_text(encoding="utf-8"))
+            for item in content_seed:
+                connection.execute(
+                    """
+                    INSERT OR IGNORE INTO content_posts (
+                        id, sequence, title, body, image_file, status
+                    ) VALUES (?, ?, ?, ?, ?, 'pending')
+                    """,
+                    (
+                        item["id"],
+                        int(item["sequence"]),
+                        item["title"],
+                        item["body"],
+                        item["image_file"],
+                    ),
+                )
+        else:
+            logger.warning("Content seed file is missing: %s", CONTENT_SEED_PATH)
 
 
 def queue_counts() -> dict[str, int]:
@@ -801,6 +667,31 @@ def queue_counts() -> dict[str, int]:
             "SELECT status, COUNT(*) AS count FROM cars GROUP BY status"
         ).fetchall()
     counts = {"pending": 0, "processing": 0, "published": 0, "failed": 0, "uncertain": 0}
+    for row in rows:
+        counts[str(row["status"])] = int(row["count"])
+    return counts
+
+
+def content_queue_counts() -> dict[str, int]:
+    if not DB_PATH.exists():
+        return {
+            "pending": 0,
+            "processing": 0,
+            "published": 0,
+            "failed": 0,
+            "uncertain": 0,
+        }
+    with db_connect() as connection:
+        rows = connection.execute(
+            "SELECT status, COUNT(*) AS count FROM content_posts GROUP BY status"
+        ).fetchall()
+    counts = {
+        "pending": 0,
+        "processing": 0,
+        "published": 0,
+        "failed": 0,
+        "uncertain": 0,
+    }
     for row in rows:
         counts[str(row["status"])] = int(row["count"])
     return counts
@@ -819,6 +710,27 @@ def parse_schedule_time(value: str) -> tuple[int, int]:
     if not match:
         raise ValueError(f"Некорректное время публикации: {value}")
     return int(match.group(1)), int(match.group(2))
+
+
+def scheduled_content_slot_for_day(day: date) -> datetime | None:
+    if day.weekday() not in CONTENT_PUBLISH_WEEKDAYS:
+        return None
+    hour, minute = parse_schedule_time(CONTENT_PUBLISH_TIME)
+    timezone = ZoneInfo(AUTO_PUBLISH_TZ)
+    return datetime(day.year, day.month, day.day, hour, minute, tzinfo=timezone)
+
+
+def next_content_slot_iso(now: datetime | None = None) -> str | None:
+    timezone = ZoneInfo(AUTO_PUBLISH_TZ)
+    now = now or datetime.now(timezone)
+    if content_queue_counts()["pending"] <= 0:
+        return None
+    for offset in range(0, 14):
+        day = now.date() + timedelta(days=offset)
+        slot = scheduled_content_slot_for_day(day)
+        if slot is not None and slot > now:
+            return slot.isoformat()
+    return None
 
 
 def scheduled_slots_for_day(day: date) -> list[datetime]:
@@ -988,21 +900,13 @@ def normalize_paint_condition(value: str) -> str:
     return value.strip()
 
 
-def build_auto_caption(
-    car: sqlite3.Row,
-    rounded_total_rub: int,
-    page_details: dict[str, str] | None = None,
-) -> str:
-    page_details = page_details or {}
+def build_auto_caption(car: sqlite3.Row, rounded_total_rub: int) -> str:
     model = html.escape(str(car["model"]).strip())
     configuration = html.escape(str(car["configuration"]).strip())
     engine_display = html.escape(str(car["engine_display"]).strip())
     body_color = html.escape(str(car["body_color"]).strip())
     interior_color = html.escape(str(car["interior_color"]).strip())
     paint = html.escape(normalize_paint_condition(str(car["paint_condition"])))
-    drive = html.escape(page_details.get("drive", "").strip())
-    equipment = html.escape(page_details.get("equipment", "").strip())
-    condition = html.escape(page_details.get("condition", "").strip()) or paint
     month = MONTH_NAMES_RU[int(car["production_month"])]
     year = int(car["production_year"])
     mileage = f'{int(car["mileage_km"]):,}'.replace(",", " ")
@@ -1023,14 +927,10 @@ def build_auto_caption(
     ]
     if interior_color:
         lines.append(f"▫️ Цвет салона: {interior_color}")
-    if drive:
-        lines.append(f"▫️ Привод: {drive}")
-    if equipment:
-        lines.append(f"▫️ Оснащение: {equipment}")
     lines.extend(
         [
             f"▫️ Комплектация: {configuration}",
-            f"▫️ Состояние: {condition}",
+            f"▫️ Состояние окраса: {paint}",
             "",
             f"💰 <b>Цена с растаможкой и оформлением: {price} ₽</b>",
             "",
@@ -1270,6 +1170,224 @@ async def send_album_from_job(job_id: str, caption: str) -> list[int]:
     ]
 
 
+def load_content_cover_font(size: int) -> ImageFont.FreeTypeFont:
+    candidates = (
+        os.getenv("CONTENT_COVER_FONT", "").strip(),
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf",
+    )
+    for candidate in candidates:
+        if not candidate:
+            continue
+        try:
+            return ImageFont.truetype(candidate, size=size)
+        except OSError:
+            continue
+    raise RuntimeError("В контейнере не найден шрифт для обложки.")
+
+
+def wrap_content_cover_title(
+    draw: ImageDraw.ImageDraw,
+    title: str,
+    font: ImageFont.FreeTypeFont,
+    max_width: int,
+) -> list[str]:
+    words = title.upper().split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip()
+        bbox = draw.textbbox((0, 0), candidate, font=font)
+        if current and bbox[2] - bbox[0] > max_width:
+            lines.append(current)
+            current = word
+        else:
+            current = candidate
+    if current:
+        lines.append(current)
+    return lines
+
+
+def generate_content_cover(title: str, destination: Path) -> None:
+    width, height = 1400, 1000
+    image = Image.new("RGB", (width, height), (4, 4, 5))
+    draw = ImageDraw.Draw(image)
+
+    # Subtle black texture and red automotive light accents.
+    for y in range(height):
+        shade = 4 + int(8 * y / height)
+        draw.line((0, y, width, y), fill=(shade, shade, shade + 1))
+    for x in range(0, width, 22):
+        draw.line((x, 0, x - 240, height), fill=(8, 8, 9), width=1)
+
+    for offset, color, line_width in (
+        (0, (80, 0, 0), 18),
+        (3, (150, 0, 0), 10),
+        (6, (238, 10, 14), 4),
+    ):
+        draw.line(
+            (-30, 285 + offset, 1030, 25 + offset),
+            fill=color,
+            width=line_width,
+        )
+
+    draw.arc(
+        (-420, 700, 1660, 1420),
+        start=192,
+        end=342,
+        fill=(42, 42, 44),
+        width=30,
+    )
+    draw.arc(
+        (-420, 686, 1660, 1406),
+        start=192,
+        end=342,
+        fill=(205, 205, 208),
+        width=8,
+    )
+    draw.arc(
+        (-520, 790, 1510, 1380),
+        start=194,
+        end=342,
+        fill=(210, 8, 12),
+        width=5,
+    )
+    draw.rounded_rectangle(
+        (178, 340, 192, 710),
+        radius=7,
+        fill=(235, 10, 14),
+    )
+
+    max_text_width = 1040
+    chosen_font: ImageFont.FreeTypeFont | None = None
+    lines: list[str] = []
+    for font_size in range(92, 51, -2):
+        font = load_content_cover_font(font_size)
+        candidate_lines = wrap_content_cover_title(
+            draw,
+            title,
+            font,
+            max_text_width,
+        )
+        if len(candidate_lines) <= 3:
+            chosen_font = font
+            lines = candidate_lines
+            break
+    if chosen_font is None:
+        chosen_font = load_content_cover_font(50)
+        lines = wrap_content_cover_title(
+            draw,
+            title,
+            chosen_font,
+            max_text_width,
+        )[:4]
+
+    line_gap = 18
+    line_height = max(
+        draw.textbbox((0, 0), line, font=chosen_font)[3]
+        for line in lines
+    )
+    text_height = len(lines) * line_height + (len(lines) - 1) * line_gap
+    text_y = max(320, int((height - text_height) / 2) - 20)
+    for line in lines:
+        draw.text(
+            (235, text_y + 4),
+            line,
+            font=chosen_font,
+            fill=(35, 35, 37),
+        )
+        draw.text(
+            (235, text_y),
+            line,
+            font=chosen_font,
+            fill=(248, 248, 248),
+        )
+        text_y += line_height + line_gap
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    image.save(destination, format="JPEG", quality=91, optimize=True)
+
+
+async def send_content_post(content: sqlite3.Row) -> int:
+    if not BOT_TOKEN or not CHAT_ID:
+        raise RuntimeError("TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не настроены.")
+
+    image_file = str(content["image_file"] or "").strip()
+    static_image = (
+        Path(__file__).with_name("content_media") / Path(image_file).name
+        if image_file
+        else None
+    )
+    if static_image is not None and static_image.is_file():
+        image_path = static_image
+    else:
+        safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", str(content["id"]))
+        image_path = CONTENT_COVER_ROOT / f"{safe_id}.jpg"
+        if not image_path.is_file():
+            generate_content_cover(str(content["title"]), image_path)
+    image_name = image_path.name
+
+    caption = str(content["body"]).replace(
+        "{contact}",
+        html.escape(CONTACT_TELEGRAM),
+    )
+    if len(caption) > 1024:
+        raise RuntimeError(
+            f"Полезный пост {content['id']} превышает лимит Telegram: "
+            f"{len(caption)}."
+        )
+
+    telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
+    try:
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(connect=20.0, read=120.0, write=60.0, pool=20.0)
+        ) as client:
+            response = await client.post(
+                telegram_url,
+                data={
+                    "chat_id": CHAT_ID,
+                    "caption": caption,
+                    "parse_mode": "HTML",
+                },
+                files={
+                    "photo": (
+                        image_name,
+                        image_path.read_bytes(),
+                        "image/jpeg",
+                    )
+                },
+            )
+    except httpx.TimeoutException as exc:
+        raise TelegramDeliveryUncertainError(
+            "Telegram не ответил вовремя; полезный пост мог быть опубликован."
+        ) from exc
+    except httpx.RequestError as exc:
+        raise RuntimeError(
+            f"Не удалось подключиться к Telegram: {exc.__class__.__name__}."
+        ) from exc
+
+    try:
+        result = response.json()
+    except ValueError as exc:
+        raise RuntimeError(
+            f"Telegram вернул неожиданный ответ HTTP {response.status_code}."
+        ) from exc
+
+    if not result.get("ok"):
+        error_code = int(result.get("error_code", response.status_code))
+        description = str(result.get("description", "неизвестная ошибка"))
+        if error_code == 504:
+            raise TelegramDeliveryUncertainError(
+                f"Telegram API 504: {description}"
+            )
+        raise RuntimeError(f"Telegram API {error_code}: {description}")
+
+    message = result.get("result", {})
+    if not isinstance(message, dict) or message.get("message_id") is None:
+        raise RuntimeError("Telegram не вернул ID полезного поста.")
+    return int(message["message_id"])
+
+
 def ensure_slot_record(slot: datetime) -> sqlite3.Row:
     slot_key = slot.isoformat()
     with db_connect() as connection:
@@ -1499,6 +1617,228 @@ def mark_slot_failure(
             )
 
 
+def ensure_content_slot_record(slot: datetime) -> sqlite3.Row:
+    slot_key = slot.isoformat()
+    with db_connect() as connection:
+        connection.execute(
+            """
+            INSERT OR IGNORE INTO content_slots(slot_key, scheduled_at, status)
+            VALUES (?, ?, 'pending')
+            """,
+            (slot_key, slot.isoformat()),
+        )
+        row = connection.execute(
+            "SELECT * FROM content_slots WHERE slot_key=?",
+            (slot_key,),
+        ).fetchone()
+    if row is None:
+        raise RuntimeError("Не удалось создать слот полезного поста.")
+    return row
+
+
+def choose_content_for_slot(slot: datetime) -> sqlite3.Row | None:
+    timezone = ZoneInfo(AUTO_PUBLISH_TZ)
+    now = datetime.now(timezone)
+    slot_key = slot.isoformat()
+
+    with db_connect() as connection:
+        connection.execute("BEGIN IMMEDIATE")
+        slot_row = connection.execute(
+            "SELECT * FROM content_slots WHERE slot_key=?",
+            (slot_key,),
+        ).fetchone()
+        if slot_row is None:
+            connection.execute(
+                """
+                INSERT INTO content_slots(slot_key, scheduled_at, status)
+                VALUES (?, ?, 'pending')
+                """,
+                (slot_key, slot.isoformat()),
+            )
+            slot_row = connection.execute(
+                "SELECT * FROM content_slots WHERE slot_key=?",
+                (slot_key,),
+            ).fetchone()
+
+        if slot_row["status"] in {"success", "uncertain", "no_content"}:
+            connection.commit()
+            return None
+
+        retry_at = slot_row["retry_at"]
+        if retry_at and datetime.fromisoformat(retry_at) > now:
+            connection.commit()
+            return None
+
+        content: sqlite3.Row | None = None
+        if slot_row["content_id"] is not None:
+            content = connection.execute(
+                "SELECT * FROM content_posts WHERE id=?",
+                (slot_row["content_id"],),
+            ).fetchone()
+            if content is not None and content["status"] in {
+                "failed",
+                "published",
+                "uncertain",
+            }:
+                content = None
+
+        if content is None:
+            content = connection.execute(
+                """
+                SELECT * FROM content_posts
+                WHERE status='pending'
+                ORDER BY sequence
+                LIMIT 1
+                """
+            ).fetchone()
+            if content is None:
+                connection.execute(
+                    """
+                    UPDATE content_slots
+                    SET status='no_content', last_error='Очередь полезных постов пуста'
+                    WHERE slot_key=?
+                    """,
+                    (slot_key,),
+                )
+                connection.commit()
+                return None
+            connection.execute(
+                "UPDATE content_slots SET content_id=? WHERE slot_key=?",
+                (content["id"], slot_key),
+            )
+
+        connection.execute(
+            "UPDATE content_posts SET status='processing' WHERE id=?",
+            (content["id"],),
+        )
+        connection.execute(
+            """
+            UPDATE content_slots
+            SET status='processing', retry_at=NULL
+            WHERE slot_key=?
+            """,
+            (slot_key,),
+        )
+        connection.commit()
+        return content
+
+
+def mark_content_success(
+    slot: datetime,
+    content_id: str,
+    message_id: int,
+) -> None:
+    now_iso = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat()
+    with db_connect() as connection:
+        connection.execute(
+            """
+            UPDATE content_posts
+            SET status='published', published_at=?, telegram_message_id=?,
+                last_error=NULL
+            WHERE id=?
+            """,
+            (now_iso, message_id, content_id),
+        )
+        connection.execute(
+            """
+            UPDATE content_slots
+            SET status='success', published_at=?, telegram_message_id=?,
+                last_error=NULL, retry_at=NULL
+            WHERE slot_key=?
+            """,
+            (now_iso, message_id, slot.isoformat()),
+        )
+
+
+def mark_content_uncertain(
+    slot: datetime,
+    content_id: str,
+    error: str,
+) -> None:
+    now_iso = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat()
+    with db_connect() as connection:
+        connection.execute(
+            """
+            UPDATE content_posts
+            SET status='uncertain', last_error=?, attempts=attempts+1
+            WHERE id=?
+            """,
+            (error[:1000], content_id),
+        )
+        connection.execute(
+            """
+            UPDATE content_slots
+            SET status='uncertain', last_error=?, attempts=attempts+1,
+                published_at=?, retry_at=NULL
+            WHERE slot_key=?
+            """,
+            (error[:1000], now_iso, slot.isoformat()),
+        )
+
+
+def mark_content_failure(
+    slot: datetime,
+    content_id: str,
+    error: str,
+) -> None:
+    now = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ))
+    retry_at = now + timedelta(minutes=AUTO_PUBLISH_RETRY_MINUTES)
+    with db_connect() as connection:
+        content = connection.execute(
+            "SELECT attempts FROM content_posts WHERE id=?",
+            (content_id,),
+        ).fetchone()
+        attempts = int(content["attempts"]) + 1 if content else 1
+        next_status = "failed" if attempts >= 3 else "pending"
+        connection.execute(
+            """
+            UPDATE content_posts
+            SET status=?, attempts=?, last_error=?
+            WHERE id=?
+            """,
+            (next_status, attempts, error[:1000], content_id),
+        )
+        connection.execute(
+            """
+            UPDATE content_slots
+            SET status='failed', attempts=attempts+1, last_error=?,
+                retry_at=?
+            WHERE slot_key=?
+            """,
+            (error[:1000], retry_at.isoformat(), slot.isoformat()),
+        )
+
+
+async def process_content_slot(slot: datetime) -> None:
+    async with CONTENT_PUBLISH_LOCK:
+        content = choose_content_for_slot(slot)
+        if content is None:
+            return
+        try:
+            message_id = await send_content_post(content)
+            mark_content_success(slot, str(content["id"]), message_id)
+            logger.info(
+                "Published useful post %s for slot %s; Telegram ID: %s",
+                content["id"],
+                slot.isoformat(),
+                message_id,
+            )
+        except TelegramDeliveryUncertainError as exc:
+            logger.exception("Useful post delivery status is uncertain")
+            mark_content_uncertain(
+                slot,
+                str(content["id"]),
+                str(exc),
+            )
+        except Exception as exc:
+            logger.exception("Useful post publication failed")
+            mark_content_failure(
+                slot,
+                str(content["id"]),
+                f"{exc.__class__.__name__}: {str(exc)[:900]}",
+            )
+
+
 async def process_scheduled_slot(slot: datetime) -> None:
     async with AUTO_PUBLISH_LOCK:
         slot_row = ensure_slot_record(slot)
@@ -1518,24 +1858,16 @@ async def process_scheduled_slot(slot: datetime) -> None:
         try:
             cny_rub, eur_rub = await fetch_cbr_rates(slot.date())
             price = calculate_final_price(car, slot.date(), cny_rub, eur_rub)
+            caption = build_auto_caption(car, int(price["rounded_total_rub"]))
 
             async with PREPARE_LOCK:
-                photos, page_details = await download_selected_eight_images(
-                    car["page_url"],
-                    job_dir,
-                )
-                caption = build_auto_caption(
-                    car,
-                    int(price["rounded_total_rub"]),
-                    page_details,
-                )
+                photos = await download_first_eight_images(car["page_url"], job_dir)
                 metadata = {
                     "job_id": job_id,
                     "page_url": car["page_url"],
                     "created_at": int(time.time()),
                     "public_base_url": get_public_base_url(),
                     "photos": photos,
-                    "page_details": page_details,
                     "auto_publish": True,
                     "car_id": int(car["id"]),
                     "slot": slot.isoformat(),
@@ -1590,12 +1922,34 @@ async def process_scheduled_slot(slot: datetime) -> None:
 async def scheduler_loop() -> None:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
     logger.info(
-        "Automatic publisher started: %s at %s (%s)",
-        AUTO_PUBLISH_START_DATE, AUTO_PUBLISH_TIMES, AUTO_PUBLISH_TZ,
+        "Automatic publisher started: cars from %s at %s; useful posts at %s "
+        "on weekdays %s (%s)",
+        AUTO_PUBLISH_START_DATE,
+        AUTO_PUBLISH_TIMES,
+        CONTENT_PUBLISH_TIME,
+        CONTENT_PUBLISH_WEEKDAYS,
+        AUTO_PUBLISH_TZ,
     )
     while True:
         try:
             now = datetime.now(timezone)
+            if CONTENT_AUTO_PUBLISH_ENABLED:
+                content_slot = scheduled_content_slot_for_day(now.date())
+                content_grace = timedelta(
+                    minutes=CONTENT_PUBLISH_CATCHUP_MINUTES
+                )
+                if (
+                    content_slot is not None
+                    and content_slot <= now <= content_slot + content_grace
+                ):
+                    content_row = ensure_content_slot_record(content_slot)
+                    if content_row["status"] not in {
+                        "success",
+                        "uncertain",
+                        "no_content",
+                    }:
+                        await process_content_slot(content_slot)
+
             if AUTO_PUBLISH_ENABLED and now.date() >= AUTO_PUBLISH_START_DATE:
                 grace = timedelta(minutes=AUTO_PUBLISH_CATCHUP_MINUTES)
                 for slot in scheduled_slots_for_day(now.date()):
@@ -1615,7 +1969,7 @@ async def scheduler_loop() -> None:
 async def start_background_scheduler() -> None:
     global SCHEDULER_TASK
     initialize_queue_database()
-    if AUTO_PUBLISH_ENABLED:
+    if AUTO_PUBLISH_ENABLED or CONTENT_AUTO_PUBLISH_ENABLED:
         SCHEDULER_TASK = asyncio.create_task(scheduler_loop())
 
 
@@ -1634,17 +1988,23 @@ async def stop_background_scheduler() -> None:
 @app.get("/health")
 async def health() -> dict:
     counts = queue_counts()
+    content_counts = content_queue_counts()
     return {
         "status": "ok",
         "version": APP_VERSION,
         "auto_publish_enabled": AUTO_PUBLISH_ENABLED,
+        "content_auto_publish_enabled": CONTENT_AUTO_PUBLISH_ENABLED,
         "telegram_configured": bool(BOT_TOKEN and CHAT_ID),
         "vk_auto_publish_enabled": VK_AUTO_PUBLISH_ENABLED,
         "vk_configured": bool(VK_ACCESS_TOKEN and VK_GROUP_ID),
         "timezone": AUTO_PUBLISH_TZ,
         "times": list(AUTO_PUBLISH_TIMES),
+        "content_time": CONTENT_PUBLISH_TIME,
+        "content_weekdays": list(CONTENT_PUBLISH_WEEKDAYS),
         "next_slot": next_slot_iso(),
+        "next_content_slot": next_content_slot_iso(),
         "queue": counts,
+        "content_queue": content_counts,
     }
 
 
@@ -1673,17 +2033,13 @@ async def prepare_car_photos(
             base_url = f"{forwarded_proto}://{forwarded_host}".rstrip("/")
 
         try:
-            photos, page_details = await download_selected_eight_images(
-                str(payload.page_url),
-                job_dir,
-            )
+            photos = await download_first_eight_images(str(payload.page_url), job_dir)
             metadata = {
                 "job_id": job_id,
                 "page_url": str(payload.page_url),
                 "created_at": int(time.time()),
                 "public_base_url": base_url,
                 "photos": photos,
-                "page_details": page_details,
             }
             (job_dir / "metadata.json").write_text(
                 json.dumps(metadata, ensure_ascii=False, indent=2),
@@ -1727,10 +2083,6 @@ async def prepare_car_photos(
             "job_id": job_id,
             "photo_urls": public_photos,
             "logo_removed": [photo["logo_removed"] for photo in photos],
-            "source_positions": [
-                photo["source_position"] for photo in photos
-            ],
-            "page_details": page_details,
             "message": "Фотографии подготовлены. Покажите их пользователю до публикации.",
         }
 
