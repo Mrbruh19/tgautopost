@@ -29,7 +29,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.3.1"
+APP_VERSION = "3.3.2"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -717,6 +717,7 @@ def initialize_queue_database() -> None:
             CREATE TABLE IF NOT EXISTS cars (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 page_url TEXT NOT NULL UNIQUE,
+                stock_number TEXT,
                 model TEXT NOT NULL,
                 configuration TEXT NOT NULL,
                 production_year INTEGER NOT NULL,
@@ -799,6 +800,10 @@ def initialize_queue_database() -> None:
                 connection.execute(
                     f"ALTER TABLE {table_name} ADD COLUMN vk_post_id INTEGER"
                 )
+            if table_name == "cars" and "stock_number" not in columns:
+                connection.execute(
+                    "ALTER TABLE cars ADD COLUMN stock_number TEXT"
+                )
         # Recover safely after an application restart.
         connection.execute(
             "UPDATE cars SET status='pending' WHERE status='processing'"
@@ -828,34 +833,130 @@ def initialize_queue_database() -> None:
         )
 
         if SEED_PATH.is_file():
-            seed = json.loads(SEED_PATH.read_text(encoding="utf-8"))
-            for car in seed:
-                connection.execute(
-                    """
-                    INSERT OR IGNORE INTO cars (
-                        page_url, model, configuration, production_year,
-                        production_month, mileage_km, body_color, interior_color,
-                        paint_condition, horsepower, price_cny, engine_cc,
-                        engine_display, source_row, status
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
-                    """,
-                    (
-                        car["page_url"],
-                        car["model"],
-                        car["configuration"],
-                        car["production_year"],
-                        car["production_month"],
-                        car["mileage_km"],
-                        car.get("body_color", ""),
-                        car.get("interior_color", ""),
-                        car.get("paint_condition", ""),
-                        car["horsepower"],
-                        car["price_cny"],
-                        car["engine_cc"],
-                        car["engine_display"],
-                        car.get("source_row"),
-                    ),
+            seed_payload = json.loads(SEED_PATH.read_text(encoding="utf-8"))
+            if isinstance(seed_payload, list):
+                seed = seed_payload
+                stock_history = []
+                replace_active_queue = False
+            else:
+                seed = seed_payload.get("cars", [])
+                stock_history = seed_payload.get("stock_history", [])
+                replace_active_queue = bool(
+                    seed_payload.get("replace_active_queue", False)
                 )
+
+            # Backfill stable stock numbers for cars from earlier spreadsheets.
+            # This makes a previously published car stay published even if its
+            # listing URL changes in a later file.
+            for item in stock_history:
+                page_url = str(item.get("page_url", "")).strip()
+                stock_number = str(item.get("stock_number", "")).strip()
+                if page_url and stock_number:
+                    connection.execute(
+                        """
+                        UPDATE cars
+                        SET stock_number=?
+                        WHERE page_url=?
+                          AND COALESCE(stock_number, '')=''
+                        """,
+                        (stock_number, page_url),
+                    )
+
+            connection.execute(
+                """
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_cars_stock_number
+                ON cars(stock_number)
+                WHERE stock_number IS NOT NULL AND stock_number <> ''
+                """
+            )
+
+            active_car_ids: list[int] = []
+            for car in seed:
+                page_url = str(car["page_url"]).strip()
+                stock_number = str(car.get("stock_number", "")).strip()
+                existing = connection.execute(
+                    """
+                    SELECT id
+                    FROM cars
+                    WHERE page_url=?
+                       OR (? <> '' AND stock_number=?)
+                    ORDER BY CASE WHEN status='published' THEN 0 ELSE 1 END, id
+                    LIMIT 1
+                    """,
+                    (page_url, stock_number, stock_number),
+                ).fetchone()
+                values = (
+                    page_url,
+                    stock_number or None,
+                    car["model"],
+                    car["configuration"],
+                    car["production_year"],
+                    car["production_month"],
+                    car["mileage_km"],
+                    car.get("body_color", ""),
+                    car.get("interior_color", ""),
+                    car.get("paint_condition", ""),
+                    car["horsepower"],
+                    car["price_cny"],
+                    car["engine_cc"],
+                    car["engine_display"],
+                    car.get("source_row"),
+                )
+                if existing is None:
+                    cursor = connection.execute(
+                        """
+                        INSERT INTO cars (
+                            page_url, stock_number, model, configuration,
+                            production_year, production_month, mileage_km,
+                            body_color, interior_color, paint_condition,
+                            horsepower, price_cny, engine_cc, engine_display,
+                            source_row, status
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+                        """,
+                        values,
+                    )
+                    active_car_ids.append(int(cursor.lastrowid))
+                else:
+                    car_id = int(existing["id"])
+                    connection.execute(
+                        """
+                        UPDATE cars
+                        SET page_url=?, stock_number=?, model=?, configuration=?,
+                            production_year=?, production_month=?, mileage_km=?,
+                            body_color=?, interior_color=?, paint_condition=?,
+                            horsepower=?, price_cny=?, engine_cc=?,
+                            engine_display=?, source_row=?,
+                            status=CASE
+                                WHEN status='retired' THEN 'pending'
+                                ELSE status
+                            END,
+                            last_error=CASE
+                                WHEN status='retired' THEN NULL
+                                ELSE last_error
+                            END
+                        WHERE id=?
+                        """,
+                        (*values, car_id),
+                    )
+                    active_car_ids.append(car_id)
+
+            if replace_active_queue:
+                if active_car_ids:
+                    placeholders = ",".join("?" for _ in active_car_ids)
+                    connection.execute(
+                        f"""
+                        UPDATE cars
+                        SET status='retired',
+                            last_error='Объявление отсутствует в актуальном файле'
+                        WHERE status='pending'
+                          AND id NOT IN ({placeholders})
+                        """,
+                        active_car_ids,
+                    )
+                else:
+                    logger.warning(
+                        "Active queue replacement skipped because the seed is empty"
+                    )
         else:
             logger.warning("Queue seed file is missing: %s", SEED_PATH)
 
