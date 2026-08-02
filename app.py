@@ -294,6 +294,45 @@ def normalize_drive(value: str) -> str:
     return clean_source_text(value)[:80]
 
 
+def normalize_transmission(value: str) -> str:
+    source = clean_source_text(value)
+    lowered = source.casefold()
+    if not lowered:
+        return ""
+
+    speed_match = re.search(
+        r"(?<!\d)([4-9]|10)\s*(?:[- ]?ступ|[- ]?speed|挡|速)",
+        lowered,
+    )
+    speeds = f"{speed_match.group(1)}-ступенчатая " if speed_match else ""
+
+    if "e-cvt" in lowered or "ecvt" in lowered or "电子无级" in lowered:
+        return "электромеханический вариатор (E-CVT)"
+    if "cvt" in lowered or "无级变速" in lowered or "вариатор" in lowered:
+        return "вариатор (CVT)"
+    if any(
+        token in lowered
+        for token in ("dsg", "dct", "s tronic", "s-tronic", "双离合", "робот")
+    ):
+        if "dsg" in lowered:
+            kind = "DSG"
+        elif "s tronic" in lowered or "s-tronic" in lowered:
+            kind = "S tronic (DCT)"
+        else:
+            kind = "DCT"
+        return f"{speeds}роботизированная {kind}".strip()
+    if "amt" in lowered:
+        return f"{speeds}роботизированная AMT".strip()
+    if any(token in lowered for token in ("mt", "механ", "手动")):
+        return f"{speeds}механическая (MT)".strip()
+    if any(
+        token in lowered
+        for token in ("at", "автомат", "手自一体", "自动变速箱")
+    ):
+        return f"{speeds}автоматическая (AT)".strip()
+    return ""
+
+
 EQUIPMENT_KEYWORDS = (
     (("адаптивн", "acc", "自适应巡航"), "адаптивный круиз-контроль"),
     (("круиз-контроль", "круиз контроль", "定速巡航"), "круиз-контроль"),
@@ -385,6 +424,20 @@ def extract_page_details(source_html: str) -> dict[str, str]:
         match = re.search(r"\b(AWD|4WD|FWD|RWD|2WD|4X4)\b", page_text, re.IGNORECASE)
         drive_raw = match.group(1) if match else ""
 
+    transmission_raw = extract_labeled_value(
+        soup,
+        (
+            "коробка передач",
+            "трансмиссия",
+            "тип коробки передач",
+            "кпп",
+            "gearbox",
+            "transmission",
+            "变速箱",
+            "变速器",
+        ),
+    )
+
     equipment_raw = extract_labeled_value(
         soup,
         (
@@ -413,6 +466,7 @@ def extract_page_details(source_html: str) -> dict[str, str]:
     )
     return {
         "drive": normalize_drive(drive_raw),
+        "transmission": normalize_transmission(transmission_raw),
         "equipment": shorten_equipment(equipment_raw, page_text),
         "condition": normalize_vehicle_condition(condition_raw),
     }
@@ -730,6 +784,7 @@ def initialize_queue_database() -> None:
                 price_cny INTEGER NOT NULL,
                 engine_cc INTEGER NOT NULL,
                 engine_display TEXT NOT NULL,
+                transmission TEXT,
                 source_row INTEGER,
                 status TEXT NOT NULL DEFAULT 'pending',
                 attempts INTEGER NOT NULL DEFAULT 0,
@@ -803,6 +858,10 @@ def initialize_queue_database() -> None:
             if table_name == "cars" and "stock_number" not in columns:
                 connection.execute(
                     "ALTER TABLE cars ADD COLUMN stock_number TEXT"
+                )
+            if table_name == "cars" and "transmission" not in columns:
+                connection.execute(
+                    "ALTER TABLE cars ADD COLUMN transmission TEXT"
                 )
         # Recover safely after an application restart.
         connection.execute(
@@ -900,6 +959,7 @@ def initialize_queue_database() -> None:
                     car["price_cny"],
                     car["engine_cc"],
                     car["engine_display"],
+                    car.get("transmission", ""),
                     car.get("source_row"),
                 )
                 if existing is None:
@@ -910,8 +970,8 @@ def initialize_queue_database() -> None:
                             production_year, production_month, mileage_km,
                             body_color, interior_color, paint_condition,
                             horsepower, price_cny, engine_cc, engine_display,
-                            source_row, status
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+                            transmission, source_row, status
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
                         """,
                         values,
                     )
@@ -925,7 +985,7 @@ def initialize_queue_database() -> None:
                             production_year=?, production_month=?, mileage_km=?,
                             body_color=?, interior_color=?, paint_condition=?,
                             horsepower=?, price_cny=?, engine_cc=?,
-                            engine_display=?, source_row=?,
+                            engine_display=?, transmission=?, source_row=?,
                             status=CASE
                                 WHEN status='retired' THEN 'pending'
                                 ELSE status
@@ -1235,6 +1295,13 @@ def build_auto_caption(
     interior_color = html.escape(str(car["interior_color"]).strip())
     paint = html.escape(normalize_paint_condition(str(car["paint_condition"])))
     drive = html.escape(page_details.get("drive", "").strip())
+    try:
+        seeded_transmission = str(car["transmission"] or "").strip()
+    except (IndexError, KeyError):
+        seeded_transmission = ""
+    transmission = html.escape(
+        page_details.get("transmission", "").strip() or seeded_transmission
+    )
     equipment = html.escape(page_details.get("equipment", "").strip())
     condition = html.escape(page_details.get("condition", "").strip()) or paint
     month = MONTH_NAMES_RU[int(car["production_month"])]
@@ -1243,12 +1310,19 @@ def build_auto_caption(
     price = f"{rounded_total_rub:,}".replace(",", " ")
     contact = html.escape(CONTACT_TELEGRAM)
 
+    if not transmission:
+        raise RuntimeError(
+            f"Для {car['model']} не удалось подтвердить коробку передач; "
+            "публикация остановлена."
+        )
+
     title = f"{model} {configuration}".upper()
     lines = [
         f"🚘 <b>{title}</b>",
         "",
         f"▫️ Год выпуска: {month} {year}",
         f"▫️ Двигатель: {engine_display}",
+        f"▫️ Коробка передач: {transmission}",
         f"▫️ Мощность: {int(car['horsepower'])} л. с.",
         f"▫️ Пробег: {mileage} км",
         f"▫️ Цвет кузова: {body_color}",

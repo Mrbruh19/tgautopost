@@ -204,7 +204,8 @@
       "price_cny": 69800,
       "engine_cc": 1368,
       "engine_display": "бензиновый, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 7,
@@ -222,7 +223,8 @@
       "price_cny": 104800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 8,
@@ -240,7 +242,8 @@
       "price_cny": 105800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 9,
@@ -258,7 +261,8 @@
       "price_cny": 106800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 10,
@@ -276,7 +280,8 @@
       "price_cny": 112800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 11,
@@ -294,7 +299,8 @@
       "price_cny": 99800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 12,
@@ -312,7 +318,8 @@
       "price_cny": 89800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 13,
@@ -330,7 +337,8 @@
       "price_cny": 159800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 14,
@@ -348,7 +356,8 @@
       "price_cny": 58800,
       "engine_cc": 1451,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 15,
@@ -366,7 +375,8 @@
       "price_cny": 75800,
       "engine_cc": 1451,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 16,
@@ -384,7 +394,8 @@
       "price_cny": 119800,
       "engine_cc": 1353,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 17,
@@ -402,7 +413,8 @@
       "price_cny": 109800,
       "engine_cc": 1353,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 18,
@@ -420,7 +432,8 @@
       "price_cny": 115800,
       "engine_cc": 1353,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 32,
@@ -438,7 +451,8 @@
       "price_cny": 117800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 33,
@@ -456,7 +470,8 @@
       "price_cny": 116800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 34,
@@ -474,7 +489,8 @@
       "price_cny": 116800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 35,
@@ -492,7 +508,8 @@
       "price_cny": 119800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 36,
@@ -510,7 +527,8 @@
       "price_cny": 116800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 37,
@@ -528,7 +546,8 @@
       "price_cny": 125800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 38,
@@ -546,7 +565,8 @@
       "price_cny": 99800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 39,
@@ -564,7 +584,8 @@
       "price_cny": 119800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 40,
@@ -582,7 +603,8 @@
       "price_cny": 114800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 41,
@@ -600,7 +622,8 @@
       "price_cny": 119800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 42,
@@ -618,7 +641,8 @@
       "price_cny": 124800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 43,
@@ -636,7 +660,8 @@
       "price_cny": 116800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 44,
@@ -654,7 +679,8 @@
       "price_cny": 119800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 45,
@@ -672,7 +698,8 @@
       "price_cny": 125800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 46,
@@ -690,7 +717,8 @@
       "price_cny": 122800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 48,
@@ -708,7 +736,8 @@
       "price_cny": 77800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 49,
@@ -726,7 +755,8 @@
       "price_cny": 78800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 50,
@@ -744,7 +774,8 @@
       "price_cny": 85800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 51,
@@ -762,7 +793,8 @@
       "price_cny": 79800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 52,
@@ -780,7 +812,8 @@
       "price_cny": 69800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 53,
@@ -798,7 +831,8 @@
       "price_cny": 75800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 54,
@@ -816,7 +850,8 @@
       "price_cny": 72800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 55,
@@ -834,7 +869,8 @@
       "price_cny": 79800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 56,
@@ -852,7 +888,8 @@
       "price_cny": 145800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 57,
@@ -870,7 +907,8 @@
       "price_cny": 134800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 58,
@@ -888,7 +926,8 @@
       "price_cny": 146800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 59,
@@ -906,7 +945,8 @@
       "price_cny": 124800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 60,
@@ -924,7 +964,8 @@
       "price_cny": 125800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 61,
@@ -942,7 +983,8 @@
       "price_cny": 134800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 62,
@@ -960,7 +1002,8 @@
       "price_cny": 126800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 63,
@@ -978,7 +1021,8 @@
       "price_cny": 129800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 64,
@@ -996,7 +1040,8 @@
       "price_cny": 123800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 65,
@@ -1014,7 +1059,8 @@
       "price_cny": 125800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 66,
@@ -1032,7 +1078,8 @@
       "price_cny": 122800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 69,
@@ -1050,7 +1097,8 @@
       "price_cny": 158800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 70,
@@ -1068,7 +1116,8 @@
       "price_cny": 169800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 71,
@@ -1086,7 +1135,8 @@
       "price_cny": 136800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 72,
@@ -1104,7 +1154,8 @@
       "price_cny": 185800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 73,
@@ -1122,7 +1173,8 @@
       "price_cny": 199800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 74,
@@ -1140,7 +1192,8 @@
       "price_cny": 199800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 75,
@@ -1158,7 +1211,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 76,
@@ -1176,7 +1230,8 @@
       "price_cny": 185800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 77,
@@ -1194,7 +1249,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 78,
@@ -1212,7 +1268,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 79,
@@ -1230,7 +1287,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 80,
@@ -1248,7 +1306,8 @@
       "price_cny": 185800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 81,
@@ -1266,7 +1325,8 @@
       "price_cny": 191800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 82,
@@ -1284,7 +1344,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 83,
@@ -1302,7 +1363,8 @@
       "price_cny": 205800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 84,
@@ -1320,7 +1382,8 @@
       "price_cny": 198800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 85,
@@ -1338,7 +1401,8 @@
       "price_cny": 179800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 86,
@@ -1356,7 +1420,8 @@
       "price_cny": 185800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 87,
@@ -1374,7 +1439,8 @@
       "price_cny": 183800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 88,
@@ -1392,7 +1458,8 @@
       "price_cny": 195800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 89,
@@ -1410,7 +1477,8 @@
       "price_cny": 178800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 90,
@@ -1428,7 +1496,8 @@
       "price_cny": 175800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 91,
@@ -1446,7 +1515,8 @@
       "price_cny": 119800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 92,
@@ -1464,7 +1534,8 @@
       "price_cny": 111800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 93,
@@ -1482,7 +1553,8 @@
       "price_cny": 118800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 94,
@@ -1500,7 +1572,8 @@
       "price_cny": 134800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 95,
@@ -1518,7 +1591,8 @@
       "price_cny": 130800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 96,
@@ -1536,7 +1610,8 @@
       "price_cny": 127800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 97,
@@ -1554,7 +1629,8 @@
       "price_cny": 129800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 98,
@@ -1572,7 +1648,8 @@
       "price_cny": 134800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 99,
@@ -1590,7 +1667,8 @@
       "price_cny": 114800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 101,
@@ -1608,7 +1686,8 @@
       "price_cny": 119800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 102,
@@ -1626,7 +1705,8 @@
       "price_cny": 108800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 103,
@@ -1644,7 +1724,8 @@
       "price_cny": 122800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 104,
@@ -1662,7 +1743,8 @@
       "price_cny": 116800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 105,
@@ -1680,7 +1762,8 @@
       "price_cny": 154800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 107,
@@ -1698,7 +1781,8 @@
       "price_cny": 99800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 112,
@@ -1716,7 +1800,8 @@
       "price_cny": 102800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 113,
@@ -1734,7 +1819,8 @@
       "price_cny": 109800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 115,
@@ -1752,7 +1838,8 @@
       "price_cny": 119800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 116,
@@ -1770,7 +1857,8 @@
       "price_cny": 99800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 117,
@@ -1788,7 +1876,8 @@
       "price_cny": 112800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 118,
@@ -1806,7 +1895,8 @@
       "price_cny": 99800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 119,
@@ -1824,7 +1914,8 @@
       "price_cny": 95800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 121,
@@ -1842,7 +1933,8 @@
       "price_cny": 129800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 122,
@@ -1860,7 +1952,8 @@
       "price_cny": 132800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 123,
@@ -1878,7 +1971,8 @@
       "price_cny": 129800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 124,
@@ -1896,7 +1990,8 @@
       "price_cny": 133800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 128,
@@ -1914,7 +2009,8 @@
       "price_cny": 95800,
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 129,
@@ -1932,7 +2028,8 @@
       "price_cny": 109800,
       "engine_cc": 1490,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 136,
@@ -1950,7 +2047,8 @@
       "price_cny": 91800,
       "engine_cc": 1490,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 139,
@@ -1968,7 +2066,8 @@
       "price_cny": 75800,
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 140,
@@ -1986,7 +2085,8 @@
       "price_cny": 75800,
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 141,
@@ -2004,7 +2104,8 @@
       "price_cny": 75800,
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 142,
@@ -2022,7 +2123,8 @@
       "price_cny": 73800,
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 143,
@@ -2040,7 +2142,8 @@
       "price_cny": 73800,
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 144,
@@ -2058,7 +2161,8 @@
       "price_cny": 69800,
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 158,
@@ -2076,7 +2180,8 @@
       "price_cny": 154800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 159,
@@ -2094,7 +2199,8 @@
       "price_cny": 154800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 160,
@@ -2112,7 +2218,8 @@
       "price_cny": 164800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 161,
@@ -2130,7 +2237,8 @@
       "price_cny": 150800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 162,
@@ -2148,7 +2256,8 @@
       "price_cny": 154800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 163,
@@ -2166,7 +2275,8 @@
       "price_cny": 154800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 164,
@@ -2184,7 +2294,8 @@
       "price_cny": 154800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 165,
@@ -2202,7 +2313,8 @@
       "price_cny": 144800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 176,
@@ -2220,7 +2332,8 @@
       "price_cny": 225800,
       "engine_cc": 1998,
       "engine_display": "бензиновый турбированный, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "8-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 177,
@@ -2238,7 +2351,8 @@
       "price_cny": 228800,
       "engine_cc": 1998,
       "engine_display": "бензиновый турбированный, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "8-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 178,
@@ -2256,7 +2370,8 @@
       "price_cny": 224800,
       "engine_cc": 1998,
       "engine_display": "бензиновый турбированный, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "8-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 179,
@@ -2274,7 +2389,8 @@
       "price_cny": 135800,
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 180,
@@ -2292,7 +2408,8 @@
       "price_cny": 159800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "9-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 181,
@@ -2310,7 +2427,8 @@
       "price_cny": 159800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "9-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 182,
@@ -2328,7 +2446,8 @@
       "price_cny": 205800,
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 183,
@@ -2346,7 +2465,8 @@
       "price_cny": 199800,
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 184,
@@ -2364,7 +2484,8 @@
       "price_cny": 199800,
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 185,
@@ -2382,7 +2503,8 @@
       "price_cny": 145800,
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 187,
@@ -2400,7 +2522,8 @@
       "price_cny": 139800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 189,
@@ -2418,7 +2541,8 @@
       "price_cny": 145800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 193,
@@ -2436,7 +2560,8 @@
       "price_cny": 165800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 194,
@@ -2454,7 +2579,8 @@
       "price_cny": 188800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 195,
@@ -2472,7 +2598,8 @@
       "price_cny": 165800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 196,
@@ -2490,7 +2617,8 @@
       "price_cny": 179800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 197,
@@ -2508,7 +2636,8 @@
       "price_cny": 175800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 198,
@@ -2526,7 +2655,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 199,
@@ -2544,7 +2674,8 @@
       "price_cny": 183800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 200,
@@ -2562,7 +2693,8 @@
       "price_cny": 182800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 201,
@@ -2580,7 +2712,8 @@
       "price_cny": 195800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 202,
@@ -2598,7 +2731,8 @@
       "price_cny": 186800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 203,
@@ -2616,7 +2750,8 @@
       "price_cny": 185800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 204,
@@ -2634,7 +2769,8 @@
       "price_cny": 185800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 205,
@@ -2652,7 +2788,8 @@
       "price_cny": 205800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 206,
@@ -2670,7 +2807,8 @@
       "price_cny": 179800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 207,
@@ -2688,7 +2826,8 @@
       "price_cny": 208800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 208,
@@ -2706,7 +2845,8 @@
       "price_cny": 193800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 210,
@@ -2724,7 +2864,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 211,
@@ -2742,7 +2883,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 212,
@@ -2760,7 +2902,8 @@
       "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 214,
@@ -2778,7 +2921,8 @@
       "price_cny": 129800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 216,
@@ -2796,7 +2940,8 @@
       "price_cny": 143800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 217,
@@ -2814,7 +2959,8 @@
       "price_cny": 155800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 218,
@@ -2832,7 +2978,8 @@
       "price_cny": 165800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 219,
@@ -2850,7 +2997,8 @@
       "price_cny": 159800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 220,
@@ -2868,7 +3016,8 @@
       "price_cny": 138800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 221,
@@ -2886,7 +3035,8 @@
       "price_cny": 179800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 222,
@@ -2904,7 +3054,8 @@
       "price_cny": 139800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 223,
@@ -2922,7 +3073,8 @@
       "price_cny": 145800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 224,
@@ -2940,7 +3092,8 @@
       "price_cny": 139800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 225,
@@ -2958,7 +3111,8 @@
       "price_cny": 139800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 226,
@@ -2976,7 +3130,8 @@
       "price_cny": 162800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 227,
@@ -2994,7 +3149,8 @@
       "price_cny": 149800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 228,
@@ -3012,7 +3168,8 @@
       "price_cny": 144800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 229,
@@ -3030,7 +3187,8 @@
       "price_cny": 149800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 230,
@@ -3048,7 +3206,8 @@
       "price_cny": 152800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 231,
@@ -3066,7 +3225,8 @@
       "price_cny": 125800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 236,
@@ -3084,7 +3244,8 @@
       "price_cny": 168800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 237,
@@ -3102,7 +3263,8 @@
       "price_cny": 76800,
       "engine_cc": 1398,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 250,
@@ -3120,7 +3282,8 @@
       "price_cny": 138800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 251,
@@ -3138,7 +3301,8 @@
       "price_cny": 135800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 252,
@@ -3156,7 +3320,8 @@
       "price_cny": 143800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 253,
@@ -3174,7 +3339,8 @@
       "price_cny": 133800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
       "source_row": 262,
@@ -3192,7 +3358,8 @@
       "price_cny": 88800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 263,
@@ -3210,7 +3377,8 @@
       "price_cny": 92800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 264,
@@ -3228,7 +3396,8 @@
       "price_cny": 109800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 265,
@@ -3246,7 +3415,8 @@
       "price_cny": 95800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 266,
@@ -3264,7 +3434,8 @@
       "price_cny": 93800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 267,
@@ -3282,7 +3453,8 @@
       "price_cny": 96800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 268,
@@ -3300,7 +3472,8 @@
       "price_cny": 99800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 269,
@@ -3318,7 +3491,8 @@
       "price_cny": 88800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 270,
@@ -3336,7 +3510,8 @@
       "price_cny": 93800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 271,
@@ -3354,7 +3529,8 @@
       "price_cny": 92800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 272,
@@ -3372,7 +3548,8 @@
       "price_cny": 85800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 273,
@@ -3390,7 +3567,8 @@
       "price_cny": 89800,
       "engine_cc": 1495,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 283,
@@ -3408,7 +3586,8 @@
       "price_cny": 95800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 284,
@@ -3426,7 +3605,8 @@
       "price_cny": 93800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 285,
@@ -3444,7 +3624,8 @@
       "price_cny": 99800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 286,
@@ -3462,7 +3643,8 @@
       "price_cny": 89800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 287,
@@ -3480,7 +3662,8 @@
       "price_cny": 108800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 288,
@@ -3498,7 +3681,8 @@
       "price_cny": 109800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 289,
@@ -3516,7 +3700,8 @@
       "price_cny": 113800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 290,
@@ -3534,7 +3719,8 @@
       "price_cny": 119800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 291,
@@ -3552,7 +3738,8 @@
       "price_cny": 113800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 292,
@@ -3570,7 +3757,8 @@
       "price_cny": 116800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 293,
@@ -3588,7 +3776,8 @@
       "price_cny": 102800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 294,
@@ -3606,7 +3795,8 @@
       "price_cny": 96800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 295,
@@ -3624,7 +3814,8 @@
       "price_cny": 96800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 296,
@@ -3642,7 +3833,8 @@
       "price_cny": 109800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 297,
@@ -3660,7 +3852,8 @@
       "price_cny": 115800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 299,
@@ -3678,7 +3871,8 @@
       "price_cny": 113800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
       "source_row": 300,
@@ -3696,7 +3890,8 @@
       "price_cny": 89800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 301,
@@ -3714,7 +3909,8 @@
       "price_cny": 85800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 302,
@@ -3732,7 +3928,8 @@
       "price_cny": 89800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 303,
@@ -3750,7 +3947,8 @@
       "price_cny": 85800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 304,
@@ -3768,7 +3966,8 @@
       "price_cny": 84800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 305,
@@ -3786,7 +3985,8 @@
       "price_cny": 79800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 306,
@@ -3804,7 +4004,8 @@
       "price_cny": 75800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 307,
@@ -3822,7 +4023,8 @@
       "price_cny": 86800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 308,
@@ -3840,7 +4042,8 @@
       "price_cny": 92800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 309,
@@ -3858,7 +4061,8 @@
       "price_cny": 79800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 310,
@@ -3876,7 +4080,8 @@
       "price_cny": 85800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
       "source_row": 315,
@@ -3894,7 +4099,8 @@
       "price_cny": 65800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 316,
@@ -3912,7 +4118,8 @@
       "price_cny": 59800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     },
     {
       "source_row": 317,
@@ -3930,7 +4137,8 @@
       "price_cny": 62800,
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово"
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
     }
   ]
 }
