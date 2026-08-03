@@ -1,5 +1,5 @@
 {
-  "source_file": "俄文二手车在售表29.07.2026.xls",
+  "source_file": "俄文二手车在售表02.08.2026.xls",
   "replace_active_queue": true,
   "stock_history": [
     {
@@ -208,7 +208,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 7,
+      "source_row": 5,
       "page_url": "http://avtomirhrb.ru/?car_1/2457.html",
       "stock_number": "035023",
       "model": "Mitsubishi Outlander",
@@ -227,7 +227,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 8,
+      "source_row": 6,
       "page_url": "http://avtomirhrb.ru/?car_1/2506.html",
       "stock_number": "024793",
       "model": "Mitsubishi Outlander",
@@ -246,7 +246,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 9,
+      "source_row": 7,
       "page_url": "http://avtomirhrb.ru/?car_1/2425.html",
       "stock_number": "012167",
       "model": "Mitsubishi Outlander",
@@ -265,7 +265,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 10,
+      "source_row": 8,
       "page_url": "http://avtomirhrb.ru/?car_1/2360.html",
       "stock_number": "061553",
       "model": "Mitsubishi Outlander",
@@ -284,7 +284,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 11,
+      "source_row": 9,
       "page_url": "http://avtomirhrb.ru/?car_1/2503.html",
       "stock_number": "020602",
       "model": "Mitsubishi Outlander",
@@ -303,7 +303,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 12,
+      "source_row": 10,
       "page_url": "http://avtomirhrb.ru/?car_1/2340.html",
       "stock_number": "022245",
       "model": "Mitsubishi ASX",
@@ -322,7 +322,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 13,
+      "source_row": 11,
       "page_url": "http://avtomirhrb.ru/?car_1/2311.html",
       "stock_number": "060597",
       "model": "Mitsubishi Eclipse Cross",
@@ -341,7 +341,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 14,
+      "source_row": 12,
       "page_url": "http://avtomirhrb.ru/?car_1/1518.html",
       "stock_number": "601407",
       "model": "Wuling Star",
@@ -360,7 +360,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 15,
+      "source_row": 13,
       "page_url": "http://avtomirhrb.ru/?car_1/2279.html",
       "stock_number": "634908",
       "model": "Wuling Xingchen",
@@ -379,7 +379,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 16,
+      "source_row": 14,
       "page_url": "http://avtomirhrb.ru/?car_1/2376.html",
       "stock_number": "502427",
       "model": "Hyundai ix35",
@@ -398,7 +398,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 17,
+      "source_row": 15,
       "page_url": "http://avtomirhrb.ru/?car_1/2337.html",
       "stock_number": "435152",
       "model": "Hyundai ix35",
@@ -417,7 +417,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 18,
+      "source_row": 16,
       "page_url": "http://avtomirhrb.ru/?car_1/2454.html",
       "stock_number": "501497",
       "model": "Hyundai ix35",
@@ -436,7 +436,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 32,
+      "source_row": 27,
       "page_url": "http://avtomirhrb.ru/?car_1/2059.html",
       "stock_number": "019923",
       "model": "Honda XRV",
@@ -455,7 +455,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 33,
+      "source_row": 28,
       "page_url": "http://avtomirhrb.ru/?car_1/2075.html",
       "stock_number": "047079",
       "model": "Honda XRV",
@@ -474,7 +474,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 34,
+      "source_row": 29,
       "page_url": "http://avtomirhrb.ru/?car_1/2149.html",
       "stock_number": "041521",
       "model": "Honda XRV",
@@ -493,7 +493,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 35,
+      "source_row": 30,
       "page_url": "http://avtomirhrb.ru/?car_1/2281.html",
       "stock_number": "049682",
       "model": "Honda XRV",
@@ -512,7 +512,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 36,
+      "source_row": 32,
       "page_url": "http://avtomirhrb.ru/?car_1/2353.html",
       "stock_number": "022611",
       "model": "Honda XRV",
@@ -531,7 +531,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 37,
+      "source_row": 33,
       "page_url": "http://avtomirhrb.ru/?car_1/2290.html",
       "stock_number": "046606",
       "model": "Honda XRV",
@@ -550,7 +550,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 38,
+      "source_row": 34,
       "page_url": "http://avtomirhrb.ru/?car_1/2092.html",
       "stock_number": "111512",
       "model": "Honda Vezel",
@@ -569,7 +569,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 39,
+      "source_row": 35,
       "page_url": "http://avtomirhrb.ru/?car_1/2217.html",
       "stock_number": "021082",
       "model": "Honda Vezel",
@@ -588,26 +588,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 40,
-      "page_url": "http://avtomirhrb.ru/?car_1/2241.html",
-      "stock_number": "009332",
-      "model": "Honda Vezel",
-      "configuration": "2023 1.5L Elite Edition",
-      "production_year": 2023,
-      "production_month": 3,
-      "mileage_km": 14000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 124,
-      "price_cny": 114800,
-      "engine_cc": 1498,
-      "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "вариатор (CVT)"
-    },
-    {
-      "source_row": 41,
+      "source_row": 36,
       "page_url": "http://avtomirhrb.ru/?car_1/2322.html",
       "stock_number": "012932",
       "model": "Honda Vezel",
@@ -626,7 +607,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 42,
+      "source_row": 37,
       "page_url": "http://avtomirhrb.ru/?car_1/2303.html",
       "stock_number": "028984",
       "model": "Honda Vezel",
@@ -645,7 +626,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 43,
+      "source_row": 38,
       "page_url": "http://avtomirhrb.ru/?car_1/2047.html",
       "stock_number": "079865",
       "model": "Honda Civic",
@@ -664,7 +645,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 44,
+      "source_row": 39,
       "page_url": "http://avtomirhrb.ru/?car_1/2195.html",
       "stock_number": "126958",
       "model": "Honda Civic",
@@ -683,7 +664,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 45,
+      "source_row": 40,
       "page_url": "http://avtomirhrb.ru/?car_1/2458.html",
       "stock_number": "116590",
       "model": "Honda Civic",
@@ -702,7 +683,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 46,
+      "source_row": 41,
       "page_url": "http://avtomirhrb.ru/?car_1/2384.html",
       "stock_number": "054873",
       "model": "Honda Civic",
@@ -721,7 +702,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 48,
+      "source_row": 42,
       "page_url": "http://avtomirhrb.ru/?car_1/1889.html",
       "stock_number": "648072",
       "model": "Honda Life",
@@ -740,7 +721,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 49,
+      "source_row": 43,
       "page_url": "http://avtomirhrb.ru/?car_1/2344.html",
       "stock_number": "647055",
       "model": "Honda Life",
@@ -759,7 +740,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 50,
+      "source_row": 44,
       "page_url": "http://avtomirhrb.ru/?car_1/2293.html",
       "stock_number": "002943",
       "model": "Honda Life",
@@ -778,7 +759,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 51,
+      "source_row": 45,
       "page_url": "http://avtomirhrb.ru/?car_1/2410.html",
       "stock_number": "643599",
       "model": "Honda Life",
@@ -797,26 +778,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 52,
-      "page_url": "http://avtomirhrb.ru/?car_1/2146.html",
-      "stock_number": "012039",
-      "model": "Volkswagen polo",
-      "configuration": "2021 1.5L Automatic “Xuan Cai” Technology Edition",
-      "production_year": 2022,
-      "production_month": 1,
-      "mileage_km": 23000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 114,
-      "price_cny": 69800,
-      "engine_cc": 1498,
-      "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 53,
+      "source_row": 47,
       "page_url": "http://avtomirhrb.ru/?car_1/2156.html",
       "stock_number": "010829",
       "model": "Volkswagen polo",
@@ -835,7 +797,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 54,
+      "source_row": 48,
       "page_url": "http://avtomirhrb.ru/?car_1/2413.html",
       "stock_number": "019031",
       "model": "Volkswagen polo",
@@ -854,7 +816,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 55,
+      "source_row": 49,
       "page_url": "http://avtomirhrb.ru/?car_1/2151.html",
       "stock_number": "030419",
       "model": "Volkswagen polo",
@@ -873,7 +835,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 56,
+      "source_row": 50,
       "page_url": "http://avtomirhrb.ru/?car_1/2257.html",
       "stock_number": "297642",
       "model": "Volkswagen Golf",
@@ -892,7 +854,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 57,
+      "source_row": 51,
       "page_url": "http://avtomirhrb.ru/?car_1/2395.html",
       "stock_number": "327034",
       "model": "Volkswagen Golf",
@@ -911,7 +873,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 58,
+      "source_row": 52,
       "page_url": "http://avtomirhrb.ru/?car_1/2459.html",
       "stock_number": "304827",
       "model": "Volkswagen Golf",
@@ -930,7 +892,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 59,
+      "source_row": 53,
       "page_url": "http://avtomirhrb.ru/?car_1/2038.html",
       "stock_number": "303031",
       "model": "Volkswagen Golf",
@@ -949,7 +911,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 60,
+      "source_row": 54,
       "page_url": "http://avtomirhrb.ru/?car_1/2265.html",
       "stock_number": "314547",
       "model": "Volkswagen Golf",
@@ -968,26 +930,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 61,
-      "page_url": "http://avtomirhrb.ru/?car_1/2142.html",
-      "stock_number": "311476",
-      "model": "Volkswagen Golf",
-      "configuration": "2023 280TSI DSG R-Line",
-      "production_year": 2023,
-      "production_month": 5,
-      "mileage_km": 12000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 134800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 62,
+      "source_row": 56,
       "page_url": "http://avtomirhrb.ru/?car_1/2090.html",
       "stock_number": "312824",
       "model": "Volkswagen Golf",
@@ -1006,7 +949,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 63,
+      "source_row": 57,
       "page_url": "http://avtomirhrb.ru/?car_1/2063.html",
       "stock_number": "316740",
       "model": "Volkswagen Golf",
@@ -1025,7 +968,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 64,
+      "source_row": 58,
       "page_url": "http://avtomirhrb.ru/?car_1/1973.html",
       "stock_number": "319185",
       "model": "Volkswagen Golf",
@@ -1044,7 +987,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 65,
+      "source_row": 59,
       "page_url": "http://avtomirhrb.ru/?car_1/2152.html",
       "stock_number": "253359",
       "model": "Volkswagen Golf",
@@ -1063,7 +1006,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 66,
+      "source_row": 60,
       "page_url": "http://avtomirhrb.ru/?car_1/2098.html",
       "stock_number": "262893",
       "model": "Volkswagen Golf",
@@ -1082,7 +1025,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 69,
+      "source_row": 63,
       "page_url": "http://avtomirhrb.ru/?car_1/1472.html",
       "stock_number": "098946",
       "model": "Volkswagen Tiguan L",
@@ -1101,7 +1044,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 70,
+      "source_row": 64,
       "page_url": "http://avtomirhrb.ru/?car_1/2221.html",
       "stock_number": "112021",
       "model": "Volkswagen Tiguan L",
@@ -1120,7 +1063,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 71,
+      "source_row": 65,
       "page_url": "http://avtomirhrb.ru/?car_1/2439.html",
       "stock_number": "005140",
       "model": "Volkswagen Tayron",
@@ -1139,26 +1082,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 72,
-      "page_url": "http://avtomirhrb.ru/?car_1/2335.html",
-      "stock_number": "012702",
-      "model": "Volkswagen Tayron",
-      "configuration": "2023 280T FWD Luxury Plus Advanced",
-      "production_year": 2023,
-      "production_month": 3,
-      "mileage_km": 21000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 185800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 73,
+      "source_row": 67,
       "page_url": "http://avtomirhrb.ru/?car_1/2057.html",
       "stock_number": "037877",
       "model": "Volkswagen Tayron",
@@ -1177,7 +1101,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 74,
+      "source_row": 68,
       "page_url": "http://avtomirhrb.ru/?car_1/2049.html",
       "stock_number": "018888",
       "model": "Volkswagen Tayron",
@@ -1196,7 +1120,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 75,
+      "source_row": 69,
       "page_url": "http://avtomirhrb.ru/?car_1/2203.html",
       "stock_number": "020362",
       "model": "Volkswagen Tayron",
@@ -1215,7 +1139,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 76,
+      "source_row": 70,
       "page_url": "http://avtomirhrb.ru/?car_1/2133.html",
       "stock_number": "015884",
       "model": "Volkswagen Tayron",
@@ -1234,7 +1158,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 77,
+      "source_row": 71,
       "page_url": "http://avtomirhrb.ru/?car_1/2224.html",
       "stock_number": "012296",
       "model": "Volkswagen Tayron",
@@ -1253,7 +1177,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 78,
+      "source_row": 72,
       "page_url": "http://avtomirhrb.ru/?car_1/2020.html",
       "stock_number": "011728",
       "model": "Volkswagen Tayron",
@@ -1272,7 +1196,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 79,
+      "source_row": 73,
       "page_url": "http://avtomirhrb.ru/?car_1/2295.html",
       "stock_number": "055438",
       "model": "Volkswagen Tayron",
@@ -1291,7 +1215,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 80,
+      "source_row": 74,
       "page_url": "http://avtomirhrb.ru/?car_1/2304.html",
       "stock_number": "080610",
       "model": "Volkswagen Tayron",
@@ -1310,7 +1234,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 81,
+      "source_row": 75,
       "page_url": "http://avtomirhrb.ru/?car_1/2336.html",
       "stock_number": "017354",
       "model": "Volkswagen Tayron",
@@ -1329,7 +1253,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 82,
+      "source_row": 76,
       "page_url": "http://avtomirhrb.ru/?car_1/2094.html",
       "stock_number": "054694",
       "model": "Volkswagen Tayron",
@@ -1348,7 +1272,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 83,
+      "source_row": 77,
       "page_url": "http://avtomirhrb.ru/?car_1/2249.html",
       "stock_number": "012217",
       "model": "Volkswagen Tayron",
@@ -1367,7 +1291,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 84,
+      "source_row": 78,
       "page_url": "http://avtomirhrb.ru/?car_1/2326.html",
       "stock_number": "021868",
       "model": "Volkswagen Tayron",
@@ -1386,7 +1310,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 85,
+      "source_row": 79,
       "page_url": "http://avtomirhrb.ru/?car_1/2031.html",
       "stock_number": "051018",
       "model": "Volkswagen Tayron",
@@ -1405,7 +1329,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 86,
+      "source_row": 80,
       "page_url": "http://avtomirhrb.ru/?car_1/2012.html",
       "stock_number": "007483",
       "model": "Volkswagen Tayron",
@@ -1424,7 +1348,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 87,
+      "source_row": 81,
       "page_url": "http://avtomirhrb.ru/?car_1/2238.html",
       "stock_number": "040917",
       "model": "Volkswagen Tayron",
@@ -1443,7 +1367,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 88,
+      "source_row": 82,
       "page_url": "http://avtomirhrb.ru/?car_1/1952.html",
       "stock_number": "001347",
       "model": "Volkswagen Tayron",
@@ -1462,7 +1386,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 89,
+      "source_row": 83,
       "page_url": "http://avtomirhrb.ru/?car_1/2176.html",
       "stock_number": "038420",
       "model": "Volkswagen Tayron",
@@ -1481,7 +1405,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 90,
+      "source_row": 84,
       "page_url": "http://avtomirhrb.ru/?car_1/2382.html",
       "stock_number": "021632",
       "model": "Volkswagen Tayron",
@@ -1500,7 +1424,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 91,
+      "source_row": 85,
       "page_url": "http://avtomirhrb.ru/?car_1/2512.html",
       "stock_number": "083517",
       "model": "Volkswagen Tharu",
@@ -1519,7 +1443,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 92,
+      "source_row": 86,
       "page_url": "http://avtomirhrb.ru/?car_1/2319.html",
       "stock_number": "230129",
       "model": "Volkswagen Tharu",
@@ -1538,7 +1462,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 93,
+      "source_row": 87,
       "page_url": "http://avtomirhrb.ru/?car_1/2356.html",
       "stock_number": "213312",
       "model": "Volkswagen Tharu",
@@ -1557,7 +1481,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 94,
+      "source_row": 88,
       "page_url": "http://avtomirhrb.ru/?car_1/2118.html",
       "stock_number": "058200",
       "model": "Volkswagen Tharu",
@@ -1576,7 +1500,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 95,
+      "source_row": 89,
       "page_url": "http://avtomirhrb.ru/?car_1/2167.html",
       "stock_number": "074034",
       "model": "Volkswagen Tharu",
@@ -1595,7 +1519,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 96,
+      "source_row": 90,
       "page_url": "http://avtomirhrb.ru/?car_1/2404.html",
       "stock_number": "023276",
       "model": "Volkswagen Tharu",
@@ -1614,7 +1538,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 97,
+      "source_row": 91,
       "page_url": "http://avtomirhrb.ru/?car_1/2525.html",
       "stock_number": "020380",
       "model": "Volkswagen Tharu",
@@ -1633,7 +1557,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 98,
+      "source_row": 92,
       "page_url": "http://avtomirhrb.ru/?car_1/2405.html",
       "stock_number": "249053",
       "model": "Volkswagen Tharu",
@@ -1652,7 +1576,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 99,
+      "source_row": 93,
       "page_url": "http://avtomirhrb.ru/?car_1/2089.html",
       "stock_number": "418586",
       "model": "Volkswagen T-ROC",
@@ -1671,45 +1595,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 101,
-      "page_url": "http://avtomirhrb.ru/?car_1/2194.html",
-      "stock_number": "419945",
-      "model": "Volkswagen T-ROC",
-      "configuration": "2022 280T FWD Comfort Plus",
-      "production_year": 2022,
-      "production_month": 8,
-      "mileage_km": 19000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 119800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 102,
-      "page_url": "http://avtomirhrb.ru/?car_1/2325.html",
-      "stock_number": "407795",
-      "model": "Volkswagen T-ROC",
-      "configuration": "2022 280T FWD Comfort Plus",
-      "production_year": 2022,
-      "production_month": 6,
-      "mileage_km": 26000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 108800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 103,
+      "source_row": 96,
       "page_url": "http://avtomirhrb.ru/?car_1/2202.html",
       "stock_number": "437058",
       "model": "Volkswagen T-ROC",
@@ -1728,7 +1614,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 104,
+      "source_row": 97,
       "page_url": "http://avtomirhrb.ru/?car_1/2225.html",
       "stock_number": "456449",
       "model": "Volkswagen T-ROC",
@@ -1747,7 +1633,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 105,
+      "source_row": 98,
       "page_url": "http://avtomirhrb.ru/?car_1/1670.html",
       "stock_number": "388005",
       "model": "Volkswagen T-ROC",
@@ -1766,7 +1652,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 107,
+      "source_row": 100,
       "page_url": "http://avtomirhrb.ru/?car_1/2324.html",
       "stock_number": "701188",
       "model": "Volkswagen TACQUA",
@@ -1785,26 +1671,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 112,
-      "page_url": "http://avtomirhrb.ru/?car_1/1687.html",
-      "stock_number": "041471",
-      "model": "Volkswagen Lamando L",
-      "configuration": "2022 280T Cool & Sporty",
-      "production_year": 2022,
-      "production_month": 7,
-      "mileage_km": 41000,
-      "body_color": "Красный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 102800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 113,
+      "source_row": 109,
       "page_url": "http://avtomirhrb.ru/?car_1/1878.html",
       "stock_number": "028393",
       "model": "Volkswagen Lamando L",
@@ -1823,7 +1690,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 115,
+      "source_row": 110,
       "page_url": "http://avtomirhrb.ru/?car_1/2510.html",
       "stock_number": "079490",
       "model": "Volkswagen Lamando L",
@@ -1842,7 +1709,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 116,
+      "source_row": 112,
       "page_url": "http://avtomirhrb.ru/?car_1/2445.html",
       "stock_number": "044889",
       "model": "Volkswagen Lavida",
@@ -1861,7 +1728,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 117,
+      "source_row": 113,
       "page_url": "http://avtomirhrb.ru/?car_1/2274.html",
       "stock_number": "480198",
       "model": "Volkswagen Sagitar",
@@ -1880,7 +1747,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 118,
+      "source_row": 114,
       "page_url": "http://avtomirhrb.ru/?car_1/2467.html",
       "stock_number": "487331",
       "model": "Volkswagen Sagitar",
@@ -1899,7 +1766,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 119,
+      "source_row": 115,
       "page_url": "http://avtomirhrb.ru/?car_1/2420.html",
       "stock_number": "525173",
       "model": "Volkswagen Sagitar",
@@ -1918,7 +1785,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 121,
+      "source_row": 117,
       "page_url": "http://avtomirhrb.ru/?car_1/2199.html",
       "stock_number": "086534",
       "model": "Volkswagen Magotan",
@@ -1937,7 +1804,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 122,
+      "source_row": 118,
       "page_url": "http://avtomirhrb.ru/?car_1/2351.html",
       "stock_number": "056399",
       "model": "Volkswagen Magotan",
@@ -1956,7 +1823,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 123,
+      "source_row": 119,
       "page_url": "http://avtomirhrb.ru/?car_1/2396.html",
       "stock_number": "066594",
       "model": "Volkswagen Magotan",
@@ -1975,7 +1842,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 124,
+      "source_row": 120,
       "page_url": "http://avtomirhrb.ru/?car_1/2461.html",
       "stock_number": "109292",
       "model": "Volkswagen Magotan",
@@ -1994,7 +1861,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 128,
+      "source_row": 123,
       "page_url": "http://avtomirhrb.ru/?car_1/2511.html",
       "stock_number": "709035",
       "model": "Toyota Levin",
@@ -2013,7 +1880,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 129,
+      "source_row": 125,
       "page_url": "http://avtomirhrb.ru/?car_1/2102.html",
       "stock_number": "050559",
       "model": "Toyota Corolla",
@@ -2032,7 +1899,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 136,
+      "source_row": 133,
       "page_url": "http://avtomirhrb.ru/?car_1/2077.html",
       "stock_number": "525734",
       "model": "Toyota Corolla",
@@ -2051,7 +1918,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 139,
+      "source_row": 136,
       "page_url": "http://avtomirhrb.ru/?car_1/2040.html",
       "stock_number": "907225",
       "model": "Toyota Yaris",
@@ -2070,7 +1937,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 140,
+      "source_row": 137,
       "page_url": "http://avtomirhrb.ru/?car_1/2452.html",
       "stock_number": "993071",
       "model": "Toyota Yaris",
@@ -2089,7 +1956,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 141,
+      "source_row": 138,
       "page_url": "http://avtomirhrb.ru/?car_1/2191.html",
       "stock_number": "951567",
       "model": "Toyota Yaris",
@@ -2108,26 +1975,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 142,
-      "page_url": "http://avtomirhrb.ru/?car_1/2520.html",
-      "stock_number": "914938",
-      "model": "Toyota Yaris",
-      "configuration": "2022 1.5L Luxury",
-      "production_year": 2022,
-      "production_month": 5,
-      "mileage_km": 35000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 112,
-      "price_cny": 73800,
-      "engine_cc": 1496,
-      "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "вариатор (CVT)"
-    },
-    {
-      "source_row": 143,
+      "source_row": 140,
       "page_url": "http://avtomirhrb.ru/?car_1/2474.html",
       "stock_number": "959943",
       "model": "Toyota Yaris",
@@ -2165,7 +2013,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 158,
+      "source_row": 163,
       "page_url": "http://avtomirhrb.ru/?car_1/2280.html",
       "stock_number": "573311",
       "model": "BMW X1",
@@ -2184,7 +2032,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 159,
+      "source_row": 164,
       "page_url": "http://avtomirhrb.ru/?car_1/2364.html",
       "stock_number": "473470",
       "model": "BMW X1",
@@ -2203,7 +2051,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 160,
+      "source_row": 165,
       "page_url": "http://avtomirhrb.ru/?car_1/2371.html",
       "stock_number": "478099",
       "model": "BMW X1",
@@ -2222,7 +2070,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 161,
+      "source_row": 166,
       "page_url": "http://avtomirhrb.ru/?car_1/2347.html",
       "stock_number": "498752",
       "model": "BMW X1",
@@ -2241,7 +2089,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 162,
+      "source_row": 167,
       "page_url": "http://avtomirhrb.ru/?car_1/2447.html",
       "stock_number": "559467",
       "model": "BMW X1",
@@ -2260,7 +2108,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 163,
+      "source_row": 168,
       "page_url": "http://avtomirhrb.ru/?car_1/2318.html",
       "stock_number": "352197",
       "model": "BMW X1",
@@ -2279,7 +2127,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 164,
+      "source_row": 169,
       "page_url": "http://avtomirhrb.ru/?car_1/2171.html",
       "stock_number": "370185",
       "model": "BMW X1",
@@ -2298,7 +2146,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 165,
+      "source_row": 170,
       "page_url": "http://avtomirhrb.ru/?car_1/2436.html",
       "stock_number": "483375",
       "model": "BMW X1",
@@ -2317,7 +2165,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 176,
+      "source_row": 181,
       "page_url": "http://avtomirhrb.ru/?car_1/1992.html",
       "stock_number": "645424",
       "model": "BMW 3 Series",
@@ -2336,7 +2184,7 @@
       "transmission": "8-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 177,
+      "source_row": 182,
       "page_url": "http://avtomirhrb.ru/?car_1/1994.html",
       "stock_number": "606489",
       "model": "BMW 3 Series",
@@ -2355,45 +2203,7 @@
       "transmission": "8-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 178,
-      "page_url": "http://avtomirhrb.ru/?car_1/2174.html",
-      "stock_number": "571672",
-      "model": "BMW 3 Series",
-      "configuration": "2023 320LiM Sport Package",
-      "production_year": 2023,
-      "production_month": 2,
-      "mileage_km": 15000,
-      "body_color": "Черный",
-      "interior_color": "Красный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 156,
-      "price_cny": 224800,
-      "engine_cc": 1998,
-      "engine_display": "бензиновый турбированный, 2,0 л",
-      "status": "Готово",
-      "transmission": "8-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 179,
-      "page_url": "http://avtomirhrb.ru/?car_1/2350.html",
-      "stock_number": "222355",
-      "model": "Mercedes-Benz A-Class",
-      "configuration": "2022 180L Sport",
-      "production_year": 2022,
-      "production_month": 5,
-      "mileage_km": 44000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 136,
-      "price_cny": 135800,
-      "engine_cc": 1332,
-      "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 180,
+      "source_row": 188,
       "page_url": "http://avtomirhrb.ru/?car_1/2291.html",
       "stock_number": "769207",
       "model": "Mercedes-Benz C-Class",
@@ -2412,7 +2222,7 @@
       "transmission": "9-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 181,
+      "source_row": 189,
       "page_url": "http://avtomirhrb.ru/?car_1/2363.html",
       "stock_number": "749163",
       "model": "Mercedes-Benz C-Class",
@@ -2431,7 +2241,7 @@
       "transmission": "9-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 182,
+      "source_row": 190,
       "page_url": "http://avtomirhrb.ru/?car_1/2240.html",
       "stock_number": "160667",
       "model": "Mercedes-Benz GLA",
@@ -2450,7 +2260,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 183,
+      "source_row": 191,
       "page_url": "http://avtomirhrb.ru/?car_1/2297.html",
       "stock_number": "153220",
       "model": "Mercedes-Benz GLA",
@@ -2469,7 +2279,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 184,
+      "source_row": 192,
       "page_url": "http://avtomirhrb.ru/?car_1/2478.html",
       "stock_number": "155904",
       "model": "Mercedes-Benz GLA",
@@ -2488,7 +2298,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 185,
+      "source_row": 193,
       "page_url": "http://avtomirhrb.ru/?car_1/2239.html",
       "stock_number": "022603",
       "model": "Mercedes-Benz GLB",
@@ -2507,7 +2317,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 187,
+      "source_row": 195,
       "page_url": "http://avtomirhrb.ru/?car_1/2229.html",
       "stock_number": "612933",
       "model": "AUDI Q2L",
@@ -2526,7 +2336,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 189,
+      "source_row": 197,
       "page_url": "http://avtomirhrb.ru/?car_1/2222.html",
       "stock_number": "613960",
       "model": "AUDI Q2L",
@@ -2545,7 +2355,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 193,
+      "source_row": 201,
       "page_url": "http://avtomirhrb.ru/?car_1/2385.html",
       "stock_number": "711801",
       "model": "AUDI Q3",
@@ -2564,7 +2374,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 194,
+      "source_row": 202,
       "page_url": "http://avtomirhrb.ru/?car_1/2014.html",
       "stock_number": "748106",
       "model": "AUDI Q3",
@@ -2583,7 +2393,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 195,
+      "source_row": 203,
       "page_url": "http://avtomirhrb.ru/?car_1/2058.html",
       "stock_number": "727372",
       "model": "AUDI Q3",
@@ -2602,7 +2412,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 196,
+      "source_row": 204,
       "page_url": "http://avtomirhrb.ru/?car_1/2370.html",
       "stock_number": "733476",
       "model": "AUDI Q3",
@@ -2621,7 +2431,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 197,
+      "source_row": 205,
       "page_url": "http://avtomirhrb.ru/?car_1/2286.html",
       "stock_number": "719370",
       "model": "AUDI Q3",
@@ -2640,7 +2450,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 198,
+      "source_row": 206,
       "page_url": "http://avtomirhrb.ru/?car_1/1937.html",
       "stock_number": "729314",
       "model": "AUDI Q3",
@@ -2659,7 +2469,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 199,
+      "source_row": 207,
       "page_url": "http://avtomirhrb.ru/?car_1/2491.html",
       "stock_number": "731435",
       "model": "AUDI Q3",
@@ -2678,7 +2488,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 200,
+      "source_row": 208,
       "page_url": "http://avtomirhrb.ru/?car_1/2134.html",
       "stock_number": "710779",
       "model": "AUDI Q3",
@@ -2697,7 +2507,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 201,
+      "source_row": 209,
       "page_url": "http://avtomirhrb.ru/?car_1/2135.html",
       "stock_number": "752824",
       "model": "AUDI Q3",
@@ -2716,7 +2526,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 202,
+      "source_row": 210,
       "page_url": "http://avtomirhrb.ru/?car_1/2278.html",
       "stock_number": "710195",
       "model": "AUDI Q3",
@@ -2735,7 +2545,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 203,
+      "source_row": 211,
       "page_url": "http://avtomirhrb.ru/?car_1/2236.html",
       "stock_number": "704283",
       "model": "AUDI Q3",
@@ -2754,26 +2564,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 204,
-      "page_url": "http://avtomirhrb.ru/?car_1/2432.html",
-      "stock_number": "705595",
-      "model": "AUDI Q3",
-      "configuration": "2023 35T: Stylish and Dynamic",
-      "production_year": 2023,
-      "production_month": 3,
-      "mileage_km": 14000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 185800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
-    },
-    {
-      "source_row": 205,
+      "source_row": 213,
       "page_url": "http://avtomirhrb.ru/?car_1/1888.html",
       "stock_number": "767151",
       "model": "AUDI Q3",
@@ -2792,7 +2583,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 206,
+      "source_row": 214,
       "page_url": "http://avtomirhrb.ru/?car_1/2009.html",
       "stock_number": "753206",
       "model": "AUDI Q3",
@@ -2811,7 +2602,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 207,
+      "source_row": 215,
       "page_url": "http://avtomirhrb.ru/?car_1/1898.html",
       "stock_number": "708644",
       "model": "AUDI Q3",
@@ -2830,7 +2621,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 208,
+      "source_row": 216,
       "page_url": "http://avtomirhrb.ru/?car_1/2000.html",
       "stock_number": "710330",
       "model": "AUDI Q3",
@@ -2849,7 +2640,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 210,
+      "source_row": 218,
       "page_url": "http://avtomirhrb.ru/?car_1/2495.html",
       "stock_number": "711614",
       "model": "AUDI Q3",
@@ -2868,7 +2659,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 211,
+      "source_row": 219,
       "page_url": "http://avtomirhrb.ru/?car_1/2256.html",
       "stock_number": "747452",
       "model": "AUDI Q3",
@@ -2887,7 +2678,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 212,
+      "source_row": 220,
       "page_url": "http://avtomirhrb.ru/?car_1/1957.html",
       "stock_number": "765870",
       "model": "AUDI Q3",
@@ -2906,7 +2697,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 214,
+      "source_row": 222,
       "page_url": "http://avtomirhrb.ru/?car_1/2216.html",
       "stock_number": "529718",
       "model": "AUDI А3",
@@ -2925,7 +2716,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 216,
+      "source_row": 224,
       "page_url": "http://avtomirhrb.ru/?car_1/2380.html",
       "stock_number": "536001",
       "model": "AUDI А3",
@@ -2944,26 +2735,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 217,
-      "page_url": "http://avtomirhrb.ru/?car_1/2327.html",
-      "stock_number": "541121",
-      "model": "AUDI А3",
-      "configuration": "2023 35T Fashion Sport Model",
-      "production_year": 2023,
-      "production_month": 9,
-      "mileage_km": 29000,
-      "body_color": "Зеленый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 155800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
-    },
-    {
-      "source_row": 218,
+      "source_row": 226,
       "page_url": "http://avtomirhrb.ru/?car_1/2026.html",
       "stock_number": "515399",
       "model": "AUDI А3L",
@@ -2982,7 +2754,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 219,
+      "source_row": 227,
       "page_url": "http://avtomirhrb.ru/?car_1/2206.html",
       "stock_number": "508445",
       "model": "AUDI А3L",
@@ -3001,7 +2773,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 220,
+      "source_row": 228,
       "page_url": "http://avtomirhrb.ru/?car_1/1779.html",
       "stock_number": "515956",
       "model": "AUDI А3L",
@@ -3020,7 +2792,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 221,
+      "source_row": 229,
       "page_url": "http://avtomirhrb.ru/?car_1/2418.html",
       "stock_number": "505437",
       "model": "AUDI А3L",
@@ -3039,7 +2811,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 222,
+      "source_row": 230,
       "page_url": "http://avtomirhrb.ru/?car_1/2021.html",
       "stock_number": "555659",
       "model": "AUDI А3L",
@@ -3058,26 +2830,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 223,
-      "page_url": "http://avtomirhrb.ru/?car_1/1938.html",
-      "stock_number": "532147",
-      "model": "AUDI А3L",
-      "configuration": "2022 35 Stylish Sport Edition",
-      "production_year": 2022,
-      "production_month": 8,
-      "mileage_km": 27000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 145800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
-    },
-    {
-      "source_row": 224,
+      "source_row": 232,
       "page_url": "http://avtomirhrb.ru/?car_1/2022.html",
       "stock_number": "508179",
       "model": "AUDI А3L",
@@ -3096,7 +2849,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 225,
+      "source_row": 233,
       "page_url": "http://avtomirhrb.ru/?car_1/2071.html",
       "stock_number": "540309",
       "model": "AUDI А3L",
@@ -3115,7 +2868,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 226,
+      "source_row": 234,
       "page_url": "http://avtomirhrb.ru/?car_1/2492.html",
       "stock_number": "506654",
       "model": "AUDI А3L",
@@ -3134,7 +2887,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 227,
+      "source_row": 235,
       "page_url": "http://avtomirhrb.ru/?car_1/2522.html",
       "stock_number": "545249",
       "model": "AUDI А3L",
@@ -3153,7 +2906,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 228,
+      "source_row": 236,
       "page_url": "http://avtomirhrb.ru/?car_1/2053.html",
       "stock_number": "500052",
       "model": "AUDI А3L",
@@ -3172,7 +2925,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 229,
+      "source_row": 237,
       "page_url": "http://avtomirhrb.ru/?car_1/2052.html",
       "stock_number": "535037",
       "model": "AUDI А3L",
@@ -3191,7 +2944,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 230,
+      "source_row": 238,
       "page_url": "http://avtomirhrb.ru/?car_1/2381.html",
       "stock_number": "539242",
       "model": "AUDI А3L",
@@ -3210,7 +2963,7 @@
       "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
-      "source_row": 231,
+      "source_row": 239,
       "page_url": "http://avtomirhrb.ru/?car_1/2228.html",
       "stock_number": "D19338",
       "model": "Mazda CX-4",
@@ -3229,7 +2982,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 236,
+      "source_row": 245,
       "page_url": "http://avtomirhrb.ru/?car_1/2317.html",
       "stock_number": "026868",
       "model": "Mazda CX-50",
@@ -3248,7 +3001,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 237,
+      "source_row": 246,
       "page_url": "http://avtomirhrb.ru/?car_1/2339.html",
       "stock_number": "730760",
       "model": "Geely Coolray",
@@ -3267,7 +3020,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 250,
+      "source_row": 256,
       "page_url": "http://avtomirhrb.ru/?car_1/2160.html",
       "stock_number": "011387",
       "model": "ŠKODA Karoq",
@@ -3286,7 +3039,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 251,
+      "source_row": 257,
       "page_url": "http://avtomirhrb.ru/?car_1/2519.html",
       "stock_number": "013076",
       "model": "ŠKODA Karoq",
@@ -3305,7 +3058,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 252,
+      "source_row": 258,
       "page_url": "http://avtomirhrb.ru/?car_1/2283.html",
       "stock_number": "010090",
       "model": "ŠKODA Karoq",
@@ -3324,7 +3077,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 253,
+      "source_row": 259,
       "page_url": "http://avtomirhrb.ru/?car_1/2215.html",
       "stock_number": "011901",
       "model": "ŠKODA Karoq",
@@ -3343,7 +3096,7 @@
       "transmission": "7-ступенчатая роботизированная DSG"
     },
     {
-      "source_row": 262,
+      "source_row": 267,
       "page_url": "http://avtomirhrb.ru/?car_1/2479.html",
       "stock_number": "425205",
       "model": "Jetour X70PLUS",
@@ -3362,7 +3115,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 263,
+      "source_row": 268,
       "page_url": "http://avtomirhrb.ru/?car_1/1225.html",
       "stock_number": "123218",
       "model": "Jetour X70PLUS",
@@ -3381,7 +3134,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 264,
+      "source_row": 269,
       "page_url": "http://avtomirhrb.ru/?car_1/2307.html",
       "stock_number": "054733",
       "model": "Jetour X70PLUS",
@@ -3400,7 +3153,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 265,
+      "source_row": 271,
       "page_url": "http://avtomirhrb.ru/?car_1/2480.html",
       "stock_number": "105580",
       "model": "Jetour X70PLUS",
@@ -3419,7 +3172,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 266,
+      "source_row": 272,
       "page_url": "http://avtomirhrb.ru/?car_1/2481.html",
       "stock_number": "118480",
       "model": "Jetour X70PLUS",
@@ -3438,7 +3191,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 267,
+      "source_row": 273,
       "page_url": "http://avtomirhrb.ru/?car_1/2348.html",
       "stock_number": "382465",
       "model": "Jetour Dasheng",
@@ -3457,7 +3210,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 268,
+      "source_row": 274,
       "page_url": "http://avtomirhrb.ru/?car_1/2357.html",
       "stock_number": "370405",
       "model": "Jetour Dasheng",
@@ -3476,7 +3229,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 269,
+      "source_row": 275,
       "page_url": "http://avtomirhrb.ru/?car_1/2498.html",
       "stock_number": "360859",
       "model": "Jetour Dasheng",
@@ -3495,7 +3248,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 270,
+      "source_row": 276,
       "page_url": "http://avtomirhrb.ru/?car_1/2435.html",
       "stock_number": "373939",
       "model": "Jetour Dasheng",
@@ -3514,7 +3267,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 271,
+      "source_row": 277,
       "page_url": "http://avtomirhrb.ru/?car_1/2390.html",
       "stock_number": "358894",
       "model": "Jetour Dasheng",
@@ -3533,7 +3286,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 272,
+      "source_row": 278,
       "page_url": "http://avtomirhrb.ru/?car_1/2412.html",
       "stock_number": "365148",
       "model": "Jetour Dasheng",
@@ -3552,7 +3305,7 @@
       "transmission": "6-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 273,
+      "source_row": 279,
       "page_url": "http://avtomirhrb.ru/?car_1/2013.html",
       "stock_number": "211815",
       "model": "GAC Trumpchi GS4",
@@ -3571,7 +3324,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 283,
+      "source_row": 290,
       "page_url": "http://avtomirhrb.ru/?car_1/2391.html",
       "stock_number": "015376",
       "model": "Jetta VS5",
@@ -3590,7 +3343,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 284,
+      "source_row": 291,
       "page_url": "http://avtomirhrb.ru/?car_1/2417.html",
       "stock_number": "055587",
       "model": "Jetta VS5",
@@ -3609,7 +3362,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 285,
+      "source_row": 292,
       "page_url": "http://avtomirhrb.ru/?car_1/2275.html",
       "stock_number": "001876",
       "model": "Jetta VS5",
@@ -3628,7 +3381,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 286,
+      "source_row": 293,
       "page_url": "http://avtomirhrb.ru/?car_1/2451.html",
       "stock_number": "007820",
       "model": "Jetta VS7",
@@ -3647,7 +3400,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 287,
+      "source_row": 294,
       "page_url": "http://avtomirhrb.ru/?car_1/2269.html",
       "stock_number": "099225",
       "model": "Jetta VS7",
@@ -3666,7 +3419,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 288,
+      "source_row": 295,
       "page_url": "http://avtomirhrb.ru/?car_1/2154.html",
       "stock_number": "098102",
       "model": "Jetta VS7",
@@ -3685,7 +3438,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 289,
+      "source_row": 296,
       "page_url": "http://avtomirhrb.ru/?car_1/2401.html",
       "stock_number": "008778",
       "model": "Jetta VS7",
@@ -3704,7 +3457,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 290,
+      "source_row": 297,
       "page_url": "http://avtomirhrb.ru/?car_1/2201.html",
       "stock_number": "031527",
       "model": "Jetta VS7",
@@ -3723,7 +3476,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 291,
+      "source_row": 298,
       "page_url": "http://avtomirhrb.ru/?car_1/2394.html",
       "stock_number": "005639",
       "model": "Jetta VS7",
@@ -3742,7 +3495,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 292,
+      "source_row": 299,
       "page_url": "http://avtomirhrb.ru/?car_1/2258.html",
       "stock_number": "052415",
       "model": "Jetta VS7",
@@ -3761,7 +3514,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 293,
+      "source_row": 300,
       "page_url": "http://avtomirhrb.ru/?car_1/2466.html",
       "stock_number": "011325",
       "model": "Jetta VS7",
@@ -3780,26 +3533,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 294,
-      "page_url": "http://avtomirhrb.ru/?car_1/2328.html",
-      "stock_number": "004098",
-      "model": "Jetta VS7",
-      "configuration": "2023 280T Automatic “Yuexiang”",
-      "production_year": 2023,
-      "production_month": 1,
-      "mileage_km": 16000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 96800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 295,
+      "source_row": 301,
       "page_url": "http://avtomirhrb.ru/?car_1/2482.html",
       "stock_number": "076398",
       "model": "Jetta VS7",
@@ -3818,7 +3552,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 296,
+      "source_row": 302,
       "page_url": "http://avtomirhrb.ru/?car_1/1864.html",
       "stock_number": "076041",
       "model": "Jetta VS7",
@@ -3837,26 +3571,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 297,
-      "page_url": "http://avtomirhrb.ru/?car_1/2493.html",
-      "stock_number": "036987",
-      "model": "Jetta VS7",
-      "configuration": "2022 280T Automatic High-Gloss Honor",
-      "production_year": 2023,
-      "production_month": 5,
-      "mileage_km": 24000,
-      "body_color": "Черный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 115800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 299,
+      "source_row": 304,
       "page_url": "http://avtomirhrb.ru/?car_1/2423.html",
       "stock_number": "027930",
       "model": "Jetta VS7",
@@ -3875,7 +3590,7 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 300,
+      "source_row": 305,
       "page_url": "http://avtomirhrb.ru/?car_1/1883.html",
       "stock_number": "517959",
       "model": "Haval H6",
@@ -3894,26 +3609,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 301,
-      "page_url": "http://avtomirhrb.ru/?car_1/2464.html",
-      "stock_number": "562384",
-      "model": "Haval H6",
-      "configuration": "2021 Guochao 1.5T Automatic Champion",
-      "production_year": 2022,
-      "production_month": 7,
-      "mileage_km": 36000,
-      "body_color": "Синий",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 85800,
-      "engine_cc": 1497,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 302,
+      "source_row": 307,
       "page_url": "http://avtomirhrb.ru/?car_1/2270.html",
       "stock_number": "543730",
       "model": "Haval H6",
@@ -3932,7 +3628,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 303,
+      "source_row": 308,
       "page_url": "http://avtomirhrb.ru/?car_1/2282.html",
       "stock_number": "591241",
       "model": "Haval H6",
@@ -3951,7 +3647,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 304,
+      "source_row": 309,
       "page_url": "http://avtomirhrb.ru/?car_1/2292.html",
       "stock_number": "585327",
       "model": "Haval H6",
@@ -3970,7 +3666,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 305,
+      "source_row": 310,
       "page_url": "http://avtomirhrb.ru/?car_1/2346.html",
       "stock_number": "521990",
       "model": "Haval H6",
@@ -3989,7 +3685,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 306,
+      "source_row": 311,
       "page_url": "http://avtomirhrb.ru/?car_1/2185.html",
       "stock_number": "588239",
       "model": "Haval H6",
@@ -4008,7 +3704,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 307,
+      "source_row": 313,
       "page_url": "http://avtomirhrb.ru/?car_1/2375.html",
       "stock_number": "022460",
       "model": "Haval Chitu",
@@ -4027,7 +3723,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 308,
+      "source_row": 314,
       "page_url": "http://avtomirhrb.ru/?car_1/2483.html",
       "stock_number": "013937",
       "model": "Haval Chitu",
@@ -4046,7 +3742,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 309,
+      "source_row": 315,
       "page_url": "http://avtomirhrb.ru/?car_1/2329.html",
       "stock_number": "015709",
       "model": "Haval Chitu",
@@ -4065,7 +3761,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 310,
+      "source_row": 316,
       "page_url": "http://avtomirhrb.ru/?car_1/2359.html",
       "stock_number": "006651",
       "model": "Haval Chitu",
@@ -4084,7 +3780,7 @@
       "transmission": "7-ступенчатая роботизированная DCT"
     },
     {
-      "source_row": 315,
+      "source_row": 322,
       "page_url": "http://avtomirhrb.ru/?car_1/2305.html",
       "stock_number": "053593",
       "model": "MG5",
@@ -4103,7 +3799,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 316,
+      "source_row": 323,
       "page_url": "http://avtomirhrb.ru/?car_1/2462.html",
       "stock_number": "222551",
       "model": "MG5",
@@ -4122,7 +3818,7 @@
       "transmission": "вариатор (CVT)"
     },
     {
-      "source_row": 317,
+      "source_row": 324,
       "page_url": "http://avtomirhrb.ru/?car_1/2477.html",
       "stock_number": "181333",
       "model": "MG5",
@@ -4139,6 +3835,557 @@
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
       "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 4,
+      "page_url": "http://avtomirhrb.ru/?car_1/2559.html",
+      "stock_number": "082360",
+      "model": "Kia KX3",
+      "configuration": "2021 1.5L CVT Trend Edition",
+      "production_year": 2022,
+      "production_month": 7,
+      "mileage_km": 29000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 115,
+      "price_cny": 102800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 26,
+      "page_url": "http://avtomirhrb.ru/?car_1/2549.html",
+      "stock_number": "347904",
+      "model": "Hyundai Elantra",
+      "configuration": "2023 1.5L Flagship Edition",
+      "production_year": 2023,
+      "production_month": 9,
+      "mileage_km": 10000,
+      "body_color": "Черный",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 115,
+      "price_cny": 113800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 31,
+      "page_url": "http://avtomirhrb.ru/?car_1/2544.html",
+      "stock_number": "041936",
+      "model": "Honda XRV",
+      "configuration": "2023 1.5L Thermal Edition",
+      "production_year": 2023,
+      "production_month": 5,
+      "mileage_km": 19000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 124,
+      "price_cny": 109800,
+      "engine_cc": 1498,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 94,
+      "page_url": "http://avtomirhrb.ru/?car_1/2230.html",
+      "stock_number": "411954",
+      "model": "Volkswagen T-ROC",
+      "configuration": "2022 280T FWD Comfort Plus",
+      "production_year": 2022,
+      "production_month": 7,
+      "mileage_km": 28000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 109800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
+    },
+    {
+      "source_row": 102,
+      "page_url": "http://avtomirhrb.ru/?car_1/2553.html",
+      "stock_number": "012397",
+      "model": "Volkswagen T-Cross",
+      "configuration": "2022 1.5L Automatic Comfort Edition",
+      "production_year": 2022,
+      "production_month": 1,
+      "mileage_km": 38000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 113,
+      "price_cny": 102800,
+      "engine_cc": 1498,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
+    },
+    {
+      "source_row": 105,
+      "page_url": "http://avtomirhrb.ru/?car_1/2528.html",
+      "stock_number": "020759",
+      "model": "Volkswagen T-Cross",
+      "configuration": "2022 280T Comfort Edition",
+      "production_year": 2022,
+      "production_month": 3,
+      "mileage_km": 37000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 99800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
+    },
+    {
+      "source_row": 106,
+      "page_url": "http://avtomirhrb.ru/?car_1/2539.html",
+      "stock_number": "013180",
+      "model": "Volkswagen T-Cross",
+      "configuration": "2022 280T Comfort Edition",
+      "production_year": 2022,
+      "production_month": 1,
+      "mileage_km": 22000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 105800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
+    },
+    {
+      "source_row": 111,
+      "page_url": "http://avtomirhrb.ru/?car_1/2527.html",
+      "stock_number": "024480",
+      "model": "Volkswagen Lamando L",
+      "configuration": "2023 280T DSG Top-Spec Edition",
+      "production_year": 2023,
+      "production_month": 2,
+      "mileage_km": 36000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 146800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
+    },
+    {
+      "source_row": 116,
+      "page_url": "http://avtomirhrb.ru/?car_1/1995.html",
+      "stock_number": "049322",
+      "model": "Volkswagen Magotan",
+      "configuration": "2023, Anniversary Edition 280T Comfort",
+      "production_year": 2023,
+      "production_month": 5,
+      "mileage_km": 28000,
+      "body_color": "Черный",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 119800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG"
+    },
+    {
+      "source_row": 124,
+      "page_url": "http://avtomirhrb.ru/?car_1/2530.html",
+      "stock_number": "758814",
+      "model": "Toyota Levin",
+      "configuration": "2022 185T CVT Sport Edition",
+      "production_year": 2023,
+      "production_month": 8,
+      "mileage_km": 7000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 116,
+      "price_cny": 99800,
+      "engine_cc": 1197,
+      "engine_display": "бензиновый турбированный, 1,2 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 129,
+      "page_url": "http://avtomirhrb.ru/?car_1/2561.html",
+      "stock_number": "802070",
+      "model": "Toyota Corolla",
+      "configuration": "2023 1.2T Elite",
+      "production_year": 2023,
+      "production_month": 9,
+      "mileage_km": 34000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 116,
+      "price_cny": 92800,
+      "engine_cc": 1197,
+      "engine_display": "бензиновый турбированный, 1,2 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 135,
+      "page_url": "http://avtomirhrb.ru/?car_1/2212.html",
+      "stock_number": "924393",
+      "model": "Toyota Corolla",
+      "configuration": "2023 1.2T Pioneer Edition",
+      "production_year": 2023,
+      "production_month": 3,
+      "mileage_km": 19000,
+      "body_color": "Черный",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 116,
+      "price_cny": 89800,
+      "engine_cc": 1197,
+      "engine_display": "бензиновый турбированный, 1,2 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 132,
+      "page_url": "http://avtomirhrb.ru/?car_1/2545.html",
+      "stock_number": "445635",
+      "model": "Toyota Corolla",
+      "configuration": "2021, 1.2T Pioneer Edition",
+      "production_year": 2022,
+      "production_month": 6,
+      "mileage_km": 21000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 116,
+      "price_cny": 86800,
+      "engine_cc": 1197,
+      "engine_display": "бензиновый турбированный, 1,2 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 141,
+      "page_url": "http://avtomirhrb.ru/?car_1/2535.html",
+      "stock_number": "988414",
+      "model": "Toyota Yaris",
+      "configuration": "2022 1.5L Luxury",
+      "production_year": 2023,
+      "production_month": 4,
+      "mileage_km": 19000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 112,
+      "price_cny": 75800,
+      "engine_cc": 1496,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 142,
+      "page_url": "http://avtomirhrb.ru/?car_1/2547.html",
+      "stock_number": "935750",
+      "model": "Toyota Yaris",
+      "configuration": "2022 1.5L Luxury",
+      "production_year": 2022,
+      "production_month": 7,
+      "mileage_km": 19000,
+      "body_color": "Желтый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 112,
+      "price_cny": 75800,
+      "engine_cc": 1496,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 139,
+      "page_url": "http://avtomirhrb.ru/?car_1/2538.html",
+      "stock_number": "940500",
+      "model": "Toyota Yaris",
+      "configuration": "2022 1.5L Luxury",
+      "production_year": 2022,
+      "production_month": 8,
+      "mileage_km": 28000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 112,
+      "price_cny": 73800,
+      "engine_cc": 1496,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 143,
+      "page_url": "http://avtomirhrb.ru/?car_1/2560.html",
+      "stock_number": "960982",
+      "model": "Toyota Yaris",
+      "configuration": "2022 1.5L Luxury",
+      "production_year": 2022,
+      "production_month": 11,
+      "mileage_km": 28000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 112,
+      "price_cny": 75800,
+      "engine_cc": 1496,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 162,
+      "page_url": "http://avtomirhrb.ru/?car_1/2531.html",
+      "stock_number": "024763",
+      "model": "Nissan Qashqai",
+      "configuration": "2022 2.0L CVT XVPrem Night Edition",
+      "production_year": 2023,
+      "production_month": 4,
+      "mileage_km": 33000,
+      "body_color": "Черный",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 151,
+      "price_cny": 99800,
+      "engine_cc": 1997,
+      "engine_display": "бензиновый, 2,0 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)"
+    },
+    {
+      "source_row": 177,
+      "page_url": "http://avtomirhrb.ru/?car_1/2542.html",
+      "stock_number": "706473",
+      "model": "BMW X1",
+      "configuration": "23-Model 20Li Design Package",
+      "production_year": 2023,
+      "production_month": 8,
+      "mileage_km": 22000,
+      "body_color": "Серый",
+      "interior_color": "Черно-красный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 156,
+      "price_cny": 229800,
+      "engine_cc": 1499,
+      "engine_display": "бензиновый турбированный, 1,5 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
+    },
+    {
+      "source_row": 184,
+      "page_url": "http://avtomirhrb.ru/?car_1/2533.html",
+      "stock_number": "P66243",
+      "model": "BMW mini",
+      "configuration": "2022 Countryman 1.5T JCW",
+      "production_year": 2022,
+      "production_month": 8,
+      "mileage_km": 18000,
+      "body_color": "Зеленый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 136,
+      "price_cny": 229800,
+      "engine_cc": 1499,
+      "engine_display": "бензиновый турбированный, 1,5 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
+    },
+    {
+      "source_row": 186,
+      "page_url": "http://avtomirhrb.ru/?car_1/2536.html",
+      "stock_number": "285129",
+      "model": "Mercedes-Benz A-Class",
+      "configuration": "2023 180L Sport",
+      "production_year": 2023,
+      "production_month": 3,
+      "mileage_km": 35000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 136,
+      "price_cny": 149800,
+      "engine_cc": 1332,
+      "engine_display": "бензиновый турбированный, 1,3 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
+    },
+    {
+      "source_row": 217,
+      "page_url": "http://avtomirhrb.ru/?car_1/2027.html",
+      "stock_number": "757763",
+      "model": "AUDI Q3",
+      "configuration": "2023 35T: Stylish and Dynamic",
+      "production_year": 2022,
+      "production_month": 10,
+      "mileage_km": 35000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 175800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+    },
+    {
+      "source_row": 223,
+      "page_url": "http://avtomirhrb.ru/?car_1/2546.html",
+      "stock_number": "512129",
+      "model": "AUDI А3",
+      "configuration": "2023 35T Fashion Sport Model",
+      "production_year": 2023,
+      "production_month": 4,
+      "mileage_km": 17000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 142800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+    },
+    {
+      "source_row": 225,
+      "page_url": "http://avtomirhrb.ru/?car_1/2537.html",
+      "stock_number": "538394",
+      "model": "AUDI А3",
+      "configuration": "2024 35T Luxury Elegance Edition",
+      "production_year": 2023,
+      "production_month": 8,
+      "mileage_km": 21000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 163800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+    },
+    {
+      "source_row": 241,
+      "page_url": "http://avtomirhrb.ru/?car_1/2554.html",
+      "stock_number": "523732",
+      "model": "Mazda CX-5",
+      "configuration": "2022 2.0L 2WD Automatic Skyactiv-G Edition",
+      "production_year": 2023,
+      "production_month": 9,
+      "mileage_km": 26000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 155,
+      "price_cny": 129800,
+      "engine_cc": 1998,
+      "engine_display": "бензиновый, 2,0 л",
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
+    },
+    {
+      "source_row": 244,
+      "page_url": "http://avtomirhrb.ru/?car_1/2557.html",
+      "stock_number": "544779",
+      "model": "Mazda CX-30",
+      "configuration": "2022 2.0L Automatic Ya Yue Edition",
+      "production_year": 2023,
+      "production_month": 2,
+      "mileage_km": 36000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 158,
+      "price_cny": 103800,
+      "engine_cc": 1998,
+      "engine_display": "бензиновый, 2,0 л",
+      "status": "Готово",
+      "transmission": "6-ступенчатая автоматическая (AT)"
+    },
+    {
+      "source_row": 270,
+      "page_url": "http://avtomirhrb.ru/?car_1/2548.html",
+      "stock_number": "116625",
+      "model": "Jetour X70PLUS",
+      "configuration": "2023 1.5T Brave PLUS 5-Seater",
+      "production_year": 2022,
+      "production_month": 11,
+      "mileage_km": 19000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 156,
+      "price_cny": 96800,
+      "engine_cc": 1498,
+      "engine_display": "бензиновый турбированный, 1,5 л",
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT"
+    },
+    {
+      "source_row": 288,
+      "page_url": "http://avtomirhrb.ru/?car_1/2558.html",
+      "stock_number": "005345",
+      "model": "Changan CS35plus",
+      "configuration": "2022 Blue Whale NE 1.4T Luxury Edition",
+      "production_year": 2022,
+      "production_month": 2,
+      "mileage_km": 13000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 158,
+      "price_cny": 73800,
+      "engine_cc": 1392,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
+    },
+    {
+      "source_row": 312,
+      "page_url": "http://avtomirhrb.ru/?car_1/2532.html",
+      "stock_number": "370263",
+      "model": "Haval M6",
+      "configuration": "2023 Huizhou 1.5T DCT",
+      "production_year": 2023,
+      "production_month": 5,
+      "mileage_km": 25000,
+      "body_color": "Черный",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 75800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый турбированный, 1,5 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT"
     }
   ]
 }
