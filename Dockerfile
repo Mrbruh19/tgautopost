@@ -5,6 +5,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-COPY app.py queue_seed.json content_seed.json ./
+COPY app.py export_app.py queue_seed.json content_seed.json ./
 ENV PORT=8000
-CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "uvicorn export_app:app --host 0.0.0.0 --port ${PORT}"]
