@@ -29,7 +29,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.3.2"
+APP_VERSION = "3.3.3"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -2348,14 +2348,34 @@ async def scheduler_loop() -> None:
             now = datetime.now(timezone)
             if CONTENT_AUTO_PUBLISH_ENABLED:
                 content_slot = scheduled_content_slot_for_day(now.date())
-                content_grace = timedelta(
-                    minutes=CONTENT_PUBLISH_CATCHUP_MINUTES
+                end_of_day = datetime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    23,
+                    59,
+                    59,
+                    tzinfo=timezone,
                 )
                 if (
                     content_slot is not None
-                    and content_slot <= now <= content_slot + content_grace
+                    and content_slot <= now <= end_of_day
                 ):
                     content_row = ensure_content_slot_record(content_slot)
+                    if (
+                        content_row["status"] == "no_content"
+                        and content_queue_counts()["pending"] > 0
+                    ):
+                        with db_connect() as connection:
+                            connection.execute(
+                                """
+                                UPDATE content_slots
+                                SET status='pending', last_error=NULL
+                                WHERE slot_key=? AND status='no_content'
+                                """,
+                                (content_slot.isoformat(),),
+                            )
+                        content_row = ensure_content_slot_record(content_slot)
                     if content_row["status"] not in {
                         "success",
                         "uncertain",
