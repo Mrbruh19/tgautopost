@@ -1766,25 +1766,6 @@
       "transmission": "6-ступенчатая автоматическая (AT)"
     },
     {
-      "source_row": 91,
-      "page_url": "http://avtomirhrb.ru/?car_1/2550.html",
-      "stock_number": "020661",
-      "model": "Volkswagen T-Cross",
-      "configuration": "2022 1.5L Automatic Comfort Edition",
-      "production_year": 2022,
-      "production_month": 3,
-      "mileage_km": 42000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 102800,
-      "engine_cc": 1498,
-      "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
       "source_row": 92,
       "page_url": "http://avtomirhrb.ru/?car_1/2508.html",
       "stock_number": "015033",
@@ -2942,25 +2923,6 @@
       "engine_display": "бензиновый турбированный, 1,3 л",
       "status": "Готово",
       "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 176,
-      "page_url": "http://avtomirhrb.ru/?car_1/2243.html",
-      "stock_number": "609414",
-      "model": "AUDI Q2L",
-      "configuration": "2022 35T: Stylish and Dynamic",
-      "production_year": 2022,
-      "production_month": 5,
-      "mileage_km": 27000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 140,
-      "price_cny": 134800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
     },
     {
       "source_row": 177,
