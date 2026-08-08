@@ -25,6 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           {
+            echo "Run ID: ${GITHUB_RUN_ID}"
             echo "Validated at: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             echo "Archive bytes: $(stat -c%s /tmp/export.zip)"
             echo
