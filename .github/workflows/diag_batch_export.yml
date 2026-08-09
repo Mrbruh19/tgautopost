@@ -1,0 +1,38 @@
+name: Diagnose requested car export errors
+
+on:
+  push:
+    paths:
+      - '.github/workflows/diag_batch_export.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe failed exports
+        run: |
+          set -u
+          : > batch_export_errors.txt
+          for id in 2223 2578; do
+            tmp="/tmp/${id}.body"
+            code=$(curl --http1.1 -L -sS --connect-timeout 30 --max-time 300 -w '%{http_code}' -o "$tmp" \
+              "https://tgautopost-production.up.railway.app/batch-export-A6pW5txl2YcQm34H7kV9/${id}" || echo 000)
+            echo "===== ${id} HTTP ${code} =====" >> batch_export_errors.txt
+            if [ "$code" != "200" ]; then
+              cat "$tmp" >> batch_export_errors.txt 2>/dev/null || true
+              echo >> batch_export_errors.txt
+            else
+              echo "OK bytes $(stat -c%s "$tmp")" >> batch_export_errors.txt
+            fi
+          done
+      - name: Commit diagnostics
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add batch_export_errors.txt
+          git commit -m 'Record requested car export diagnostics' || exit 0
+          git push
