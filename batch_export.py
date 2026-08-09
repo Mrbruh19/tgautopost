@@ -26,7 +26,10 @@ CARS = {
     "2578": "http://avtomirhrb.ru/?car_1/2578.html=",
 }
 TOKEN = "A6pW5txl2YcQm34H7kV9"
-CACHE_ROOT = MEDIA_ROOT / "batch_export_0809"
+# Batch exports are large. Keep them off the small persistent /data volume.
+PERSISTENT_OLD_CACHE = MEDIA_ROOT / "batch_export_0809"
+shutil.rmtree(PERSISTENT_OLD_CACHE, ignore_errors=True)
+CACHE_ROOT = Path("/tmp/batch_export_0809")
 TTL = 6 * 3600
 
 
@@ -214,6 +217,7 @@ async def build_one(car_id: str) -> Path:
             video_count = 0
             for candidate_index, candidate in enumerate(video_candidates[:60], start=1):
                 low = candidate.lower()
+                temp = videos / f"candidate_{candidate_index:02d}.bin"
                 try:
                     if ".m3u8" in low:
                         temp = videos / f"candidate_{candidate_index:02d}.ts"
@@ -229,7 +233,6 @@ async def build_one(car_id: str) -> Path:
                             temp.unlink(missing_ok=True)
                         continue
 
-                    temp = videos / f"candidate_{candidate_index:02d}.bin"
                     total, digest, content_type = await download_direct_video(
                         client,
                         candidate,
@@ -247,10 +250,7 @@ async def build_one(car_id: str) -> Path:
                     ext = video_ext(candidate, content_type)
                     temp.rename(videos / f"video_{video_count:02d}{ext}")
                 except httpx.HTTPError:
-                    try:
-                        temp.unlink(missing_ok=True)
-                    except Exception:
-                        pass
+                    temp.unlink(missing_ok=True)
                     continue
 
         if photo_count == 0:
