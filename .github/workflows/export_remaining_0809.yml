@@ -1,0 +1,49 @@
+name: Export remaining requested cars 0809
+
+on:
+  push:
+    paths:
+      - '.github/workflows/export_remaining_0809.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record run id
+        run: |
+          echo "${GITHUB_RUN_ID}" > remaining_export_run.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add remaining_export_run.txt
+          git commit -m 'Record remaining requested car export run id'
+          git push
+      - name: Download 2223 and 2578
+        run: |
+          set -u
+          mkdir -p /tmp/exports /tmp/errors
+          for id in 2223 2578; do
+            tmp="/tmp/exports/car_${id}.tmp"
+            code=$(curl --http1.1 -L -sS --retry 1 --retry-delay 8 --connect-timeout 30 --max-time 1800 \
+              -w '%{http_code}' -o "$tmp" \
+              "https://tgautopost-production.up.railway.app/batch-export-A6pW5txl2YcQm34H7kV9/${id}" || echo 000)
+            if [ "$code" = "200" ]; then
+              mv "$tmp" "/tmp/exports/car_${id}_photos_videos.zip"
+              echo "$id OK"
+            else
+              echo "$id HTTP $code" > "/tmp/errors/${id}.txt"
+              cat "$tmp" >> "/tmp/errors/${id}.txt" 2>/dev/null || true
+              rm -f "$tmp"
+              cat "/tmp/errors/${id}.txt"
+            fi
+          done
+      - name: Upload remaining exports
+        uses: actions/upload-artifact@v4
+        with:
+          name: requested-car-media-0809-remaining
+          path: /tmp/exports/*.zip
+          if-no-files-found: error
+          retention-days: 1
