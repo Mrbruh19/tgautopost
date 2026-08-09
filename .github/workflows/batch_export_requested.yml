@@ -1,0 +1,54 @@
+name: Batch export requested car media
+
+on:
+  push:
+    paths:
+      - '.github/workflows/batch_export_requested.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for Railway deployment
+        run: sleep 90
+      - name: Download requested cars
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/exports
+          for id in 2274 2102 2541 2223 2578; do
+            echo "Downloading $id"
+            curl -L --fail --retry 5 --retry-delay 12 --connect-timeout 30 --max-time 900 \
+              -o "/tmp/exports/car_${id}_photos_videos.zip" \
+              "https://tgautopost-production.up.railway.app/batch-export-A6pW5txl2YcQm34H7kV9/${id}"
+          done
+      - name: Validate exports
+        run: |
+          set -euo pipefail
+          {
+            echo "Run ID: ${GITHUB_RUN_ID}"
+            echo "Validated at: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            for f in /tmp/exports/*.zip; do
+              echo
+              echo "===== $(basename "$f") ====="
+              echo "Archive bytes: $(stat -c%s "$f")"
+              unzip -l "$f"
+            done
+          } > batch_export_validation.txt
+      - name: Upload exports
+        uses: actions/upload-artifact@v4
+        with:
+          name: requested-car-media-0809
+          path: /tmp/exports/*.zip
+          if-no-files-found: error
+          retention-days: 1
+      - name: Commit validation report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add batch_export_validation.txt
+          git commit -m 'Validate requested car media exports' || exit 0
+          git push
