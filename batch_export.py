@@ -60,7 +60,8 @@ def collect_videos(page_url: str, html: str) -> list[str]:
             candidate = normalize(page_url, raw)
             if candidate:
                 ordered.append(candidate)
-    out, seen = [], set()
+    out: list[str] = []
+    seen: set[str] = set()
     for url in ordered:
         low = url.lower()
         if not any(ext in low for ext in (".mp4", ".mov", ".m4v", ".webm", ".m3u8")):
@@ -78,6 +79,17 @@ def video_ext(url: str, content_type: str) -> str:
         return suffix
     guessed = mimetypes.guess_extension(content_type.split(";", 1)[0].strip())
     return guessed if guessed in {".mp4", ".mov", ".m4v", ".webm"} else ".mp4"
+
+
+def hash_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as fh:
+        while True:
+            chunk = fh.read(1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 async def download_hls(client: httpx.AsyncClient, playlist_url: str, page_url: str, destination: Path) -> bool:
@@ -99,11 +111,44 @@ async def download_hls(client: httpx.AsyncClient, playlist_url: str, page_url: s
     total = 0
     with destination.open("wb") as fh:
         for seg in segments:
-            sr = await client.get(seg, headers={**HTTP_HEADERS, "Referer": page_url})
-            sr.raise_for_status()
-            fh.write(sr.content)
-            total += len(sr.content)
+            async with client.stream("GET", seg, headers={**HTTP_HEADERS, "Referer": page_url}) as sr:
+                sr.raise_for_status()
+                async for chunk in sr.aiter_bytes(1024 * 1024):
+                    if chunk:
+                        fh.write(chunk)
+                        total += len(chunk)
     return total > 100_000
+
+
+async def download_direct_video(
+    client: httpx.AsyncClient,
+    candidate: str,
+    page_url: str,
+    temp_path: Path,
+) -> tuple[int, str, str]:
+    total = 0
+    digest = hashlib.sha256()
+    async with client.stream(
+        "GET",
+        candidate,
+        headers={**HTTP_HEADERS, "Referer": page_url},
+    ) as response:
+        response.raise_for_status()
+        content_type = response.headers.get("content-type", "").lower()
+        low = candidate.lower()
+        if not (
+            content_type.startswith("video/")
+            or any(ext in low for ext in (".mp4", ".mov", ".m4v", ".webm"))
+        ):
+            return 0, "", content_type
+        with temp_path.open("wb") as fh:
+            async for chunk in response.aiter_bytes(1024 * 1024):
+                if not chunk:
+                    continue
+                fh.write(chunk)
+                digest.update(chunk)
+                total += len(chunk)
+    return total, digest.hexdigest(), content_type
 
 
 async def build_one(car_id: str) -> Path:
@@ -121,7 +166,11 @@ async def build_one(car_id: str) -> Path:
     videos.mkdir(parents=True)
 
     try:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(connect=30.0, read=180.0, write=60.0, pool=30.0), follow_redirects=True, headers=HTTP_HEADERS) as client:
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(connect=30.0, read=180.0, write=60.0, pool=30.0),
+            follow_redirects=True,
+            headers=HTTP_HEADERS,
+        ) as client:
             page = await client.get(page_url)
             page.raise_for_status()
             html = page.text
@@ -163,37 +212,46 @@ async def build_one(car_id: str) -> Path:
 
             video_hashes: set[str] = set()
             video_count = 0
-            for candidate in video_candidates[:60]:
+            for candidate_index, candidate in enumerate(video_candidates[:60], start=1):
                 low = candidate.lower()
                 try:
                     if ".m3u8" in low:
-                        temp = videos / f"video_{video_count + 1:02d}.ts"
+                        temp = videos / f"candidate_{candidate_index:02d}.ts"
                         if await download_hls(client, candidate, page_url, temp):
-                            digest = hashlib.sha256(temp.read_bytes()).hexdigest()
+                            digest = hash_file(temp)
                             if digest in video_hashes:
                                 temp.unlink(missing_ok=True)
                             else:
                                 video_hashes.add(digest)
                                 video_count += 1
+                                temp.rename(videos / f"video_{video_count:02d}.ts")
                         else:
                             temp.unlink(missing_ok=True)
                         continue
-                    r = await client.get(candidate, headers={**HTTP_HEADERS, "Referer": page_url})
-                    r.raise_for_status()
+
+                    temp = videos / f"candidate_{candidate_index:02d}.bin"
+                    total, digest, content_type = await download_direct_video(
+                        client,
+                        candidate,
+                        page_url,
+                        temp,
+                    )
+                    if total < 100_000 or not digest:
+                        temp.unlink(missing_ok=True)
+                        continue
+                    if digest in video_hashes:
+                        temp.unlink(missing_ok=True)
+                        continue
+                    video_hashes.add(digest)
+                    video_count += 1
+                    ext = video_ext(candidate, content_type)
+                    temp.rename(videos / f"video_{video_count:02d}{ext}")
                 except httpx.HTTPError:
+                    try:
+                        temp.unlink(missing_ok=True)
+                    except Exception:
+                        pass
                     continue
-                content = r.content
-                ctype = r.headers.get("content-type", "").lower()
-                if len(content) < 100_000:
-                    continue
-                if not (ctype.startswith("video/") or any(ext in low for ext in (".mp4", ".mov", ".m4v", ".webm"))):
-                    continue
-                digest = hashlib.sha256(content).hexdigest()
-                if digest in video_hashes:
-                    continue
-                video_hashes.add(digest)
-                video_count += 1
-                (videos / f"video_{video_count:02d}{video_ext(candidate, ctype)}").write_bytes(content)
 
         if photo_count == 0:
             raise HTTPException(status_code=502, detail=f"Не удалось скачать фотографии для {car_id}")
