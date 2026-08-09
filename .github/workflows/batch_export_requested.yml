@@ -13,8 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Wait for Railway deployment
-        run: sleep 90
+      - name: Record run id
+        run: |
+          echo "${GITHUB_RUN_ID}" > batch_export_run.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add batch_export_run.txt
+          git commit -m 'Record requested car export run id'
+          git push
+      - name: Wait briefly for Railway
+        run: sleep 20
       - name: Download requested cars
         run: |
           set -euo pipefail
@@ -47,6 +55,7 @@ jobs:
           retention-days: 1
       - name: Commit validation report
         run: |
+          git pull --rebase
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add batch_export_validation.txt
