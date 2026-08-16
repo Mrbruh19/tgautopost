@@ -29,12 +29,13 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.3.3"
+APP_VERSION = "3.4.0"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
 AUTO_PUBLISH_LOCK = asyncio.Lock()
 CONTENT_PUBLISH_LOCK = asyncio.Lock()
+WEEKLY_TOP_PUBLISH_LOCK = asyncio.Lock()
 SCHEDULER_TASK: asyncio.Task | None = None
 RATE_CACHE: dict[str, tuple[float, float]] = {}
 
@@ -91,10 +92,41 @@ CONTENT_PUBLISH_WEEKDAYS = tuple(
 CONTENT_PUBLISH_CATCHUP_MINUTES = int(
     os.getenv("CONTENT_PUBLISH_CATCHUP_MINUTES", "90")
 )
+WEEKLY_TOP_AUTO_PUBLISH_ENABLED = os.getenv(
+    "WEEKLY_TOP_AUTO_PUBLISH_ENABLED", "true"
+).strip().lower() in {"1", "true", "yes", "on"}
+WEEKLY_TOP_PUBLISH_TIME = os.getenv("WEEKLY_TOP_PUBLISH_TIME", "11:00").strip()
+WEEKLY_TOP_PUBLISH_CATCHUP_MINUTES = int(
+    os.getenv("WEEKLY_TOP_PUBLISH_CATCHUP_MINUTES", "90")
+)
 CONTACT_TELEGRAM = os.getenv("CONTACT_TELEGRAM", "@latypovars").strip()
 COMMISSION_RUB = int(os.getenv("COMMISSION_RUB", "50000"))
 BROKER_RUB = int(os.getenv("BROKER_RUB", "49000"))
 INTERNAL_MARKUP_CNY = int(os.getenv("INTERNAL_MARKUP_CNY", "6000"))
+
+WEEKLY_TOP_CATEGORIES = {
+    0: ("under_1m", "ТОП-5 МАШИН ДО 1 МЛН ₽", 1_000_000, False),
+    1: ("under_1_5m", "ТОП-5 МАШИН ДО 1,5 МЛН ₽", 1_500_000, False),
+    2: ("under_2m", "ТОП-5 МАШИН ДО 2 МЛН ₽", 2_000_000, False),
+    3: ("under_2_5m", "ТОП-5 МАШИН ДО 2,5 МЛН ₽", 2_500_000, False),
+    4: ("under_3m", "ТОП-5 МАШИН ДО 3 МЛН ₽", 3_000_000, False),
+    5: ("crossovers", "ТОП-5 КРОССОВЕРОВ", None, True),
+}
+
+CROSSOVER_MODELS = {
+    "audi q2", "audi q2l", "audi q3", "bmw x1", "changan cs35plus",
+    "chery tiggo 7", "gac trumpchi gs4", "geely coolray",
+    "geely emgrand s", "haval chitu", "haval h6", "honda vezel",
+    "honda xrv", "hyundai ix25", "hyundai ix35", "jetour dasheng",
+    "jetour x70plus", "jetta vs5", "jetta vs7", "kia kx1",
+    "lexus nx200", "mazda cx-30", "mazda cx-4", "mazda cx-50",
+    "mercedes-benz gla", "mercedes-benz glb", "mitsubishi asx",
+    "mitsubishi eclipse cross", "mitsubishi outlander", "nissan qashqai",
+    "peugeot 2008", "volkswagen t-cross", "volkswagen t-roc",
+    "volkswagen tacqua", "volkswagen tayron", "volkswagen tharu",
+    "volkswagen tiguan l", "wuling star", "wuling xingchen",
+    "škoda karoq", "škoda kamiq",
+}
 
 HTTP_HEADERS = {
     "User-Agent": (
@@ -834,12 +866,27 @@ def initialize_queue_database() -> None:
                 FOREIGN KEY(content_id) REFERENCES content_posts(id)
             );
 
+            CREATE TABLE IF NOT EXISTS weekly_top_slots (
+                slot_key TEXT PRIMARY KEY,
+                scheduled_at TEXT NOT NULL,
+                category TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'pending',
+                attempts INTEGER NOT NULL DEFAULT 0,
+                retry_at TEXT,
+                last_error TEXT,
+                published_at TEXT,
+                telegram_message_id INTEGER,
+                selected_urls TEXT
+            );
+
             CREATE INDEX IF NOT EXISTS idx_cars_status ON cars(status);
             CREATE INDEX IF NOT EXISTS idx_slots_status ON publish_slots(status);
             CREATE INDEX IF NOT EXISTS idx_content_posts_status
             ON content_posts(status, sequence);
             CREATE INDEX IF NOT EXISTS idx_content_slots_status
             ON content_slots(status);
+            CREATE INDEX IF NOT EXISTS idx_weekly_top_slots_status
+            ON weekly_top_slots(status);
             """
         )
         # Existing Railway volumes keep their SQLite database between deploys.
@@ -883,6 +930,16 @@ def initialize_queue_database() -> None:
         connection.execute(
             """
             UPDATE content_slots
+            SET status='failed',
+                retry_at=?,
+                last_error=COALESCE(last_error, 'Перезапуск сервиса во время обработки')
+            WHERE status='processing'
+            """,
+            (datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat(),),
+        )
+        connection.execute(
+            """
+            UPDATE weekly_top_slots
             SET status='failed',
                 retry_at=?,
                 last_error=COALESCE(last_error, 'Перезапуск сервиса во время обработки')
@@ -1115,6 +1172,28 @@ def next_content_slot_iso(now: datetime | None = None) -> str | None:
     return None
 
 
+def weekly_top_category_for_day(day: date) -> tuple[str, str, int | None, bool] | None:
+    return WEEKLY_TOP_CATEGORIES.get(day.weekday())
+
+
+def scheduled_weekly_top_slot_for_day(day: date) -> datetime | None:
+    if weekly_top_category_for_day(day) is None:
+        return None
+    hour, minute = parse_schedule_time(WEEKLY_TOP_PUBLISH_TIME)
+    timezone = ZoneInfo(AUTO_PUBLISH_TZ)
+    return datetime(day.year, day.month, day.day, hour, minute, tzinfo=timezone)
+
+
+def next_weekly_top_slot_iso(now: datetime | None = None) -> str | None:
+    timezone = ZoneInfo(AUTO_PUBLISH_TZ)
+    now = now or datetime.now(timezone)
+    for offset in range(0, 8):
+        slot = scheduled_weekly_top_slot_for_day(now.date() + timedelta(days=offset))
+        if slot is not None and slot > now:
+            return slot.isoformat()
+    return None
+
+
 def scheduled_slots_for_day(day: date) -> list[datetime]:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
     slots: list[datetime] = []
@@ -1266,6 +1345,124 @@ def calculate_final_price(
         "total_rub": total,
         "rounded_total_rub": rounded_total,
     }
+
+
+def load_current_seed_cars() -> list[dict]:
+    if not SEED_PATH.is_file():
+        return []
+    payload = json.loads(SEED_PATH.read_text(encoding="utf-8"))
+    cars = payload if isinstance(payload, list) else payload.get("cars", [])
+    return [dict(car) for car in cars if isinstance(car, dict)]
+
+
+def is_crossover(car: dict) -> bool:
+    model = clean_source_text(str(car.get("model", ""))).casefold()
+    return model in CROSSOVER_MODELS
+
+
+def weekly_top_used_urls(slot: datetime) -> set[str]:
+    week_start = slot.date() - timedelta(days=slot.weekday())
+    next_week = week_start + timedelta(days=7)
+    timezone = ZoneInfo(AUTO_PUBLISH_TZ)
+    start_iso = datetime.combine(week_start, datetime.min.time(), tzinfo=timezone).isoformat()
+    end_iso = datetime.combine(next_week, datetime.min.time(), tzinfo=timezone).isoformat()
+    with db_connect() as connection:
+        rows = connection.execute(
+            """
+            SELECT selected_urls
+            FROM weekly_top_slots
+            WHERE status='success' AND scheduled_at>=? AND scheduled_at<?
+            """,
+            (start_iso, end_iso),
+        ).fetchall()
+    used: set[str] = set()
+    for row in rows:
+        try:
+            used.update(json.loads(str(row["selected_urls"] or "[]")))
+        except (TypeError, ValueError):
+            continue
+    return used
+
+
+def weekly_top_score(car: dict, total_rub: int, budget_rub: int | None) -> float:
+    configuration = str(car.get("configuration", "")).casefold()
+    premium_markers = (
+        "luxury", "premium", "elite", "r-line", "pro", "max",
+        "ultimate", "flagship", "comfort", "sport", "deluxe",
+    )
+    equipment_score = sum(marker in configuration for marker in premium_markers) * 18
+    freshness = (
+        int(car["production_year"]) * 12 + int(car["production_month"])
+    ) * 8
+    mileage_penalty = int(car["mileage_km"]) / 1_500
+    if budget_rub:
+        price_score = min(total_rub / budget_rub, 1.0) * 35
+    else:
+        price_score = -total_rub / 150_000
+    return freshness + equipment_score + price_score - mileage_penalty
+
+
+def select_weekly_top_cars(
+    slot: datetime,
+    budget_rub: int | None,
+    crossovers_only: bool,
+    cny_rub: float,
+    eur_rub: float,
+) -> list[dict]:
+    used_urls = weekly_top_used_urls(slot)
+    ranked: list[dict] = []
+    for car in load_current_seed_cars():
+        page_url = str(car.get("page_url", "")).strip()
+        if not page_url or page_url in used_urls:
+            continue
+        if not str(car.get("transmission", "")).strip():
+            continue
+        if not is_safe_for_automatic_price(car, slot.date()):
+            continue
+        if crossovers_only and not is_crossover(car):
+            continue
+        try:
+            price = calculate_final_price(car, slot.date(), cny_rub, eur_rub)
+        except (KeyError, TypeError, ValueError, RuntimeError):
+            continue
+        total_rub = int(price["rounded_total_rub"])
+        if budget_rub is not None and total_rub > budget_rub:
+            continue
+        ranked.append(
+            {
+                **car,
+                "rounded_total_rub": total_rub,
+                "ranking_score": weekly_top_score(car, total_rub, budget_rub),
+            }
+        )
+
+    ranked.sort(
+        key=lambda car: (
+            float(car["ranking_score"]),
+            int(car["production_year"]),
+            int(car["production_month"]),
+            -int(car["mileage_km"]),
+        ),
+        reverse=True,
+    )
+
+    selected: list[dict] = []
+    selected_models: set[str] = set()
+    for car in ranked:
+        model_key = clean_source_text(str(car["model"])).casefold()
+        if model_key in selected_models:
+            continue
+        selected.append(car)
+        selected_models.add(model_key)
+        if len(selected) == 5:
+            return selected
+    for car in ranked:
+        if car in selected:
+            continue
+        selected.append(car)
+        if len(selected) == 5:
+            break
+    return selected
 
 
 MONTH_NAMES_RU = {
@@ -1793,6 +1990,118 @@ async def send_content_post(content: sqlite3.Row) -> int:
     return int(message["message_id"])
 
 
+def compact_transmission(value: str) -> str:
+    source = clean_source_text(value)
+    speed = re.search(r"(?<!\d)([4-9]|10)-ступ", source)
+    prefix = f"{speed.group(1)}-" if speed else ""
+    lowered = source.casefold()
+    if "dsg" in lowered:
+        return f"{prefix}DSG"
+    if "dct" in lowered or "s tronic" in lowered:
+        return f"{prefix}DCT"
+    if "cvt" in lowered or "вариатор" in lowered:
+        return "CVT"
+    if "(at)" in lowered or "автомат" in lowered:
+        return f"{prefix}AT"
+    if "(mt)" in lowered or "механ" in lowered:
+        return f"{prefix}MT"
+    return source[:18]
+
+
+def build_weekly_top_caption(title: str, cars: list[dict]) -> str:
+    lines = [f"🚘 <b>{html.escape(title)}</b>", ""]
+    for index, car in enumerate(cars, start=1):
+        model = html.escape(clean_source_text(str(car["model"])))
+        configuration = clean_source_text(str(car.get("configuration", "")))
+        configuration = re.sub(r"^20\d{2}\s*", "", configuration).strip()
+        if len(configuration) > 30:
+            configuration = configuration[:27].rstrip() + "…"
+        display_name = model
+        if configuration:
+            display_name += " " + html.escape(configuration)
+        mileage = f'{int(car["mileage_km"]):,}'.replace(",", " ")
+        price = f'{int(car["rounded_total_rub"]):,}'.replace(",", " ")
+        transmission = html.escape(compact_transmission(str(car["transmission"])))
+        lines.extend(
+            [
+                f'{index}. <b>{display_name}</b>',
+                (
+                    f'{int(car["production_year"])} г. • {mileage} км • '
+                    f'{int(car["horsepower"])} л.с. • {transmission}'
+                ),
+                f'💰 <b>{price} ₽</b>',
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "В ценах учтены растаможка, утильсбор, комиссия и брокер.",
+            "Доставка до города и ГЛОНАСС рассчитываются отдельно.",
+            "",
+            f"📩 Подбор автомобиля: {html.escape(CONTACT_TELEGRAM)}",
+        ]
+    )
+    caption = "\n".join(lines)
+    if len(caption) > 1024:
+        raise RuntimeError(
+            f"Подпись еженедельного топа превышает лимит Telegram: {len(caption)}."
+        )
+    return caption
+
+
+async def send_weekly_top_post(slot: datetime, title: str, cars: list[dict]) -> int:
+    if not BOT_TOKEN or not CHAT_ID:
+        raise RuntimeError("TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не настроены.")
+    category = weekly_top_category_for_day(slot.date())
+    if category is None:
+        raise RuntimeError("Для дня не настроена еженедельная подборка.")
+    cover_path = CONTENT_COVER_ROOT / f"weekly_{category[0]}_{slot.date().isoformat()}.jpg"
+    if not cover_path.is_file():
+        generate_content_cover(title, cover_path)
+    caption = build_weekly_top_caption(title, cars)
+    telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
+    try:
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(connect=20.0, read=120.0, write=60.0, pool=20.0)
+        ) as client:
+            response = await client.post(
+                telegram_url,
+                data={
+                    "chat_id": CHAT_ID,
+                    "caption": caption,
+                    "parse_mode": "HTML",
+                },
+                files={"photo": (cover_path.name, cover_path.read_bytes(), "image/jpeg")},
+            )
+    except httpx.TimeoutException as exc:
+        raise TelegramDeliveryUncertainError(
+            "Telegram не ответил вовремя; еженедельный топ мог быть опубликован."
+        ) from exc
+    except httpx.RequestError as exc:
+        raise RuntimeError(
+            f"Не удалось подключиться к Telegram: {exc.__class__.__name__}."
+        ) from exc
+
+    try:
+        result = response.json()
+    except ValueError as exc:
+        raise RuntimeError(
+            f"Telegram вернул неожиданный ответ HTTP {response.status_code}."
+        ) from exc
+    if not result.get("ok"):
+        error_code = int(result.get("error_code", response.status_code))
+        description = str(result.get("description", "неизвестная ошибка"))
+        if error_code == 504:
+            raise TelegramDeliveryUncertainError(
+                f"Telegram API 504: {description}"
+            )
+        raise RuntimeError(f"Telegram API {error_code}: {description}")
+    message = result.get("result", {})
+    if not isinstance(message, dict) or message.get("message_id") is None:
+        raise RuntimeError("Telegram не вернул ID еженедельного топа.")
+    return int(message["message_id"])
+
+
 def ensure_slot_record(slot: datetime) -> sqlite3.Row:
     slot_key = slot.isoformat()
     with db_connect() as connection:
@@ -2214,6 +2523,152 @@ def mark_content_failure(
         )
 
 
+def ensure_weekly_top_slot_record(slot: datetime) -> sqlite3.Row:
+    category = weekly_top_category_for_day(slot.date())
+    if category is None:
+        raise RuntimeError("Для дня не настроена еженедельная подборка.")
+    with db_connect() as connection:
+        connection.execute(
+            """
+            INSERT OR IGNORE INTO weekly_top_slots(
+                slot_key, scheduled_at, category, status
+            ) VALUES (?, ?, ?, 'pending')
+            """,
+            (slot.isoformat(), slot.isoformat(), category[0]),
+        )
+        row = connection.execute(
+            "SELECT * FROM weekly_top_slots WHERE slot_key=?",
+            (slot.isoformat(),),
+        ).fetchone()
+    if row is None:
+        raise RuntimeError("Не удалось создать слот еженедельного топа.")
+    return row
+
+
+def mark_weekly_top_no_content(slot: datetime, found: int) -> None:
+    with db_connect() as connection:
+        connection.execute(
+            """
+            UPDATE weekly_top_slots
+            SET status='no_content', retry_at=NULL,
+                last_error=?
+            WHERE slot_key=?
+            """,
+            (
+                f"В актуальной базе найдено только {found} из 5 подходящих автомобилей",
+                slot.isoformat(),
+            ),
+        )
+
+
+def mark_weekly_top_success(
+    slot: datetime,
+    message_id: int,
+    selected_urls: list[str],
+) -> None:
+    now_iso = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat()
+    with db_connect() as connection:
+        connection.execute(
+            """
+            UPDATE weekly_top_slots
+            SET status='success', published_at=?, telegram_message_id=?,
+                selected_urls=?, last_error=NULL, retry_at=NULL
+            WHERE slot_key=?
+            """,
+            (now_iso, message_id, json.dumps(selected_urls), slot.isoformat()),
+        )
+
+
+def mark_weekly_top_uncertain(slot: datetime, error: str) -> None:
+    now_iso = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat()
+    with db_connect() as connection:
+        connection.execute(
+            """
+            UPDATE weekly_top_slots
+            SET status='uncertain', attempts=attempts+1, last_error=?,
+                published_at=?, retry_at=NULL
+            WHERE slot_key=?
+            """,
+            (error[:1000], now_iso, slot.isoformat()),
+        )
+
+
+def mark_weekly_top_failure(slot: datetime, error: str) -> None:
+    retry_at = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)) + timedelta(
+        minutes=AUTO_PUBLISH_RETRY_MINUTES
+    )
+    with db_connect() as connection:
+        connection.execute(
+            """
+            UPDATE weekly_top_slots
+            SET status='failed', attempts=attempts+1, last_error=?, retry_at=?
+            WHERE slot_key=?
+            """,
+            (error[:1000], retry_at.isoformat(), slot.isoformat()),
+        )
+
+
+async def process_weekly_top_slot(slot: datetime) -> None:
+    async with WEEKLY_TOP_PUBLISH_LOCK:
+        slot_row = ensure_weekly_top_slot_record(slot)
+        if slot_row["status"] in {"success", "uncertain", "no_content"}:
+            return
+        retry_at = slot_row["retry_at"]
+        now = datetime.now(ZoneInfo(AUTO_PUBLISH_TZ))
+        if retry_at and datetime.fromisoformat(str(retry_at)) > now:
+            return
+
+        category = weekly_top_category_for_day(slot.date())
+        if category is None:
+            return
+        category_key, title, budget_rub, crossovers_only = category
+
+        try:
+            cny_rub, eur_rub = await fetch_cbr_rates(slot.date())
+            cars = select_weekly_top_cars(
+                slot,
+                budget_rub,
+                crossovers_only,
+                cny_rub,
+                eur_rub,
+            )
+            if len(cars) < 5:
+                mark_weekly_top_no_content(slot, len(cars))
+                logger.warning(
+                    "Weekly top %s skipped: only %s eligible cars",
+                    category_key,
+                    len(cars),
+                )
+                return
+            selected_urls = [str(car["page_url"]) for car in cars]
+            with db_connect() as connection:
+                connection.execute(
+                    """
+                    UPDATE weekly_top_slots
+                    SET status='processing', retry_at=NULL, selected_urls=?
+                    WHERE slot_key=?
+                    """,
+                    (json.dumps(selected_urls), slot.isoformat()),
+                )
+            message_id = await send_weekly_top_post(slot, title, cars)
+            mark_weekly_top_success(slot, message_id, selected_urls)
+            logger.info(
+                "Published weekly top %s for slot %s; Telegram ID: %s",
+                category_key,
+                slot.isoformat(),
+                message_id,
+            )
+        except TelegramDeliveryUncertainError as exc:
+            logger.exception("Weekly top delivery status is uncertain")
+            mark_weekly_top_uncertain(slot, str(exc))
+        except Exception as exc:
+            logger.exception("Weekly top publication failed")
+            mark_weekly_top_failure(
+                slot,
+                f"{exc.__class__.__name__}: {str(exc)[:900]}",
+            )
+
+
 async def process_content_slot(slot: datetime) -> None:
     async with CONTENT_PUBLISH_LOCK:
         content = choose_content_for_slot(slot)
@@ -2336,11 +2791,12 @@ async def scheduler_loop() -> None:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
     logger.info(
         "Automatic publisher started: cars from %s at %s; useful posts at %s "
-        "on weekdays %s (%s)",
+        "on weekdays %s; weekly tops at %s Monday-Saturday (%s)",
         AUTO_PUBLISH_START_DATE,
         AUTO_PUBLISH_TIMES,
         CONTENT_PUBLISH_TIME,
         CONTENT_PUBLISH_WEEKDAYS,
+        WEEKLY_TOP_PUBLISH_TIME,
         AUTO_PUBLISH_TZ,
     )
     while True:
@@ -2383,6 +2839,19 @@ async def scheduler_loop() -> None:
                     }:
                         await process_content_slot(content_slot)
 
+            if WEEKLY_TOP_AUTO_PUBLISH_ENABLED:
+                weekly_top_slot = scheduled_weekly_top_slot_for_day(now.date())
+                if weekly_top_slot is not None:
+                    grace = timedelta(minutes=WEEKLY_TOP_PUBLISH_CATCHUP_MINUTES)
+                    if weekly_top_slot <= now <= weekly_top_slot + grace:
+                        weekly_row = ensure_weekly_top_slot_record(weekly_top_slot)
+                        if weekly_row["status"] not in {
+                            "success",
+                            "uncertain",
+                            "no_content",
+                        }:
+                            await process_weekly_top_slot(weekly_top_slot)
+
             if AUTO_PUBLISH_ENABLED and now.date() >= AUTO_PUBLISH_START_DATE:
                 grace = timedelta(minutes=AUTO_PUBLISH_CATCHUP_MINUTES)
                 for slot in scheduled_slots_for_day(now.date()):
@@ -2402,7 +2871,11 @@ async def scheduler_loop() -> None:
 async def start_background_scheduler() -> None:
     global SCHEDULER_TASK
     initialize_queue_database()
-    if AUTO_PUBLISH_ENABLED or CONTENT_AUTO_PUBLISH_ENABLED:
+    if (
+        AUTO_PUBLISH_ENABLED
+        or CONTENT_AUTO_PUBLISH_ENABLED
+        or WEEKLY_TOP_AUTO_PUBLISH_ENABLED
+    ):
         SCHEDULER_TASK = asyncio.create_task(scheduler_loop())
 
 
@@ -2427,6 +2900,7 @@ async def health() -> dict:
         "version": APP_VERSION,
         "auto_publish_enabled": AUTO_PUBLISH_ENABLED,
         "content_auto_publish_enabled": CONTENT_AUTO_PUBLISH_ENABLED,
+        "weekly_top_auto_publish_enabled": WEEKLY_TOP_AUTO_PUBLISH_ENABLED,
         "telegram_configured": bool(BOT_TOKEN and CHAT_ID),
         "vk_auto_publish_enabled": VK_AUTO_PUBLISH_ENABLED,
         "vk_configured": bool(VK_ACCESS_TOKEN and VK_GROUP_ID),
@@ -2434,8 +2908,14 @@ async def health() -> dict:
         "times": list(AUTO_PUBLISH_TIMES),
         "content_time": CONTENT_PUBLISH_TIME,
         "content_weekdays": list(CONTENT_PUBLISH_WEEKDAYS),
+        "weekly_top_time": WEEKLY_TOP_PUBLISH_TIME,
+        "weekly_top_schedule": {
+            str(weekday): category[0]
+            for weekday, category in WEEKLY_TOP_CATEGORIES.items()
+        },
         "next_slot": next_slot_iso(),
         "next_content_slot": next_content_slot_iso(),
+        "next_weekly_top_slot": next_weekly_top_slot_iso(),
         "queue": counts,
         "content_queue": content_counts,
     }
