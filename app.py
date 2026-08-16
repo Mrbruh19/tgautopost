@@ -29,7 +29,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.4.0"
+APP_VERSION = "3.4.1"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -99,19 +99,25 @@ WEEKLY_TOP_PUBLISH_TIME = os.getenv("WEEKLY_TOP_PUBLISH_TIME", "11:00").strip()
 WEEKLY_TOP_PUBLISH_CATCHUP_MINUTES = int(
     os.getenv("WEEKLY_TOP_PUBLISH_CATCHUP_MINUTES", "90")
 )
+WEEKLY_TOP_PUBLISH_WEEKDAY = int(
+    os.getenv("WEEKLY_TOP_PUBLISH_WEEKDAY", "0")
+)
+WEEKLY_TOP_CYCLE_START_DATE = date.fromisoformat(
+    os.getenv("WEEKLY_TOP_CYCLE_START_DATE", "2026-08-17").strip()
+)
 CONTACT_TELEGRAM = os.getenv("CONTACT_TELEGRAM", "@latypovars").strip()
 COMMISSION_RUB = int(os.getenv("COMMISSION_RUB", "50000"))
 BROKER_RUB = int(os.getenv("BROKER_RUB", "49000"))
 INTERNAL_MARKUP_CNY = int(os.getenv("INTERNAL_MARKUP_CNY", "6000"))
 
-WEEKLY_TOP_CATEGORIES = {
-    0: ("under_1m", "ТОП-5 МАШИН ДО 1 МЛН ₽", 1_000_000, False),
-    1: ("under_1_5m", "ТОП-5 МАШИН ДО 1,5 МЛН ₽", 1_500_000, False),
-    2: ("under_2m", "ТОП-5 МАШИН ДО 2 МЛН ₽", 2_000_000, False),
-    3: ("under_2_5m", "ТОП-5 МАШИН ДО 2,5 МЛН ₽", 2_500_000, False),
-    4: ("under_3m", "ТОП-5 МАШИН ДО 3 МЛН ₽", 3_000_000, False),
-    5: ("crossovers", "ТОП-5 КРОССОВЕРОВ", None, True),
-}
+WEEKLY_TOP_CATEGORIES = (
+    ("under_1m", "ТОП-5 МАШИН ДО 1 МЛН ₽", 1_000_000, False),
+    ("under_1_5m", "ТОП-5 МАШИН ДО 1,5 МЛН ₽", 1_500_000, False),
+    ("under_2m", "ТОП-5 МАШИН ДО 2 МЛН ₽", 2_000_000, False),
+    ("under_2_5m", "ТОП-5 МАШИН ДО 2,5 МЛН ₽", 2_500_000, False),
+    ("under_3m", "ТОП-5 МАШИН ДО 3 МЛН ₽", 3_000_000, False),
+    ("crossovers", "ТОП-5 КРОССОВЕРОВ", None, True),
+)
 
 CROSSOVER_MODELS = {
     "audi q2", "audi q2l", "audi q3", "bmw x1", "changan cs35plus",
@@ -1173,7 +1179,12 @@ def next_content_slot_iso(now: datetime | None = None) -> str | None:
 
 
 def weekly_top_category_for_day(day: date) -> tuple[str, str, int | None, bool] | None:
-    return WEEKLY_TOP_CATEGORIES.get(day.weekday())
+    if day < WEEKLY_TOP_CYCLE_START_DATE:
+        return None
+    if day.weekday() != WEEKLY_TOP_PUBLISH_WEEKDAY:
+        return None
+    weeks_since_start = (day - WEEKLY_TOP_CYCLE_START_DATE).days // 7
+    return WEEKLY_TOP_CATEGORIES[weeks_since_start % len(WEEKLY_TOP_CATEGORIES)]
 
 
 def scheduled_weekly_top_slot_for_day(day: date) -> datetime | None:
@@ -1187,7 +1198,7 @@ def scheduled_weekly_top_slot_for_day(day: date) -> datetime | None:
 def next_weekly_top_slot_iso(now: datetime | None = None) -> str | None:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
     now = now or datetime.now(timezone)
-    for offset in range(0, 8):
+    for offset in range(0, 50):
         slot = scheduled_weekly_top_slot_for_day(now.date() + timedelta(days=offset))
         if slot is not None and slot > now:
             return slot.isoformat()
@@ -1361,11 +1372,15 @@ def is_crossover(car: dict) -> bool:
 
 
 def weekly_top_used_urls(slot: datetime) -> set[str]:
-    week_start = slot.date() - timedelta(days=slot.weekday())
-    next_week = week_start + timedelta(days=7)
+    weeks_since_start = (slot.date() - WEEKLY_TOP_CYCLE_START_DATE).days // 7
+    cycle_number = weeks_since_start // len(WEEKLY_TOP_CATEGORIES)
+    cycle_start = WEEKLY_TOP_CYCLE_START_DATE + timedelta(
+        weeks=cycle_number * len(WEEKLY_TOP_CATEGORIES)
+    )
+    next_cycle = cycle_start + timedelta(weeks=len(WEEKLY_TOP_CATEGORIES))
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
-    start_iso = datetime.combine(week_start, datetime.min.time(), tzinfo=timezone).isoformat()
-    end_iso = datetime.combine(next_week, datetime.min.time(), tzinfo=timezone).isoformat()
+    start_iso = datetime.combine(cycle_start, datetime.min.time(), tzinfo=timezone).isoformat()
+    end_iso = datetime.combine(next_cycle, datetime.min.time(), tzinfo=timezone).isoformat()
     with db_connect() as connection:
         rows = connection.execute(
             """
@@ -2791,12 +2806,15 @@ async def scheduler_loop() -> None:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
     logger.info(
         "Automatic publisher started: cars from %s at %s; useful posts at %s "
-        "on weekdays %s; weekly tops at %s Monday-Saturday (%s)",
+        "on weekdays %s; one rotating weekly top at %s on weekday %s, "
+        "cycle starts %s (%s)",
         AUTO_PUBLISH_START_DATE,
         AUTO_PUBLISH_TIMES,
         CONTENT_PUBLISH_TIME,
         CONTENT_PUBLISH_WEEKDAYS,
         WEEKLY_TOP_PUBLISH_TIME,
+        WEEKLY_TOP_PUBLISH_WEEKDAY,
+        WEEKLY_TOP_CYCLE_START_DATE,
         AUTO_PUBLISH_TZ,
     )
     while True:
@@ -2909,9 +2927,11 @@ async def health() -> dict:
         "content_time": CONTENT_PUBLISH_TIME,
         "content_weekdays": list(CONTENT_PUBLISH_WEEKDAYS),
         "weekly_top_time": WEEKLY_TOP_PUBLISH_TIME,
+        "weekly_top_weekday": WEEKLY_TOP_PUBLISH_WEEKDAY,
+        "weekly_top_cycle_start_date": WEEKLY_TOP_CYCLE_START_DATE.isoformat(),
         "weekly_top_schedule": {
-            str(weekday): category[0]
-            for weekday, category in WEEKLY_TOP_CATEGORIES.items()
+            str(week_number): category[0]
+            for week_number, category in enumerate(WEEKLY_TOP_CATEGORIES, start=1)
         },
         "next_slot": next_slot_iso(),
         "next_content_slot": next_content_slot_iso(),

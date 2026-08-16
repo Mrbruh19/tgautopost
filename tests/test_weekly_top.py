@@ -32,14 +32,24 @@ def sample_car(index: int, model: str, *, crossover: bool = False) -> dict:
 
 
 class WeeklyTopTest(unittest.TestCase):
-    def test_schedule_runs_monday_through_saturday_at_eleven(self) -> None:
-        for day_number in range(3, 9):
-            day = date(2026, 8, day_number)
+    def test_schedule_rotates_one_post_per_week_at_eleven(self) -> None:
+        expected = (
+            (date(2026, 8, 17), "under_1m"),
+            (date(2026, 8, 24), "under_1_5m"),
+            (date(2026, 8, 31), "under_2m"),
+            (date(2026, 9, 7), "under_2_5m"),
+            (date(2026, 9, 14), "under_3m"),
+            (date(2026, 9, 21), "crossovers"),
+            (date(2026, 9, 28), "under_1m"),
+        )
+        for day, category_key in expected:
             slot = app.scheduled_weekly_top_slot_for_day(day)
             self.assertIsNotNone(slot)
             self.assertEqual((slot.hour, slot.minute), (11, 0))
             self.assertEqual(slot.tzinfo, ZoneInfo("Asia/Yekaterinburg"))
-        self.assertIsNone(app.scheduled_weekly_top_slot_for_day(date(2026, 8, 9)))
+            self.assertEqual(app.weekly_top_category_for_day(day)[0], category_key)
+        self.assertIsNone(app.scheduled_weekly_top_slot_for_day(date(2026, 8, 18)))
+        self.assertIsNone(app.scheduled_weekly_top_slot_for_day(date(2026, 8, 16)))
 
     def test_budget_top_selects_five_different_models(self) -> None:
         original_db = app.DB_PATH
@@ -56,7 +66,7 @@ class WeeklyTopTest(unittest.TestCase):
                     encoding="utf-8",
                 )
                 app.initialize_queue_database()
-                slot = datetime(2026, 8, 4, 11, 0, tzinfo=ZoneInfo("Asia/Yekaterinburg"))
+                slot = datetime(2026, 8, 24, 11, 0, tzinfo=ZoneInfo("Asia/Yekaterinburg"))
                 selected = app.select_weekly_top_cars(
                     slot, 1_500_000, False, 10.0, 100.0
                 )
@@ -72,7 +82,7 @@ class WeeklyTopTest(unittest.TestCase):
                     [str(car["page_url"]) for car in selected],
                 )
                 next_slot = datetime(
-                    2026, 8, 5, 11, 0, tzinfo=ZoneInfo("Asia/Yekaterinburg")
+                    2026, 8, 31, 11, 0, tzinfo=ZoneInfo("Asia/Yekaterinburg")
                 )
                 next_selected = app.select_weekly_top_cars(
                     next_slot, 2_000_000, False, 10.0, 100.0
