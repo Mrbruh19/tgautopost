@@ -29,7 +29,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.4.1"
+APP_VERSION = "3.5.0"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -1245,6 +1245,30 @@ def is_safe_for_automatic_price(car: sqlite3.Row, reference_date: date) -> bool:
     return 0 < horsepower <= 160
 
 
+def normalize_car_brand(model: str) -> str:
+    normalized = clean_source_text(model).casefold().replace("ё", "е")
+    if not normalized:
+        return ""
+    first_word = normalized.split()[0]
+    aliases = {
+        "ауди": "audi",
+        "мазда": "mazda",
+        "skoda": "skoda",
+        "škoda": "skoda",
+    }
+    return aliases.get(first_word, first_word)
+
+
+def calendar_week_bounds(slot: datetime) -> tuple[datetime, datetime]:
+    week_start_date = slot.date() - timedelta(days=slot.weekday())
+    week_start = datetime.combine(
+        week_start_date,
+        datetime.min.time(),
+        tzinfo=slot.tzinfo,
+    )
+    return week_start, week_start + timedelta(days=7)
+
+
 async def fetch_cbr_rates(reference_date: date) -> tuple[float, float]:
     cache_key = reference_date.isoformat()
     if cache_key in RATE_CACHE:
@@ -1462,21 +1486,15 @@ def select_weekly_top_cars(
     )
 
     selected: list[dict] = []
-    selected_models: set[str] = set()
+    selected_brands: set[str] = set()
     for car in ranked:
-        model_key = clean_source_text(str(car["model"])).casefold()
-        if model_key in selected_models:
+        brand = normalize_car_brand(str(car["model"]))
+        if not brand or brand in selected_brands:
             continue
         selected.append(car)
-        selected_models.add(model_key)
+        selected_brands.add(brand)
         if len(selected) == 5:
             return selected
-    for car in ranked:
-        if car in selected:
-            continue
-        selected.append(car)
-        if len(selected) == 5:
-            break
     return selected
 
 
@@ -2175,18 +2193,36 @@ def choose_car_for_slot(slot: datetime) -> sqlite3.Row | None:
                 car = None
 
         if car is None:
+            week_start, week_end = calendar_week_bounds(slot)
+            used_brand_rows = connection.execute(
+                """
+                SELECT c.model
+                FROM publish_slots AS ps
+                JOIN cars AS c ON c.id=ps.car_id
+                WHERE ps.scheduled_at>=?
+                  AND ps.scheduled_at<?
+                  AND ps.status IN ('processing', 'success', 'uncertain')
+                """,
+                (week_start.isoformat(), week_end.isoformat()),
+            ).fetchall()
+            used_brands = {
+                normalize_car_brand(str(row["model"]))
+                for row in used_brand_rows
+            }
             pending = connection.execute(
                 "SELECT * FROM cars WHERE status='pending'"
             ).fetchall()
             safe = [
                 row for row in pending
-                if is_safe_for_automatic_price(row, now.date())
+                if is_safe_for_automatic_price(row, slot.date())
+                and normalize_car_brand(str(row["model"])) not in used_brands
             ]
             if not safe:
                 connection.execute(
                     """
                     UPDATE publish_slots
-                    SET status='no_content', last_error='Нет подходящих автомобилей'
+                    SET status='no_content',
+                        last_error='Нет автомобиля новой марки для этой недели'
                     WHERE slot_key=?
                     """,
                     (slot_key,),

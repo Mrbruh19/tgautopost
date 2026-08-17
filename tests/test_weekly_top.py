@@ -51,11 +51,11 @@ class WeeklyTopTest(unittest.TestCase):
         self.assertIsNone(app.scheduled_weekly_top_slot_for_day(date(2026, 8, 18)))
         self.assertIsNone(app.scheduled_weekly_top_slot_for_day(date(2026, 8, 16)))
 
-    def test_budget_top_selects_five_different_models(self) -> None:
+    def test_budget_top_selects_five_different_brands(self) -> None:
         original_db = app.DB_PATH
         original_seed = app.SEED_PATH
         original_content_seed = app.CONTENT_SEED_PATH
-        cars = [sample_car(i, f"Model {i}") for i in range(1, 11)]
+        cars = [sample_car(i, f"Brand{i} Model") for i in range(1, 11)]
         with tempfile.TemporaryDirectory() as temp_dir:
             try:
                 app.DB_PATH = Path(temp_dir) / "queue.db"
@@ -71,7 +71,10 @@ class WeeklyTopTest(unittest.TestCase):
                     slot, 1_500_000, False, 10.0, 100.0
                 )
                 self.assertEqual(len(selected), 5)
-                self.assertEqual(len({car["model"] for car in selected}), 5)
+                self.assertEqual(
+                    len({app.normalize_car_brand(car["model"]) for car in selected}),
+                    5,
+                )
                 self.assertTrue(
                     all(car["rounded_total_rub"] <= 1_500_000 for car in selected)
                 )
