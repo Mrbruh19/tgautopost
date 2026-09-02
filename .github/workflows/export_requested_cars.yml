@@ -1,0 +1,38 @@
+name: Export requested cars
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/export_requested_cars.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Download, clean, and package photos
+        run: python scripts/export_requested_cars.py
+      - name: Upload requested car archives
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: requested-cars-2026-09-02
+          path: |
+            batch_export_output/Sagitar.zip
+            batch_export_output/Lamando.zip
+            batch_export_output/Audi.zip
+            batch_export_output/summary.json
+            batch_export_output/errors.txt
+          if-no-files-found: error
+          retention-days: 7
