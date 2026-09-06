@@ -31,12 +31,19 @@ class ContentSchedulerTest(unittest.TestCase):
             app.CONTENT_PUBLISH_WEEKDAYS = original_weekdays
             app.CONTENT_PUBLISH_TIME = original_time
 
-    def test_seed_starts_empty_until_user_approves_a_post(self) -> None:
+    def test_seed_has_unique_ids_and_sequences(self) -> None:
         project_root = Path(app.__file__).parent
         seed = json.loads(
             (project_root / "content_seed.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(seed, [])
+        self.assertEqual(len({item["id"] for item in seed}), len(seed))
+        self.assertEqual(len({item["sequence"] for item in seed}), len(seed))
+        self.assertTrue(
+            all(
+                "{contact}" in item["body"] or "@latypovars" in item["body"]
+                for item in seed
+            )
+        )
 
     def test_generated_cover_has_required_7_by_5_size(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

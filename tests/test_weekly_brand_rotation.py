@@ -62,7 +62,7 @@ class WeeklyBrandRotationTest(unittest.TestCase):
         first_slot = datetime(2026, 8, 17, 12, 0, tzinfo=timezone)
         first = app.choose_car_for_slot(first_slot)
         self.assertIsNotNone(first)
-        app.mark_slot_success(first_slot, first["id"], [101])
+        app.mark_slot_success(first_slot, first["id"], [101], None)
 
         second_slot = datetime(2026, 8, 17, 16, 0, tzinfo=timezone)
         second = app.choose_car_for_slot(second_slot)
@@ -77,7 +77,7 @@ class WeeklyBrandRotationTest(unittest.TestCase):
         first_slot = datetime(2026, 8, 17, 12, 0, tzinfo=timezone)
         first = app.choose_car_for_slot(first_slot)
         self.assertIsNotNone(first)
-        app.mark_slot_success(first_slot, first["id"], [101])
+        app.mark_slot_success(first_slot, first["id"], [101], None)
 
         selected_brand = app.normalize_car_brand(first["model"])
         with app.db_connect() as connection:
@@ -96,10 +96,64 @@ class WeeklyBrandRotationTest(unittest.TestCase):
             app.normalize_car_brand(selected["model"]),
         )
 
+    def test_different_model_is_used_after_unique_brands_are_exhausted(self) -> None:
+        timezone = ZoneInfo("Asia/Yekaterinburg")
+        slots = [
+            datetime(2026, 8, 17, hour, 0, tzinfo=timezone)
+            for hour in (12, 16, 20)
+        ]
+
+        first = app.choose_car_for_slot(slots[0])
+        self.assertIsNotNone(first)
+        app.mark_slot_success(slots[0], first["id"], [101], None)
+
+        second = app.choose_car_for_slot(slots[1])
+        self.assertIsNotNone(second)
+        app.mark_slot_success(slots[1], second["id"], [102], None)
+
+        third = app.choose_car_for_slot(slots[2])
+        self.assertIsNotNone(third)
+        self.assertNotIn(
+            app.normalize_car_model(third["model"]),
+            {
+                app.normalize_car_model(first["model"]),
+                app.normalize_car_model(second["model"]),
+            },
+        )
+
+    def test_same_model_is_not_repeated_as_fallback(self) -> None:
+        timezone = ZoneInfo("Asia/Yekaterinburg")
+        with app.db_connect() as connection:
+            connection.execute(
+                "UPDATE cars SET status='published' WHERE model LIKE 'Honda %'"
+            )
+            connection.execute(
+                "UPDATE cars SET model='Toyota Corolla' WHERE model='Toyota Yaris'"
+            )
+
+        first_slot = datetime(2026, 8, 17, 12, 0, tzinfo=timezone)
+        first = app.choose_car_for_slot(first_slot)
+        self.assertIsNotNone(first)
+        app.mark_slot_success(first_slot, first["id"], [101], None)
+
+        second_slot = datetime(2026, 8, 17, 16, 0, tzinfo=timezone)
+        self.assertIsNone(app.choose_car_for_slot(second_slot))
+        with app.db_connect() as connection:
+            slot = connection.execute(
+                "SELECT status, last_error FROM publish_slots WHERE slot_key=?",
+                (second_slot.isoformat(),),
+            ).fetchone()
+        self.assertEqual(slot["status"], "no_content")
+        self.assertIn("модели", slot["last_error"])
+
     def test_brand_aliases_are_normalized(self) -> None:
         self.assertEqual(app.normalize_car_brand("ŠKODA Karoq"), "skoda")
         self.assertEqual(app.normalize_car_brand("Skoda Octavia"), "skoda")
         self.assertEqual(app.normalize_car_brand("Мазда CX-4"), "mazda")
+        self.assertEqual(
+            app.normalize_car_model("ŠKODA Karoq"),
+            app.normalize_car_model("Skoda Karoq"),
+        )
 
 
 if __name__ == "__main__":

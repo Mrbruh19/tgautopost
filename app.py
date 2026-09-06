@@ -29,7 +29,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.5.0"
+APP_VERSION = "3.5.1"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -885,6 +885,11 @@ def initialize_queue_database() -> None:
                 selected_urls TEXT
             );
 
+            CREATE TABLE IF NOT EXISTS maintenance_state (
+                key TEXT PRIMARY KEY,
+                applied_at TEXT NOT NULL
+            );
+
             CREATE INDEX IF NOT EXISTS idx_cars_status ON cars(status);
             CREATE INDEX IF NOT EXISTS idx_slots_status ON publish_slots(status);
             CREATE INDEX IF NOT EXISTS idx_content_posts_status
@@ -954,6 +959,7 @@ def initialize_queue_database() -> None:
             (datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat(),),
         )
 
+        active_car_ids: list[int] = []
         if SEED_PATH.is_file():
             seed_payload = json.loads(SEED_PATH.read_text(encoding="utf-8"))
             if isinstance(seed_payload, list):
@@ -992,7 +998,6 @@ def initialize_queue_database() -> None:
                 """
             )
 
-            active_car_ids: list[int] = []
             for car in seed:
                 page_url = str(car["page_url"]).strip()
                 stock_number = str(car.get("stock_number", "")).strip()
@@ -1102,6 +1107,48 @@ def initialize_queue_database() -> None:
                 )
         else:
             logger.warning("Content seed file is missing: %s", CONTENT_SEED_PATH)
+
+        # One-time recovery for items that exhausted their retries during the
+        # publication outage. Only cars still present in the current seed are
+        # restored, so removed listings cannot return to the active queue.
+        recovery_key = "resume_failed_publications_20260906"
+        recovery_done = connection.execute(
+            "SELECT 1 FROM maintenance_state WHERE key=?",
+            (recovery_key,),
+        ).fetchone()
+        if recovery_done is None:
+            recovered_cars = 0
+            if active_car_ids:
+                placeholders = ",".join("?" for _ in active_car_ids)
+                cursor = connection.execute(
+                    f"""
+                    UPDATE cars
+                    SET status='pending', attempts=0, last_error=NULL
+                    WHERE status='failed'
+                      AND id IN ({placeholders})
+                    """,
+                    active_car_ids,
+                )
+                recovered_cars = cursor.rowcount
+            recovered_content = connection.execute(
+                """
+                UPDATE content_posts
+                SET status='pending', attempts=0, last_error=NULL
+                WHERE status='failed'
+                """
+            ).rowcount
+            connection.execute(
+                "INSERT INTO maintenance_state(key, applied_at) VALUES (?, ?)",
+                (
+                    recovery_key,
+                    datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat(),
+                ),
+            )
+            logger.info(
+                "Recovered failed publication items: cars=%s, content=%s",
+                recovered_cars,
+                recovered_content,
+            )
 
 
 def queue_counts() -> dict[str, int]:
@@ -1257,6 +1304,11 @@ def normalize_car_brand(model: str) -> str:
         "škoda": "skoda",
     }
     return aliases.get(first_word, first_word)
+
+
+def normalize_car_model(model: str) -> str:
+    normalized = clean_source_text(model).casefold().replace("ё", "е")
+    return normalized.replace("škoda", "skoda")
 
 
 def calendar_week_bounds(slot: datetime) -> tuple[datetime, datetime]:
@@ -2209,20 +2261,38 @@ def choose_car_for_slot(slot: datetime) -> sqlite3.Row | None:
                 normalize_car_brand(str(row["model"]))
                 for row in used_brand_rows
             }
+            used_models = {
+                normalize_car_model(str(row["model"]))
+                for row in used_brand_rows
+            }
             pending = connection.execute(
                 "SELECT * FROM cars WHERE status='pending'"
             ).fetchall()
-            safe = [
+            safe_pending = [
                 row for row in pending
                 if is_safe_for_automatic_price(row, slot.date())
-                and normalize_car_brand(str(row["model"])) not in used_brands
             ]
+            safe = [
+                row for row in safe_pending
+                if normalize_car_brand(str(row["model"])) not in used_brands
+            ]
+            if not safe:
+                safe = [
+                    row for row in safe_pending
+                    if normalize_car_model(str(row["model"])) not in used_models
+                ]
+                if safe:
+                    logger.info(
+                        "All available brands have been used for week %s; "
+                        "selecting a different model from a repeated brand",
+                        week_start.date(),
+                    )
             if not safe:
                 connection.execute(
                     """
                     UPDATE publish_slots
                     SET status='no_content',
-                        last_error='Нет автомобиля новой марки для этой недели'
+                        last_error='Нет нового автомобиля или модели для этой недели'
                     WHERE slot_key=?
                     """,
                     (slot_key,),
