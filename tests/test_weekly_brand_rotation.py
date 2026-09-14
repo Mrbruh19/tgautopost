@@ -155,6 +155,16 @@ class WeeklyBrandRotationTest(unittest.TestCase):
             app.normalize_car_model("Skoda Karoq"),
         )
 
+    def test_explicit_priority_car_is_selected_first(self) -> None:
+        with app.db_connect() as connection:
+            connection.execute(
+                "UPDATE cars SET publish_priority=100 WHERE model='Honda Vezel'"
+            )
+        slot = datetime(2026, 8, 17, 12, 0, tzinfo=ZoneInfo("Asia/Yekaterinburg"))
+        selected = app.choose_car_for_slot(slot)
+        self.assertIsNotNone(selected)
+        self.assertEqual(selected["model"], "Honda Vezel")
+
 
 if __name__ == "__main__":
     unittest.main()

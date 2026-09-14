@@ -1,4 +1,5 @@
 import unittest
+from datetime import date
 
 import app
 
@@ -60,6 +61,25 @@ class AutoCaptionTest(unittest.TestCase):
     def test_caption_is_blocked_when_transmission_is_missing(self) -> None:
         with self.assertRaisesRegex(RuntimeError, "коробку передач"):
             app.build_auto_caption(self.car, 1_950_000, {})
+
+    def test_range_extender_caption_shows_system_and_generator_power(self) -> None:
+        self.car["transmission"] = "одноступенчатый редуктор"
+        self.car["system_horsepower"] = 571
+        caption = app.build_auto_caption(self.car, 10_500_000, {})
+        self.assertIn("▫️ Мощность системы: 571 л. с.", caption)
+        self.assertIn("▫️ ДВС-генератор: 150 л. с.", caption)
+
+    def test_explicit_recycling_fee_is_used_for_high_power_hybrid(self) -> None:
+        car = {
+            "production_year": 2026,
+            "production_month": 6,
+            "horsepower": 156,
+            "price_cny": 499_800,
+            "engine_cc": 1498,
+            "recycling_fee_override_rub": 2_193_600,
+        }
+        result = app.calculate_final_price(car, date(2026, 9, 14), 11.5, 95.0)
+        self.assertEqual(result["recycling_fee"], 2_193_600)
 
 
 if __name__ == "__main__":

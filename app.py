@@ -29,7 +29,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.5.1"
+APP_VERSION = "3.6.0"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -824,6 +824,9 @@ def initialize_queue_database() -> None:
                 engine_display TEXT NOT NULL,
                 transmission TEXT,
                 source_row INTEGER,
+                system_horsepower INTEGER,
+                recycling_fee_override_rub INTEGER,
+                publish_priority INTEGER NOT NULL DEFAULT 0,
                 status TEXT NOT NULL DEFAULT 'pending',
                 attempts INTEGER NOT NULL DEFAULT 0,
                 last_error TEXT,
@@ -920,6 +923,18 @@ def initialize_queue_database() -> None:
             if table_name == "cars" and "transmission" not in columns:
                 connection.execute(
                     "ALTER TABLE cars ADD COLUMN transmission TEXT"
+                )
+            if table_name == "cars" and "system_horsepower" not in columns:
+                connection.execute(
+                    "ALTER TABLE cars ADD COLUMN system_horsepower INTEGER"
+                )
+            if table_name == "cars" and "recycling_fee_override_rub" not in columns:
+                connection.execute(
+                    "ALTER TABLE cars ADD COLUMN recycling_fee_override_rub INTEGER"
+                )
+            if table_name == "cars" and "publish_priority" not in columns:
+                connection.execute(
+                    "ALTER TABLE cars ADD COLUMN publish_priority INTEGER NOT NULL DEFAULT 0"
                 )
         # Recover safely after an application restart.
         connection.execute(
@@ -1029,6 +1044,9 @@ def initialize_queue_database() -> None:
                     car["engine_display"],
                     car.get("transmission", ""),
                     car.get("source_row"),
+                    car.get("system_horsepower"),
+                    car.get("recycling_fee_override_rub"),
+                    int(car.get("publish_priority", 0)),
                 )
                 if existing is None:
                     cursor = connection.execute(
@@ -1038,8 +1056,9 @@ def initialize_queue_database() -> None:
                             production_year, production_month, mileage_km,
                             body_color, interior_color, paint_condition,
                             horsepower, price_cny, engine_cc, engine_display,
-                            transmission, source_row, status
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+                            transmission, source_row, system_horsepower,
+                            recycling_fee_override_rub, publish_priority, status
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
                         """,
                         values,
                     )
@@ -1054,6 +1073,8 @@ def initialize_queue_database() -> None:
                             body_color=?, interior_color=?, paint_condition=?,
                             horsepower=?, price_cny=?, engine_cc=?,
                             engine_display=?, transmission=?, source_row=?,
+                            system_horsepower=?, recycling_fee_override_rub=?,
+                            publish_priority=?,
                             status=CASE
                                 WHEN status='retired' THEN 'pending'
                                 ELSE status
@@ -1421,6 +1442,13 @@ def calculate_final_price(
         duty_eur = used_car_rate_eur_per_cc(engine_cc, True) * engine_cc
         recycling_fee = 5200
 
+    try:
+        recycling_fee_override = int(car["recycling_fee_override_rub"] or 0)
+    except (IndexError, KeyError, TypeError, ValueError):
+        recycling_fee_override = 0
+    if recycling_fee_override > 0:
+        recycling_fee = recycling_fee_override
+
     duty_rub = duty_eur * eur_rub
     total = car_value_rub + duty_rub + recycling_fee + COMMISSION_RUB + BROKER_RUB
     rounded_total = int(math.floor(total / 1000 + 0.5) * 1000)
@@ -1591,6 +1619,10 @@ def build_auto_caption(
     mileage = f'{int(car["mileage_km"]):,}'.replace(",", " ")
     price = f"{rounded_total_rub:,}".replace(",", " ")
     contact = html.escape(CONTACT_TELEGRAM)
+    try:
+        system_horsepower = int(car["system_horsepower"] or 0)
+    except (IndexError, KeyError, TypeError, ValueError):
+        system_horsepower = 0
 
     if not transmission:
         raise RuntimeError(
@@ -1599,13 +1631,21 @@ def build_auto_caption(
         )
 
     title = f"{model} {configuration}".upper()
+    power_lines = (
+        [
+            f"▫️ Мощность системы: {system_horsepower} л. с.",
+            f"▫️ ДВС-генератор: {int(car['horsepower'])} л. с.",
+        ]
+        if system_horsepower
+        else [f"▫️ Мощность: {int(car['horsepower'])} л. с."]
+    )
     lines = [
         f"🚘 <b>{title}</b>",
         "",
         f"▫️ Год выпуска: {month} {year}",
         f"▫️ Двигатель: {engine_display}",
         f"▫️ Коробка передач: {transmission}",
-        f"▫️ Мощность: {int(car['horsepower'])} л. с.",
+        *power_lines,
         f"▫️ Пробег: {mileage} км",
         f"▫️ Цвет кузова: {body_color}",
     ]
@@ -2299,7 +2339,19 @@ def choose_car_for_slot(slot: datetime) -> sqlite3.Row | None:
                 )
                 connection.commit()
                 return None
-            car = random.SystemRandom().choice(safe)
+            priority_cars = [
+                row for row in safe if int(row["publish_priority"] or 0) > 0
+            ]
+            if priority_cars:
+                car = max(
+                    priority_cars,
+                    key=lambda row: (
+                        int(row["publish_priority"] or 0),
+                        -int(row["source_row"] or 0),
+                    ),
+                )
+            else:
+                car = random.SystemRandom().choice(safe)
             connection.execute(
                 "UPDATE publish_slots SET car_id=? WHERE slot_key=?",
                 (car["id"], slot_key),
