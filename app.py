@@ -3,7 +3,6 @@ import gc
 import hashlib
 import html
 import math
-import random
 import sqlite3
 import xml.etree.ElementTree as ET
 import logging
@@ -2351,7 +2350,13 @@ def choose_car_for_slot(slot: datetime) -> sqlite3.Row | None:
                     ),
                 )
             else:
-                car = random.SystemRandom().choice(safe)
+                car = min(
+                    safe,
+                    key=lambda row: (
+                        int(row["source_row"] or 2_147_483_647),
+                        int(row["id"]),
+                    ),
+                )
             connection.execute(
                 "UPDATE publish_slots SET car_id=? WHERE slot_key=?",
                 (car["id"], slot_key),

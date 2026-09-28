@@ -165,6 +165,13 @@ class WeeklyBrandRotationTest(unittest.TestCase):
         self.assertIsNotNone(selected)
         self.assertEqual(selected["model"], "Honda Vezel")
 
+    def test_selects_first_available_source_row(self) -> None:
+        slot = datetime(2026, 8, 17, 12, 0, tzinfo=ZoneInfo("Asia/Yekaterinburg"))
+        selected = app.choose_car_for_slot(slot)
+        self.assertIsNotNone(selected)
+        self.assertEqual(selected["source_row"], 1)
+        self.assertEqual(selected["model"], "Toyota Corolla")
+
 
 if __name__ == "__main__":
     unittest.main()
