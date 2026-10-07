@@ -28,7 +28,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.6.0"
+APP_VERSION = "3.6.1"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -1171,6 +1171,24 @@ def initialize_queue_database() -> None:
             )
 
 
+        # Reopen today's slots blocked by the retired weekly model rule.
+        # The scheduler still enforces its normal catch-up window.
+        connection.execute(
+            """
+            UPDATE publish_slots
+            SET status='pending', last_error=NULL, retry_at=NULL
+            WHERE status='no_content'
+              AND last_error='Нет нового автомобиля или модели для этой недели'
+              AND scheduled_at>=?
+            """,
+            (
+                datetime.now(ZoneInfo(AUTO_PUBLISH_TZ))
+                .replace(hour=0, minute=0, second=0, microsecond=0)
+                .isoformat(),
+            ),
+        )
+
+
 def queue_counts() -> dict[str, int]:
     if not DB_PATH.exists():
         return {"pending": 0, "processing": 0, "published": 0, "failed": 0, "uncertain": 0}
@@ -2284,54 +2302,39 @@ def choose_car_for_slot(slot: datetime) -> sqlite3.Row | None:
                 car = None
 
         if car is None:
-            week_start, week_end = calendar_week_bounds(slot)
-            used_brand_rows = connection.execute(
+            # Repeat a brand freely; only avoid the last published model.
+            # Include uncertain delivery and in-flight reservations to avoid
+            # repeating a model when Telegram's delivery outcome is unknown.
+            last_car_row = connection.execute(
                 """
                 SELECT c.model
                 FROM publish_slots AS ps
                 JOIN cars AS c ON c.id=ps.car_id
-                WHERE ps.scheduled_at>=?
-                  AND ps.scheduled_at<?
-                  AND ps.status IN ('processing', 'success', 'uncertain')
+                WHERE ps.status IN ('processing', 'success', 'uncertain')
+                  AND ps.slot_key<>?
+                ORDER BY ps.scheduled_at DESC
+                LIMIT 1
                 """,
-                (week_start.isoformat(), week_end.isoformat()),
-            ).fetchall()
-            used_brands = {
-                normalize_car_brand(str(row["model"]))
-                for row in used_brand_rows
-            }
-            used_models = {
-                normalize_car_model(str(row["model"]))
-                for row in used_brand_rows
-            }
+                (slot_key,),
+            ).fetchone()
+            last_model = (
+                normalize_car_model(str(last_car_row["model"]))
+                if last_car_row is not None else None
+            )
             pending = connection.execute(
                 "SELECT * FROM cars WHERE status='pending'"
             ).fetchall()
-            safe_pending = [
+            safe = [
                 row for row in pending
                 if is_safe_for_automatic_price(row, slot.date())
+                and normalize_car_model(str(row["model"])) != last_model
             ]
-            safe = [
-                row for row in safe_pending
-                if normalize_car_brand(str(row["model"])) not in used_brands
-            ]
-            if not safe:
-                safe = [
-                    row for row in safe_pending
-                    if normalize_car_model(str(row["model"])) not in used_models
-                ]
-                if safe:
-                    logger.info(
-                        "All available brands have been used for week %s; "
-                        "selecting a different model from a repeated brand",
-                        week_start.date(),
-                    )
             if not safe:
                 connection.execute(
                     """
                     UPDATE publish_slots
                     SET status='no_content',
-                        last_error='Нет нового автомобиля или модели для этой недели'
+                        last_error='Нет подходящего автомобиля с моделью, отличной от предыдущего поста'
                     WHERE slot_key=?
                     """,
                     (slot_key,),
