@@ -1,5 +1,5 @@
 {
-  "source_file": "俄文二手车在售表19.10.2026.xls",
+  "source_file": "俄文二手车在售表27.10.2026.xls",
   "replace_active_queue": true,
   "stock_history": [
     {
@@ -1265,7 +1265,7 @@
   ],
   "cars": [
     {
-      "source_row": 1,
+      "source_row": 2,
       "page_url": "http://avtomirhrb.ru/?car_1/2279.html",
       "stock_number": "634908",
       "model": "Wuling Xingchen",
@@ -1280,11 +1280,12 @@
       "price_cny": 51800,
       "engine_cc": 1451,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "status": "В процессе",
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 3,
+      "source_row": 4,
       "page_url": "http://avtomirhrb.ru/?car_1/2732.html",
       "stock_number": "115244",
       "model": "Kia KX1",
@@ -1300,10 +1301,11 @@
       "engine_cc": 1368,
       "engine_display": "бензиновый, 1,4 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 4,
+      "source_row": 5,
       "page_url": "http://avtomirhrb.ru/?car_1/2790.html",
       "stock_number": "108266",
       "model": "Kia KX1",
@@ -1319,10 +1321,31 @@
       "engine_cc": 1368,
       "engine_display": "бензиновый, 1,4 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
       "source_row": 6,
+      "page_url": "http://avtomirhrb.ru/?car_1/2839.html",
+      "stock_number": "122447",
+      "model": "Kia KX1",
+      "configuration": "2021 1.4L Fun Sunroof",
+      "production_year": 2023,
+      "production_month": 12,
+      "mileage_km": 21000,
+      "body_color": "Белый",
+      "interior_color": "Чёрный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 100,
+      "price_cny": 75800,
+      "engine_cc": 1368,
+      "engine_display": "бензиновый, 1,4 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 7,
       "page_url": "http://avtomirhrb.ru/?car_1/2747.html",
       "stock_number": "091298",
       "model": "Kia Seltos",
@@ -1338,10 +1361,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 7,
+      "source_row": 8,
       "page_url": "http://avtomirhrb.ru/?car_1/2807.html",
       "stock_number": "119362",
       "model": "Kia Seltos",
@@ -1357,29 +1381,31 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
-    },
-    {
-      "source_row": 8,
-      "page_url": "http://avtomirhrb.ru/?car_1/2454.html",
-      "stock_number": "501497",
-      "model": "Hyundai ix35",
-      "configuration": "2021 240T FWD GLS Leading Edition",
-      "production_year": 2023,
-      "production_month": 3,
-      "mileage_km": 41000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 140,
-      "price_cny": 99800,
-      "engine_cc": 1353,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
       "source_row": 9,
+      "page_url": "http://avtomirhrb.ru/?car_1/2838.html",
+      "stock_number": "113665",
+      "model": "Kia Seltos",
+      "configuration": "2023 1.5L Luxury",
+      "production_year": 2023,
+      "production_month": 9,
+      "mileage_km": 18000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Покраска под толщиномер правой задней двери и багажника",
+      "horsepower": 115,
+      "price_cny": 105800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 10,
       "page_url": "http://avtomirhrb.ru/?car_1/2573.html",
       "stock_number": "502422",
       "model": "Hyundai ix35",
@@ -1395,26 +1421,8 @@
       "engine_cc": 1353,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 10,
-      "page_url": "http://avtomirhrb.ru/?car_1/2821.html",
-      "stock_number": "280101",
-      "model": "Hyundai Elantra",
-      "configuration": "2022 1.5L 20th Anniversary Edition",
-      "production_year": 2023,
-      "production_month": 2,
-      "mileage_km": 15000,
-      "body_color": "Белый",
-      "interior_color": "Чёрный",
-      "paint_condition": "Покраска под толщиномер порога правой двери",
-      "horsepower": 115,
-      "price_cny": 79800,
-      "engine_cc": 1497,
-      "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
       "source_row": 11,
@@ -1433,10 +1441,31 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
       "source_row": 12,
+      "page_url": "http://avtomirhrb.ru/?car_1/2872.html",
+      "stock_number": "384923",
+      "model": "Hyundai Elantra",
+      "configuration": "2023 1.5L Elite Edition",
+      "production_year": 2023,
+      "production_month": 12,
+      "mileage_km": 12000,
+      "body_color": "Белый",
+      "interior_color": "Чёрный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 115,
+      "price_cny": 83800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 13,
       "page_url": "http://avtomirhrb.ru/?car_1/2796.html",
       "stock_number": "368517",
       "model": "Hyundai Elantra",
@@ -1452,10 +1481,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 13,
+      "source_row": 14,
       "page_url": "http://avtomirhrb.ru/?car_1/2600.html",
       "stock_number": "353821",
       "model": "Hyundai Elantra",
@@ -1471,10 +1501,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 14,
+      "source_row": 15,
       "page_url": "http://avtomirhrb.ru/?car_1/2831.html",
       "stock_number": "359341",
       "model": "Hyundai Elantra",
@@ -1490,10 +1521,31 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 19,
+      "source_row": 16,
+      "page_url": "http://avtomirhrb.ru/?car_1/2873.html",
+      "stock_number": "281908",
+      "model": "Hyundai Elantra",
+      "configuration": "2023 1.5L Premium Edition",
+      "production_year": 2023,
+      "production_month": 2,
+      "mileage_km": 4000,
+      "body_color": "Белый",
+      "interior_color": "Чёрный",
+      "paint_condition": "Покраска под толщиномер правого порога",
+      "horsepower": 115,
+      "price_cny": 89800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый, 1,5 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 24,
       "page_url": "http://avtomirhrb.ru/?car_1/2639.html",
       "stock_number": "327398",
       "model": "Volkswagen Golf",
@@ -1509,10 +1561,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 20,
+      "source_row": 25,
       "page_url": "http://avtomirhrb.ru/?car_1/2090.html",
       "stock_number": "312824",
       "model": "Volkswagen Golf",
@@ -1528,10 +1581,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 21,
+      "source_row": 26,
       "page_url": "http://avtomirhrb.ru/?car_1/2497.html",
       "stock_number": "000821",
       "model": "Volkswagen Bora",
@@ -1546,11 +1600,12 @@
       "price_cny": 93800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "status": "В процессе",
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 22,
+      "source_row": 27,
       "page_url": "http://avtomirhrb.ru/?car_1/2603.html",
       "stock_number": "133178",
       "model": "Volkswagen Bora",
@@ -1566,83 +1621,48 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 24,
-      "page_url": "http://avtomirhrb.ru/?car_1/2780.html",
-      "stock_number": "056028",
+      "source_row": 29,
+      "page_url": "http://avtomirhrb.ru/?car_1/2878.html",
+      "stock_number": "000706",
       "model": "Volkswagen Tayron",
       "configuration": "2023 280T 2WD Luxury Plus Advanced",
-      "production_year": 2022,
-      "production_month": 9,
-      "mileage_km": 33000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 173800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 26,
-      "page_url": "http://avtomirhrb.ru/?car_1/2224.html",
-      "stock_number": "012296",
-      "model": "Volkswagen Tayron",
-      "configuration": "2023 280T FWD Luxury Plus Advanced",
       "production_year": 2023,
-      "production_month": 2,
+      "production_month": 1,
       "mileage_km": 27000,
-      "body_color": "Черный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 183800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 28,
-      "page_url": "http://avtomirhrb.ru/?car_1/2835.html",
-      "stock_number": "225797",
-      "model": "Volkswagen Tharu",
-      "configuration": "2022 280T 2WD Luxury",
-      "production_year": 2022,
-      "production_month": 8,
-      "mileage_km": 38000,
       "body_color": "Белый",
-      "interior_color": "Черный",
+      "interior_color": "Чёрный",
       "paint_condition": "Оригинальный цвет",
       "horsepower": 150,
-      "price_cny": 115800,
+      "price_cny": 189800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "status": "Предзаказ",
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
       "source_row": 30,
-      "page_url": "http://avtomirhrb.ru/?car_1/2517.html",
-      "stock_number": "762592",
-      "model": "Volkswagen TACQUA",
-      "configuration": "2021 1.5L Automatic “Yuezhilian” Edition",
+      "page_url": "http://avtomirhrb.ru/?car_1/2885.html",
+      "stock_number": "059682",
+      "model": "Volkswagen Tayron",
+      "configuration": "2023 280T 2WD Luxury Plus Advanced",
       "production_year": 2022,
-      "production_month": 7,
-      "mileage_km": 40000,
-      "body_color": "Белый",
+      "production_month": 10,
+      "mileage_km": 35000,
+      "body_color": "Черный",
       "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 113,
-      "price_cny": 96800,
-      "engine_cc": 1498,
-      "engine_display": "бензиновый, 1,5 л",
+      "paint_condition": "Покраска под толщиномер левого заднего крыла, правого переднего крыла и капота",
+      "horsepower": 150,
+      "price_cny": 165800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
       "source_row": 32,
@@ -1661,10 +1681,91 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 33,
+      "page_url": "http://avtomirhrb.ru/?car_1/2833.html",
+      "stock_number": "398260",
+      "model": "Volkswagen T-Roc",
+      "configuration": "2022 280T FWD Comfort Plus",
+      "production_year": 2022,
+      "production_month": 4,
+      "mileage_km": 32000,
+      "body_color": "Белый",
+      "interior_color": "Чёрный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 109800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Предзаказ",
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
       "source_row": 34,
+      "page_url": "http://avtomirhrb.ru/?car_1/2881.html",
+      "stock_number": "393255",
+      "model": "Volkswagen T-Roc",
+      "configuration": "2022 280T FWD Comfort Plus",
+      "production_year": 2022,
+      "production_month": 4,
+      "mileage_km": 32000,
+      "body_color": "Белый",
+      "interior_color": "Чёрный",
+      "paint_condition": "Покраска под толщиномер правой передней двери и правого переднего крыла",
+      "horsepower": 150,
+      "price_cny": 99800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 35,
+      "page_url": "http://avtomirhrb.ru/?car_1/2867.html",
+      "stock_number": "445181",
+      "model": "Volkswagen T-Roc",
+      "configuration": "2022 280T FWD Comfort Plus",
+      "production_year": 2022,
+      "production_month": 11,
+      "mileage_km": 26000,
+      "body_color": "Серый",
+      "interior_color": "Черный",
+      "paint_condition": "Покраска под толщиномер правой задней двери",
+      "horsepower": 150,
+      "price_cny": 115800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 36,
+      "page_url": "http://avtomirhrb.ru/?car_1/2863.html",
+      "stock_number": "444850",
+      "model": "Volkswagen T-Roc",
+      "configuration": "2022 280T FWD Comfort Plus",
+      "production_year": 2022,
+      "production_month": 11,
+      "mileage_km": 35000,
+      "body_color": "Желтый",
+      "interior_color": "Чёрный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 116800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Предзаказ",
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 37,
       "page_url": "http://avtomirhrb.ru/?car_1/2508.html",
       "stock_number": "015033",
       "model": "Volkswagen T-Cross",
@@ -1680,10 +1781,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 35,
+      "source_row": 38,
       "page_url": "http://avtomirhrb.ru/?car_1/2609.html",
       "stock_number": "103548",
       "model": "Volkswagen T-Cross",
@@ -1699,45 +1801,8 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 37,
-      "page_url": "http://avtomirhrb.ru/?car_1/2696.html",
-      "stock_number": "085559",
-      "model": "Volkswagen Lamando L",
-      "configuration": "2022 280T Cool Spicy",
-      "production_year": 2022,
-      "production_month": 11,
-      "mileage_km": 25000,
-      "body_color": "Белый",
-      "interior_color": "Чёрный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 106800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 38,
-      "page_url": "http://avtomirhrb.ru/?car_1/2776.html",
-      "stock_number": "060685",
-      "model": "Volkswagen Lamando L",
-      "configuration": "2022 280T Cool Spicy",
-      "production_year": 2022,
-      "production_month": 9,
-      "mileage_km": 11000,
-      "body_color": "Красный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 109800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
       "source_row": 39,
@@ -1756,10 +1821,31 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 42,
+      "source_row": 40,
+      "page_url": "http://avtomirhrb.ru/?car_1/2662.html",
+      "stock_number": "080121",
+      "model": "Volkswagen Lamando L",
+      "configuration": "2022 280T Cool Spicy",
+      "production_year": 2023,
+      "production_month": 8,
+      "mileage_km": 35000,
+      "body_color": "Синий",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 109800,
+      "engine_cc": 1395,
+      "engine_display": "бензиновый турбированный, 1,4 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 43,
       "page_url": "http://avtomirhrb.ru/?car_1/2199.html",
       "stock_number": "086534",
       "model": "Volkswagen Magotan",
@@ -1775,10 +1861,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 43,
+      "source_row": 44,
       "page_url": "http://avtomirhrb.ru/?car_1/2749.html",
       "stock_number": "049606",
       "model": "Volkswagen Magotan",
@@ -1794,10 +1881,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 44,
+      "source_row": 45,
       "page_url": "http://avtomirhrb.ru/?car_1/2775.html",
       "stock_number": "178325",
       "model": "Volkswagen Magotan",
@@ -1813,10 +1901,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 45,
+      "source_row": 46,
       "page_url": "http://avtomirhrb.ru/?car_1/2804.html",
       "stock_number": "111220",
       "model": "Volkswagen Magotan",
@@ -1832,10 +1921,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 46,
+      "source_row": 47,
       "page_url": "http://avtomirhrb.ru/?car_1/2814.html",
       "stock_number": "008013",
       "model": "Volkswagen Magotan",
@@ -1851,29 +1941,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 47,
-      "page_url": "http://avtomirhrb.ru/?car_1/2817.html",
-      "stock_number": "151134",
-      "model": "Volkswagen Magotan",
-      "configuration": "2023 20M Edition 280T Comfort",
-      "production_year": 2023,
-      "production_month": 11,
-      "mileage_km": 19000,
-      "body_color": "Черный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 133800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
-    },
-    {
-      "source_row": 49,
+      "source_row": 50,
       "page_url": "http://avtomirhrb.ru/?car_1/2671.html",
       "stock_number": "147657",
       "model": "Volkswagen Passat",
@@ -1889,10 +1961,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 50,
+      "source_row": 51,
       "page_url": "http://avtomirhrb.ru/?car_1/2756.html",
       "stock_number": "005775",
       "model": "Toyota Levin",
@@ -1908,10 +1981,31 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 51,
+      "source_row": 52,
+      "page_url": "http://avtomirhrb.ru/?car_1/2868.html",
+      "stock_number": "736184",
+      "model": "Toyota Levin",
+      "configuration": "2022 185T CVT Sport Edition",
+      "production_year": 2023,
+      "production_month": 1,
+      "mileage_km": 11000,
+      "body_color": "Белый",
+      "interior_color": "Чёрный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 116,
+      "price_cny": 95800,
+      "engine_cc": 1197,
+      "engine_display": "бензиновый турбированный, 1,2 л",
+      "status": "Готово",
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 53,
       "page_url": "http://avtomirhrb.ru/?car_1/2793.html",
       "stock_number": "771814",
       "model": "Toyota Levin",
@@ -1927,10 +2021,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 52,
+      "source_row": 54,
       "page_url": "http://avtomirhrb.ru/?car_1/2812.html",
       "stock_number": "763150",
       "model": "Toyota Levin",
@@ -1946,10 +2041,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 53,
+      "source_row": 55,
       "page_url": "http://avtomirhrb.ru/?car_1/2655.html",
       "stock_number": "733151",
       "model": "Toyota Levin",
@@ -1965,10 +2061,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 54,
+      "source_row": 56,
       "page_url": "http://avtomirhrb.ru/?car_1/2687.html",
       "stock_number": "239768",
       "model": "Toyota Levin",
@@ -1984,10 +2081,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 55,
+      "source_row": 57,
       "page_url": "http://avtomirhrb.ru/?car_1/2701.html",
       "stock_number": "225229",
       "model": "Toyota Levin",
@@ -2003,10 +2101,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 56,
+      "source_row": 58,
       "page_url": "http://avtomirhrb.ru/?car_1/2777.html",
       "stock_number": "756619",
       "model": "Toyota Levin",
@@ -2022,10 +2121,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 59,
+      "source_row": 61,
       "page_url": "http://avtomirhrb.ru/?car_1/2581.html",
       "stock_number": "746435",
       "model": "Toyota Corolla",
@@ -2041,10 +2141,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 60,
+      "source_row": 62,
       "page_url": "http://avtomirhrb.ru/?car_1/2652.html",
       "stock_number": "914486",
       "model": "Toyota Corolla",
@@ -2060,10 +2161,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 61,
+      "source_row": 64,
       "page_url": "http://avtomirhrb.ru/?car_1/2561.html",
       "stock_number": "802070",
       "model": "Toyota Corolla",
@@ -2079,10 +2181,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 62,
+      "source_row": 65,
       "page_url": "http://avtomirhrb.ru/?car_1/2582.html",
       "stock_number": "218706",
       "model": "Toyota Corolla",
@@ -2098,10 +2201,11 @@
       "engine_cc": 1798,
       "engine_display": "бензиновый гибридный, 1,8 л",
       "status": "Готово",
-      "transmission": "электромеханический вариатор (E-CVT)"
+      "transmission": "электромеханический вариатор (E-CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 63,
+      "source_row": 66,
       "page_url": "http://avtomirhrb.ru/?car_1/2612.html",
       "stock_number": "924101",
       "model": "Toyota Corolla",
@@ -2117,10 +2221,11 @@
       "engine_cc": 1197,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 65,
+      "source_row": 67,
       "page_url": "http://avtomirhrb.ru/?car_1/2589.html",
       "stock_number": "951567",
       "model": "Toyota Yaris",
@@ -2136,10 +2241,11 @@
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 66,
+      "source_row": 68,
       "page_url": "http://avtomirhrb.ru/?car_1/2774.html",
       "stock_number": "995425",
       "model": "Toyota Yaris",
@@ -2155,29 +2261,11 @@
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 67,
-      "page_url": "http://avtomirhrb.ru/?car_1/2538.html",
-      "stock_number": "940500",
-      "model": "Toyota Yaris",
-      "configuration": "2022 1.5L Luxury",
-      "production_year": 2022,
-      "production_month": 8,
-      "mileage_km": 28000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 112,
-      "price_cny": 69800,
-      "engine_cc": 1496,
-      "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "вариатор (CVT)"
-    },
-    {
-      "source_row": 68,
+      "source_row": 69,
       "page_url": "http://avtomirhrb.ru/?car_1/2675.html",
       "stock_number": "958830",
       "model": "Toyota Yaris",
@@ -2192,11 +2280,12 @@
       "price_cny": 69800,
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "status": "В процессе",
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 69,
+      "source_row": 70,
       "page_url": "http://avtomirhrb.ru/?car_1/2716.html",
       "stock_number": "978556",
       "model": "Toyota Yaris",
@@ -2212,10 +2301,11 @@
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 70,
+      "source_row": 71,
       "page_url": "http://avtomirhrb.ru/?car_1/2604.html",
       "stock_number": "981999",
       "model": "Toyota Yaris",
@@ -2231,7 +2321,8 @@
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
       "source_row": 72,
@@ -2250,10 +2341,11 @@
       "engine_cc": 1496,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 82,
+      "source_row": 78,
       "page_url": "http://avtomirhrb.ru/?car_1/2615.html",
       "stock_number": "022516",
       "model": "Nissan Qashqai",
@@ -2269,10 +2361,11 @@
       "engine_cc": 1997,
       "engine_display": "бензиновый, 2,0 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 83,
+      "source_row": 79,
       "page_url": "http://avtomirhrb.ru/?car_1/2633.html",
       "stock_number": "459731",
       "model": "Nissan X-Trail",
@@ -2288,29 +2381,11 @@
       "engine_cc": 1997,
       "engine_display": "бензиновый, 2,0 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 84,
-      "page_url": "http://avtomirhrb.ru/?car_1/2613.html",
-      "stock_number": "729961",
-      "model": "BMW X1",
-      "configuration": "2023 20Li Design Package",
-      "production_year": 2023,
-      "production_month": 9,
-      "mileage_km": 40000,
-      "body_color": "Белый",
-      "interior_color": "Коричневый",
-      "paint_condition": "Покраска под толщиномер обеих дверей справа и правого переднего крыла",
-      "horsepower": 156,
-      "price_cny": 168800,
-      "engine_cc": 1499,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 85,
+      "source_row": 80,
       "page_url": "http://avtomirhrb.ru/?car_1/2139.html",
       "stock_number": "720029",
       "model": "BMW X1",
@@ -2326,10 +2401,11 @@
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 86,
+      "source_row": 81,
       "page_url": "http://avtomirhrb.ru/?car_1/2803.html",
       "stock_number": "665198",
       "model": "BMW X1",
@@ -2345,29 +2421,11 @@
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 87,
-      "page_url": "http://avtomirhrb.ru/?car_1/1990.html",
-      "stock_number": "677151",
-      "model": "BMW X1",
-      "configuration": "2023 20Li Design Package",
-      "production_year": 2023,
-      "production_month": 7,
-      "mileage_km": 21000,
-      "body_color": "Черный",
-      "interior_color": "Оранжевый",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 156,
-      "price_cny": 204800,
-      "engine_cc": 1499,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 88,
+      "source_row": 82,
       "page_url": "http://avtomirhrb.ru/?car_1/2227.html",
       "stock_number": "677126",
       "model": "BMW X1",
@@ -2383,29 +2441,11 @@
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 89,
-      "page_url": "http://avtomirhrb.ru/?car_1/2678.html",
-      "stock_number": "641730",
-      "model": "BMW 1 Series",
-      "configuration": "2023 120i M Sport Shadow",
-      "production_year": 2023,
-      "production_month": 5,
-      "mileage_km": 38000,
-      "body_color": "Белый",
-      "interior_color": "Коричневый",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 136,
-      "price_cny": 116800,
-      "engine_cc": 1499,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 90,
+      "source_row": 84,
       "page_url": "http://avtomirhrb.ru/?car_1/2533.html",
       "stock_number": "P66243",
       "model": "BMW mini",
@@ -2421,29 +2461,11 @@
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 91,
-      "page_url": "http://avtomirhrb.ru/?car_1/2772.html",
-      "stock_number": "241304",
-      "model": "Mercedes-Benz A-Class",
-      "configuration": "2022 180L Sport",
-      "production_year": 2022,
-      "production_month": 7,
-      "mileage_km": 34000,
-      "body_color": "Белый",
-      "interior_color": "Чёрный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 136,
-      "price_cny": 129800,
-      "engine_cc": 1332,
-      "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 92,
+      "source_row": 85,
       "page_url": "http://avtomirhrb.ru/?car_1/2540.html",
       "stock_number": "288384",
       "model": "Mercedes-Benz A-Class",
@@ -2459,10 +2481,11 @@
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 93,
+      "source_row": 86,
       "page_url": "http://avtomirhrb.ru/?car_1/2593.html",
       "stock_number": "282429",
       "model": "Mercedes-Benz A-Class",
@@ -2478,10 +2501,11 @@
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 94,
+      "source_row": 87,
       "page_url": "http://avtomirhrb.ru/?car_1/2631.html",
       "stock_number": "296884",
       "model": "Mercedes-Benz A-Class",
@@ -2496,11 +2520,12 @@
       "price_cny": 125800,
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "status": "В процессе",
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 95,
+      "source_row": 88,
       "page_url": "http://avtomirhrb.ru/?car_1/2650.html",
       "stock_number": "309256",
       "model": "Mercedes-Benz A-Class",
@@ -2516,14 +2541,15 @@
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 96,
+      "source_row": 89,
       "page_url": "http://avtomirhrb.ru/?car_1/2363.html",
       "stock_number": "749163",
       "model": "Mercedes-Benz C-Class",
-      "configuration": "2020 C200L Sporty Style",
+      "configuration": "2020 C200L Fashion Sport",
       "production_year": 2020,
       "production_month": 7,
       "mileage_km": 46000,
@@ -2535,10 +2561,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "9-ступенчатая автоматическая (AT)"
+      "transmission": "9-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 97,
+      "source_row": 91,
       "page_url": "http://avtomirhrb.ru/?car_1/2240.html",
       "stock_number": "160667",
       "model": "Mercedes-Benz GLA",
@@ -2554,10 +2581,11 @@
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 98,
+      "source_row": 92,
       "page_url": "http://avtomirhrb.ru/?car_1/2297.html",
       "stock_number": "153220",
       "model": "Mercedes-Benz GLA",
@@ -2573,10 +2601,11 @@
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 99,
+      "source_row": 93,
       "page_url": "http://avtomirhrb.ru/?car_1/2478.html",
       "stock_number": "155904",
       "model": "Mercedes-Benz GLA",
@@ -2592,10 +2621,11 @@
       "engine_cc": 1332,
       "engine_display": "бензиновый турбированный, 1,3 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 101,
+      "source_row": 95,
       "page_url": "http://avtomirhrb.ru/?car_1/2222.html",
       "stock_number": "613960",
       "model": "AUDI Q2L",
@@ -2611,48 +2641,31 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 103,
-      "page_url": "http://avtomirhrb.ru/?car_1/2815.html",
-      "stock_number": "706753",
+      "source_row": 96,
+      "page_url": "http://avtomirhrb.ru/?car_1/2877.html",
+      "stock_number": "751243",
       "model": "AUDI Q3",
       "configuration": "2023 35T: Stylish and Dynamic",
-      "production_year": 2023,
-      "production_month": 3,
-      "mileage_km": 45000,
+      "production_year": 2022,
+      "production_month": 9,
+      "mileage_km": 13000,
       "body_color": "Белый",
       "interior_color": "Черный",
-      "paint_condition": "Покраска под толщиномер правого заднего крыла",
+      "paint_condition": "Покраска под толщиномер правой задней двери",
       "horsepower": 150,
-      "price_cny": 149800,
+      "price_cny": 169800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 104,
-      "page_url": "http://avtomirhrb.ru/?car_1/2765.html",
-      "stock_number": "542192",
-      "model": "AUDI А3",
-      "configuration": "2023 35T Fashion Dynamic",
-      "production_year": 2023,
-      "production_month": 9,
-      "mileage_km": 21000,
-      "body_color": "Красный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 119800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
-    },
-    {
-      "source_row": 105,
+      "source_row": 97,
       "page_url": "http://avtomirhrb.ru/?car_1/2768.html",
       "stock_number": "528037",
       "model": "AUDI А3",
@@ -2668,10 +2681,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 106,
+      "source_row": 98,
       "page_url": "http://avtomirhrb.ru/?car_1/2820.html",
       "stock_number": "557289",
       "model": "AUDI А3",
@@ -2687,29 +2701,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 107,
-      "page_url": "http://avtomirhrb.ru/?car_1/2823.html",
-      "stock_number": "545013",
-      "model": "AUDI А3",
-      "configuration": "2023 35T Fashion Sport",
-      "production_year": 2022,
-      "production_month": 10,
-      "mileage_km": 33000,
-      "body_color": "Серый",
-      "interior_color": "Черный",
-      "paint_condition": "Покраска под толщиномер правого переднего крыла",
-      "horsepower": 150,
-      "price_cny": 119800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
-    },
-    {
-      "source_row": 108,
+      "source_row": 99,
       "page_url": "http://avtomirhrb.ru/?car_1/2380.html",
       "stock_number": "536001",
       "model": "AUDI А3",
@@ -2725,10 +2721,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 109,
+      "source_row": 100,
       "page_url": "http://avtomirhrb.ru/?car_1/2418.html",
       "stock_number": "505437",
       "model": "AUDI А3L",
@@ -2744,10 +2741,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная S tronic (DCT)"
+      "transmission": "7-ступенчатая роботизированная S tronic (DCT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 110,
+      "source_row": 102,
       "page_url": "http://avtomirhrb.ru/?car_1/2228.html",
       "stock_number": "D19338",
       "model": "Mazda CX-4",
@@ -2762,11 +2760,12 @@
       "price_cny": 109800,
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "status": "В процессе",
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 111,
+      "source_row": 103,
       "page_url": "http://avtomirhrb.ru/?car_1/2575.html",
       "stock_number": "D18694",
       "model": "Mazda CX-4",
@@ -2782,10 +2781,11 @@
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 114,
+      "source_row": 107,
       "page_url": "http://avtomirhrb.ru/?car_1/2444.html",
       "stock_number": "021857",
       "model": "Geely Emgrand S",
@@ -2801,10 +2801,11 @@
       "engine_cc": 1398,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 116,
+      "source_row": 109,
       "page_url": "http://avtomirhrb.ru/?car_1/2670.html",
       "stock_number": "715695",
       "model": "Geely Coolray",
@@ -2820,48 +2821,11 @@
       "engine_cc": 1398,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая роботизированная DCT"
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 118,
-      "page_url": "http://avtomirhrb.ru/?car_1/2825.html",
-      "stock_number": "013424",
-      "model": "Geely Vision X6",
-      "configuration": "2021 1.4T Automatic Premium Edition",
-      "production_year": 2023,
-      "production_month": 11,
-      "mileage_km": 19000,
-      "body_color": "Белый",
-      "interior_color": "Чёрный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 141,
-      "price_cny": 83800,
-      "engine_cc": 1398,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 119,
-      "page_url": "http://avtomirhrb.ru/?car_1/2834.html",
-      "stock_number": "002177",
-      "model": "Geely Vision X6",
-      "configuration": "2021 1.4T Automatic Premium Edition",
-      "production_year": 2023,
-      "production_month": 2,
-      "mileage_km": 14000,
-      "body_color": "Белый",
-      "interior_color": "Чёрный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 141,
-      "price_cny": 85800,
-      "engine_cc": 1398,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 120,
+      "source_row": 110,
       "page_url": "http://avtomirhrb.ru/?car_1/2634.html",
       "stock_number": "013299",
       "model": "Škoda Rapid",
@@ -2877,10 +2841,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 121,
+      "source_row": 111,
       "page_url": "http://avtomirhrb.ru/?car_1/2643.html",
       "stock_number": "010649",
       "model": "Škoda Superb",
@@ -2896,10 +2861,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 122,
+      "source_row": 112,
       "page_url": "http://avtomirhrb.ru/?car_1/2489.html",
       "stock_number": "015597",
       "model": "Škoda Kamiq",
@@ -2915,29 +2881,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 123,
-      "page_url": "http://avtomirhrb.ru/?car_1/2610.html",
-      "stock_number": "017668",
-      "model": "Škoda Kamiq",
-      "configuration": "2022 1.5L Automatic Comfort Edition",
-      "production_year": 2022,
-      "production_month": 7,
-      "mileage_km": 20000,
-      "body_color": "Коричневый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 112,
-      "price_cny": 98800,
-      "engine_cc": 1498,
-      "engine_display": "бензиновый, 1,5 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 124,
+      "source_row": 113,
       "page_url": "http://avtomirhrb.ru/?car_1/2403.html",
       "stock_number": "015216",
       "model": "Škoda Kamiq",
@@ -2953,10 +2901,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 125,
+      "source_row": 115,
       "page_url": "http://avtomirhrb.ru/?car_1/2519.html",
       "stock_number": "013076",
       "model": "ŠKODA Karoq",
@@ -2972,10 +2921,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 127,
+      "source_row": 116,
       "page_url": "http://avtomirhrb.ru/?car_1/2283.html",
       "stock_number": "010090",
       "model": "ŠKODA Karoq",
@@ -2991,10 +2941,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DSG"
+      "transmission": "7-ступенчатая роботизированная DSG",
+      "publish_priority": 0
     },
     {
-      "source_row": 128,
+      "source_row": 117,
       "page_url": "http://avtomirhrb.ru/?car_1/2045.html",
       "stock_number": "106889",
       "model": "Lexus NX200",
@@ -3010,10 +2961,11 @@
       "engine_cc": 1987,
       "engine_display": "бензиновый, 2,0 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 130,
+      "source_row": 119,
       "page_url": "http://avtomirhrb.ru/?car_1/2307.html",
       "stock_number": "054733",
       "model": "Jetour X70PLUS",
@@ -3029,10 +2981,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая роботизированная DCT"
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 131,
+      "source_row": 120,
       "page_url": "http://avtomirhrb.ru/?car_1/2548.html",
       "stock_number": "116625",
       "model": "Jetour X70PLUS",
@@ -3040,18 +2993,19 @@
       "production_year": 2022,
       "production_month": 11,
       "mileage_km": 19000,
-      "body_color": "Серый",
-      "interior_color": "Черный",
+      "body_color": "Белый",
+      "interior_color": "Красный",
       "paint_condition": "Оригинальный цвет",
       "horsepower": 156,
       "price_cny": 82800,
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая роботизированная DCT"
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 132,
+      "source_row": 121,
       "page_url": "http://avtomirhrb.ru/?car_1/2758.html",
       "stock_number": "101469",
       "model": "Jetour X70PLUS",
@@ -3067,10 +3021,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая роботизированная DCT"
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 133,
+      "source_row": 122,
       "page_url": "http://avtomirhrb.ru/?car_1/2743.html",
       "stock_number": "136324",
       "model": "Jetour X70PLUS",
@@ -3086,10 +3041,31 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая роботизированная DCT"
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 134,
+      "source_row": 123,
+      "page_url": "http://avtomirhrb.ru/?car_1/2860.html",
+      "stock_number": "391152",
+      "model": "Jetour Dasheng",
+      "configuration": "2023 1.5T Star Glory Pro",
+      "production_year": 2023,
+      "production_month": 10,
+      "mileage_km": 15000,
+      "body_color": "Черный",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 156,
+      "price_cny": 89800,
+      "engine_cc": 1498,
+      "engine_display": "бензиновый турбированный, 1,5 л",
+      "status": "Готово",
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 124,
       "page_url": "http://avtomirhrb.ru/?car_1/2357.html",
       "stock_number": "370405",
       "model": "Jetour Dasheng",
@@ -3105,48 +3081,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая роботизированная DCT"
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 135,
-      "page_url": "http://avtomirhrb.ru/?car_1/2427.html",
-      "stock_number": "137950",
-      "model": "GAC Trumpchi M6",
-      "configuration": "2021 270T Deluxe Edition",
-      "production_year": 2022,
-      "production_month": 4,
-      "mileage_km": 44000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 159,
-      "price_cny": 109800,
-      "engine_cc": 1495,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 136,
-      "page_url": "http://avtomirhrb.ru/?car_1/2499.html",
-      "stock_number": "156897",
-      "model": "GAC Trumpchi M6",
-      "configuration": "2021 270T Automatic Premium Edition",
-      "production_year": 2022,
-      "production_month": 11,
-      "mileage_km": 48000,
-      "body_color": "Черный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 159,
-      "price_cny": 109800,
-      "engine_cc": 1495,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 137,
+      "source_row": 126,
       "page_url": "http://avtomirhrb.ru/?car_1/2616.html",
       "stock_number": "127964",
       "model": "GAC Trumpchi M6",
@@ -3161,11 +3100,12 @@
       "price_cny": 99800,
       "engine_cc": 1495,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "status": "В процессе",
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 138,
+      "source_row": 127,
       "page_url": "http://avtomirhrb.ru/?car_1/2485.html",
       "stock_number": "139375",
       "model": "GAC Trumpchi M6",
@@ -3181,48 +3121,11 @@
       "engine_cc": 1495,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 139,
-      "page_url": "http://avtomirhrb.ru/?car_1/2513.html",
-      "stock_number": "007502",
-      "model": "Changan CS35plus",
-      "configuration": "2023 Enjoy Edition 1.4T Premium",
-      "production_year": 2023,
-      "production_month": 3,
-      "mileage_km": 5000,
-      "body_color": "Белый",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 158,
-      "price_cny": 79800,
-      "engine_cc": 1392,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 140,
-      "page_url": "http://avtomirhrb.ru/?car_1/2275.html",
-      "stock_number": "001876",
-      "model": "Jetta VS5",
-      "configuration": "2022 280T Automatic Glory",
-      "production_year": 2023,
-      "production_month": 1,
-      "mileage_km": 27000,
-      "body_color": "Красный",
-      "interior_color": "Черный",
-      "paint_condition": "Покраска под толщиномер правого переднего крыла",
-      "horsepower": 150,
-      "price_cny": 86800,
-      "engine_cc": 1395,
-      "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
-    },
-    {
-      "source_row": 141,
+      "source_row": 128,
       "page_url": "http://avtomirhrb.ru/?car_1/2269.html",
       "stock_number": "099225",
       "model": "Jetta VS7",
@@ -3238,10 +3141,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 142,
+      "source_row": 129,
       "page_url": "http://avtomirhrb.ru/?car_1/2258.html",
       "stock_number": "052415",
       "model": "Jetta VS7",
@@ -3257,10 +3161,11 @@
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 143,
+      "source_row": 130,
       "page_url": "http://avtomirhrb.ru/?car_1/2466.html",
       "stock_number": "011325",
       "model": "Jetta VS7",
@@ -3275,11 +3180,12 @@
       "price_cny": 92800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "status": "В процессе",
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 144,
+      "source_row": 131,
       "page_url": "http://avtomirhrb.ru/?car_1/2423.html",
       "stock_number": "027930",
       "model": "Jetta VS7",
@@ -3294,34 +3200,76 @@
       "price_cny": 98800,
       "engine_cc": 1395,
       "engine_display": "бензиновый турбированный, 1,4 л",
-      "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "status": "В процессе",
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 145,
-      "page_url": "http://avtomirhrb.ru/?car_1/2798.html",
-      "stock_number": "510418",
+      "source_row": 132,
+      "page_url": "http://avtomirhrb.ru/?car_1/2845.html",
+      "stock_number": "639375",
       "model": "Haval H6",
       "configuration": "2023 Guochao 1.5T AT Champion",
       "production_year": 2023,
-      "production_month": 2,
-      "mileage_km": 36000,
+      "production_month": 9,
+      "mileage_km": 25000,
       "body_color": "Черный",
       "interior_color": "Черный",
       "paint_condition": "Оригинальный цвет",
       "horsepower": 150,
-      "price_cny": 85800,
+      "price_cny": 88800,
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 147,
+      "source_row": 133,
+      "page_url": "http://avtomirhrb.ru/?car_1/2883.html",
+      "stock_number": "502208",
+      "model": "Haval H6",
+      "configuration": "2023 Guochao 1.5T AT Champion",
+      "production_year": 2024,
+      "production_month": 1,
+      "mileage_km": 21000,
+      "body_color": "Черный",
+      "interior_color": "Черный",
+      "paint_condition": "Оригинальный цвет",
+      "horsepower": 150,
+      "price_cny": 88800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый турбированный, 1,5 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 134,
+      "page_url": "http://avtomirhrb.ru/?car_1/2880.html",
+      "stock_number": "507629",
+      "model": "Haval H6",
+      "configuration": "2023 Guochao 1.5T AT Champion",
+      "production_year": 2024,
+      "production_month": 1,
+      "mileage_km": 23000,
+      "body_color": "Белый",
+      "interior_color": "Черный",
+      "paint_condition": "Покраска под толщиномер правой задней двери",
+      "horsepower": 150,
+      "price_cny": 83800,
+      "engine_cc": 1497,
+      "engine_display": "бензиновый турбированный, 1,5 л",
+      "status": "Готово",
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
+    },
+    {
+      "source_row": 137,
       "page_url": "http://avtomirhrb.ru/?car_1/2826.html",
       "stock_number": "527915",
       "model": "Haval H6",
-      "configuration": "2023 Guochao 1.5T Automatic Urban",
+      "configuration": "2023 Guochao 1.5T AT Urban",
       "production_year": 2023,
       "production_month": 4,
       "mileage_km": 27000,
@@ -3333,10 +3281,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 148,
+      "source_row": 140,
       "page_url": "http://avtomirhrb.ru/?car_1/2617.html",
       "stock_number": "426668",
       "model": "Haval M6",
@@ -3352,10 +3301,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 149,
+      "source_row": 141,
       "page_url": "http://avtomirhrb.ru/?car_1/2638.html",
       "stock_number": "414546",
       "model": "Haval M6",
@@ -3371,10 +3321,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 150,
+      "source_row": 142,
       "page_url": "http://avtomirhrb.ru/?car_1/2809.html",
       "stock_number": "400398",
       "model": "Haval M6",
@@ -3390,48 +3341,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 151,
-      "page_url": "http://avtomirhrb.ru/?car_1/2783.html",
-      "stock_number": "356390",
-      "model": "Haval M6",
-      "configuration": "2021 1.5T Luxury Smart Connect",
-      "production_year": 2022,
-      "production_month": 1,
-      "mileage_km": 16000,
-      "body_color": "Черный",
-      "interior_color": "Черный",
-      "paint_condition": "Покраска под толщиномер правого переднего крыла",
-      "horsepower": 150,
-      "price_cny": 59800,
-      "engine_cc": 1497,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 152,
-      "page_url": "http://avtomirhrb.ru/?car_1/2483.html",
-      "stock_number": "013937",
-      "model": "Haval Chitu",
-      "configuration": "2022 Enjoy Edition 1.5T “Purple Copper Rabbit”",
-      "production_year": 2022,
-      "production_month": 5,
-      "mileage_km": 33000,
-      "body_color": "Черный",
-      "interior_color": "Черный",
-      "paint_condition": "Оригинальный цвет",
-      "horsepower": 150,
-      "price_cny": 83800,
-      "engine_cc": 1497,
-      "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
-    },
-    {
-      "source_row": 153,
+      "source_row": 143,
       "page_url": "http://avtomirhrb.ru/?car_1/2778.html",
       "stock_number": "020696",
       "model": "Haval Chitu",
@@ -3447,10 +3361,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 154,
+      "source_row": 144,
       "page_url": "http://avtomirhrb.ru/?car_1/2568.html",
       "stock_number": "002060",
       "model": "Haval Chitu",
@@ -3466,10 +3381,11 @@
       "engine_cc": 1497,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 155,
+      "source_row": 145,
       "page_url": "http://avtomirhrb.ru/?car_1/2578.html",
       "stock_number": "159372",
       "model": "Haval Cool Dog",
@@ -3485,10 +3401,11 @@
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 156,
+      "source_row": 146,
       "page_url": "http://avtomirhrb.ru/?car_1/2789.html",
       "stock_number": "134845",
       "model": "Haval Cool Dog",
@@ -3504,10 +3421,11 @@
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 157,
+      "source_row": 147,
       "page_url": "http://avtomirhrb.ru/?car_1/2708.html",
       "stock_number": "155243",
       "model": "Haval Cool Dog",
@@ -3523,10 +3441,11 @@
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
       "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 158,
+      "source_row": 148,
       "page_url": "http://avtomirhrb.ru/?car_1/2734.html",
       "stock_number": "143465",
       "model": "Haval Cool Dog",
@@ -3541,11 +3460,12 @@
       "price_cny": 113800,
       "engine_cc": 1499,
       "engine_display": "бензиновый турбированный, 1,5 л",
-      "status": "Готово",
-      "transmission": "7-ступенчатая роботизированная DCT"
+      "status": "В процессе",
+      "transmission": "7-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 159,
+      "source_row": 149,
       "page_url": "http://avtomirhrb.ru/?car_1/2619.html",
       "stock_number": "000881",
       "model": "Chevrolet Orlando",
@@ -3561,10 +3481,11 @@
       "engine_cc": 1349,
       "engine_display": "бензиновый турбированный гибридный, 1,3 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 160,
+      "source_row": 150,
       "page_url": "http://avtomirhrb.ru/?car_1/2717.html",
       "stock_number": "016137",
       "model": "Chevrolet Orlando",
@@ -3580,10 +3501,11 @@
       "engine_cc": 1349,
       "engine_display": "бензиновый турбированный гибридный, 1,3 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая автоматическая (AT)"
+      "transmission": "6-ступенчатая автоматическая (AT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 161,
+      "source_row": 152,
       "page_url": "http://avtomirhrb.ru/?car_1/2477.html",
       "stock_number": "181333",
       "model": "MG5",
@@ -3599,10 +3521,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 162,
+      "source_row": 153,
       "page_url": "http://avtomirhrb.ru/?car_1/2428.html",
       "stock_number": "230995",
       "model": "MG5",
@@ -3618,10 +3541,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 163,
+      "source_row": 154,
       "page_url": "http://avtomirhrb.ru/?car_1/2453.html",
       "stock_number": "186676",
       "model": "MG5",
@@ -3637,10 +3561,11 @@
       "engine_cc": 1498,
       "engine_display": "бензиновый, 1,5 л",
       "status": "Готово",
-      "transmission": "вариатор (CVT)"
+      "transmission": "вариатор (CVT)",
+      "publish_priority": 0
     },
     {
-      "source_row": 164,
+      "source_row": 155,
       "page_url": "http://avtomirhrb.ru/?car_1/2698.html",
       "stock_number": "003343",
       "model": "Peugeot 2008",
@@ -3656,10 +3581,11 @@
       "engine_cc": 1199,
       "engine_display": "бензиновый турбированный, 1,2 л",
       "status": "Готово",
-      "transmission": "6-ступенчатая роботизированная DCT"
+      "transmission": "6-ступенчатая роботизированная DCT",
+      "publish_priority": 0
     },
     {
-      "source_row": 165,
+      "source_row": 157,
       "page_url": "http://avtomirhrb.ru/?car_1/2745.html",
       "stock_number": "021700",
       "model": "BAW M7",
@@ -3675,7 +3601,829 @@
       "engine_cc": 1998,
       "engine_display": "бензиновый, 2,0 л",
       "status": "Готово",
-      "transmission": "5-ступенчатая механическая (MT)"
+      "transmission": "5-ступенчатая механическая (MT)",
+      "publish_priority": 0
+    }
+  ],
+  "excluded_cars": [
+    {
+      "source_row": 3,
+      "page_url": "http://avtomirhrb.ru/?car_1/2761.html",
+      "model": "Kia K3",
+      "configuration": "2023  1.5L Luxury Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2761.html",
+        "Kia K3 ",
+        "094975",
+        "Серый/Черный",
+        "2023  1.5L Luxury Edition ",
+        "2023 март",
+        23000,
+        "Покраска под толщиномер правого переднего крыла",
+        "В процессе",
+        "115 л.с.",
+        89800,
+        12828.5714285714
+      ]
+    },
+    {
+      "source_row": 17,
+      "page_url": "http://avtomirhrb.ru/?car_1/2735.html",
+      "model": "Honda Crider",
+      "configuration": "2022 180TURBO Luxury",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2735.html",
+        "Honda Crider",
+        "003284",
+        "Белый /Чёрный",
+        "2022 180TURBO Luxury",
+        "2022г ноябрь",
+        3000,
+        "Покраска под толщиномер левых и правых передних крыльев",
+        "Предзаказ",
+        "122 л.с.",
+        75800,
+        10828.5714285714
+      ]
+    },
+    {
+      "source_row": 18,
+      "page_url": "http://avtomirhrb.ru/?car_1/2870.html",
+      "model": "Honda XRV",
+      "configuration": "2023 1.5L, Rechao Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2870.html",
+        "Honda XRV",
+        "029054",
+        "Черный/Черный",
+        "2023 1.5L, Rechao Edition ",
+        "2023г март",
+        22000,
+        "Покраска под толщиномер правого переднего крыла",
+        "В процессе",
+        "124 л.с.",
+        115800,
+        16542.8571428571
+      ]
+    },
+    {
+      "source_row": 19,
+      "page_url": "http://avtomirhrb.ru/?car_1/2851.html",
+      "model": "Honda Vezel",
+      "configuration": "2023 1.5L Elite Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2851.html",
+        "Honda Vezel",
+        "012021",
+        "Белый /Чёрный",
+        "2023 1.5L Elite Edition",
+        "2023г февраль",
+        12000,
+        "Оригинальный цвет",
+        "Готово",
+        "124 л.с.",
+        105800,
+        15114.2857142857
+      ]
+    },
+    {
+      "source_row": 20,
+      "page_url": "http://avtomirhrb.ru/?car_1/2882.html",
+      "model": "Honda Vezel",
+      "configuration": "2023 1.5L Elite Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2882.html",
+        "Honda Vezel",
+        "011450",
+        "Белый /Чёрный",
+        "2023 1.5L Elite Edition",
+        "2023г февраль",
+        13000,
+        "Оригинальный цвет",
+        "Готово",
+        "124 л.с.",
+        108800,
+        15542.8571428571
+      ]
+    },
+    {
+      "source_row": 21,
+      "page_url": "http://avtomirhrb.ru/?car_1/2884.html",
+      "model": "Honda Vezel",
+      "configuration": "2023 1.5L Elite Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2884.html",
+        "Honda Vezel",
+        "044067",
+        "Белый /Чёрный",
+        "2023 1.5L Elite Edition",
+        "2023г июнь",
+        32000,
+        "Оригинальный цвет",
+        "Готово",
+        "124 л.с.",
+        102800,
+        14685.7142857143
+      ]
+    },
+    {
+      "source_row": 22,
+      "page_url": "http://avtomirhrb.ru/?car_1/2785.html",
+      "model": "Honda Envix",
+      "configuration": "2022 180T Comfort Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2785.html",
+        "Honda Envix",
+        "008236",
+        "Черный/Черный",
+        "2022 180T Comfort Edition",
+        "2023г январь",
+        18000,
+        "Оригинальный цвет",
+        "Готово",
+        "122 л.с.",
+        79800,
+        11400
+      ]
+    },
+    {
+      "source_row": 23,
+      "page_url": "http://avtomirhrb.ru/?car_1/2864.html",
+      "model": "Honda life",
+      "configuration": "2021 1.5L Fun Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2864.html",
+        "Honda life",
+        643680,
+        "Синий/Черный",
+        "2021 1.5L Fun Edition",
+        "2022г апрель",
+        32000,
+        "Покраска под толщиномер левого переднего крыла и левой передней двери",
+        "В процессе",
+        "131 л.с.",
+        72800,
+        10400
+      ]
+    },
+    {
+      "source_row": 28,
+      "page_url": "http://avtomirhrb.ru/?car_1/2781.html",
+      "model": "Volkswagen Bora",
+      "configuration": "2023 200T Smart Travel Pro Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2781.html",
+        "Volkswagen Bora",
+        133578,
+        "Серый/Черный",
+        "2023 200T Smart Travel Pro Edition",
+        "2022г октябрь",
+        27000,
+        "Оригинальный цвет",
+        "Готово",
+        "116 л.с.",
+        78800,
+        11257.1428571429
+      ]
+    },
+    {
+      "source_row": 31,
+      "page_url": "http://avtomirhrb.ru/?car_1/2832.html",
+      "model": "Volkswagen T-Roc",
+      "configuration": "2023 280T 2WD Time Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2832.html",
+        "Volkswagen T-Roc",
+        "480094",
+        "Белый /Чёрный",
+        "2023 280T 2WD Time Edition",
+        "2023г июль",
+        33000,
+        "Оригинальный цвет",
+        "Готово",
+        "150 л.с",
+        119800,
+        17114.2857142857
+      ]
+    },
+    {
+      "source_row": 41,
+      "page_url": "http://avtomirhrb.ru/?car_1/2829.html",
+      "model": "Volkswagen Sagitar",
+      "configuration": "2023 280T Exceed Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2829.html",
+        "Volkswagen Sagitar",
+        511376,
+        "Серый/Черный",
+        "2023 280T Exceed Edition",
+        "2022г июль",
+        29000,
+        "Оригинальный цвет",
+        "Готово",
+        "150 л.с.",
+        109800,
+        15685.7142857143
+      ]
+    },
+    {
+      "source_row": 42,
+      "page_url": "http://avtomirhrb.ru/?car_1/2848.html",
+      "model": "Volkswagen Sagitar",
+      "configuration": "2023 280T Exceed Lite Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2848.html",
+        "Volkswagen Sagitar",
+        606064,
+        "Черный/Черный",
+        "2023 280T Exceed Lite Edition",
+        "2022г декабрь",
+        44000,
+        "Оригинальный цвет",
+        "Готово",
+        "150 л.с.",
+        98800,
+        14114.2857142857
+      ]
+    },
+    {
+      "source_row": 48,
+      "page_url": "http://avtomirhrb.ru/?car_1/2844.html",
+      "model": "Volkswagen Magotan",
+      "configuration": "2023 20M Edition 280T Leading",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2844.html",
+        "Volkswagen Magotan",
+        "029472",
+        "Черный/Черный",
+        "2023 20M Edition 280T Leading",
+        "2023г апрель",
+        29000,
+        "Оригинальный цвет",
+        "В процессе",
+        "150 л.с.",
+        129800,
+        18542.8571428571
+      ]
+    },
+    {
+      "source_row": 49,
+      "page_url": "http://avtomirhrb.ru/?car_1/2886.html",
+      "model": "Volkswagen Lavida",
+      "configuration": "2023 280T Starry Sky Full Escape Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2886.html",
+        "Volkswagen Lavida",
+        "084318",
+        "Серый/Черный",
+        "2023 280T Starry Sky Full Escape Edition ",
+        "2022г июль",
+        39000,
+        "Оригинальный цвет",
+        "Готово",
+        "150 л.с.",
+        88800,
+        12685.7142857143
+      ]
+    },
+    {
+      "source_row": 59,
+      "page_url": "http://avtomirhrb.ru/?car_1/2813.html",
+      "model": "Toyota Levin",
+      "configuration": "2022 1.5L Pro Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2813.html",
+        "Toyota Levin",
+        707198,
+        "Белый/Черный",
+        "2022 1.5L Pro Edition",
+        "2022г ноябрь",
+        38000,
+        "Оригинальный цвет",
+        "Готово",
+        "116 л.с.",
+        75800,
+        10828.5714285714
+      ]
+    },
+    {
+      "source_row": 60,
+      "page_url": "http://avtomirhrb.ru/?car_1/2738.html",
+      "model": "Toyota Levin",
+      "configuration": "2022 Dual Engine 1.8H E-CVT Sports Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2738.html",
+        "Toyota Levin",
+        490108,
+        "Белый/Черный",
+        "2022 Dual Engine 1.8H E-CVT Sports Edition",
+        "2022г июнь",
+        30000,
+        "Покраска под толщиномер правой задней двери",
+        "Готово",
+        "98 л.с.",
+        86800,
+        12400
+      ]
+    },
+    {
+      "source_row": 63,
+      "page_url": "http://avtomirhrb.ru/?car_1/2842.html",
+      "model": "Toyota Corolla",
+      "configuration": "2021 1.2T Elite Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2842.html",
+        "Toyota Corolla",
+        497108,
+        "Белый /Чёрный",
+        "2021 1.2T Elite Edition",
+        "2022г сентябрь",
+        35000,
+        "Оригинальный цвет",
+        "Готово",
+        "116 л.с.",
+        85800,
+        12257.1428571429
+      ]
+    },
+    {
+      "source_row": 73,
+      "page_url": "http://avtomirhrb.ru/?car_1/2470.html",
+      "model": "Toyota BZ3X",
+      "configuration": "25 Model 520 Pro LiDAR Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2470.html",
+        "Toyota BZ3X",
+        "051047",
+        "Серый/Черный",
+        "25 Model 520 Pro LiDAR Edition",
+        "2025г октябрь",
+        14000,
+        "Оригинальный цвет",
+        "Готово",
+        "",
+        139800,
+        19971.4285714286
+      ]
+    },
+    {
+      "source_row": 74,
+      "page_url": "http://avtomirhrb.ru/?car_1/2450.html",
+      "model": "Toyota BZ3X",
+      "configuration": "25 Model 520 Pro+ LiDAR Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2450.html",
+        "Toyota BZ3X",
+        "014806",
+        "Серый/Белый",
+        "25 Model 520 Pro+ LiDAR Edition",
+        "2025г май",
+        10000,
+        "Оригинальный цвет",
+        "Готово",
+        "",
+        145800,
+        20828.5714285714
+      ]
+    },
+    {
+      "source_row": 75,
+      "page_url": "http://avtomirhrb.ru/?car_1/2699.html",
+      "model": "Lixiang L9",
+      "configuration": "26 Model Livis",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2699.html",
+        "Lixiang L9",
+        309320,
+        "золотой / бежевый",
+        "26 Model Livis",
+        "2026 июнь",
+        3000,
+        "Оригинальный цвет",
+        "Готово",
+        "",
+        499800,
+        71400
+      ]
+    },
+    {
+      "source_row": 76,
+      "page_url": "http://avtomirhrb.ru/?car_1/2757.html",
+      "model": "BYD Seagull",
+      "configuration": "2025 Smart Drive Edition 405Km Flying Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2757.html",
+        "BYD Seagull",
+        457452,
+        "Белый/Черный",
+        "2025 Smart Drive Edition 405Km Flying Edition",
+        "2025г май",
+        4000,
+        "Оригинальный цвет",
+        "Готово",
+        "",
+        81800,
+        11685.7142857143
+      ]
+    },
+    {
+      "source_row": 77,
+      "page_url": "http://avtomirhrb.ru/?car_1/2594.html",
+      "model": "BYD YuanUP",
+      "configuration": "2025 MY Smart Drive 401KM Vit ED",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2594.html",
+        "BYD YuanUP",
+        206454,
+        "Серый/Черный",
+        "2025 MY Smart Drive 401KM Vit ED",
+        "2025 март",
+        25000,
+        "Оригинальный цвет",
+        "Готово",
+        "",
+        88800,
+        12685.7142857143
+      ]
+    },
+    {
+      "source_row": 83,
+      "page_url": "http://avtomirhrb.ru/?car_1/2855.html",
+      "model": "BMW 3 Series",
+      "configuration": "2023 320Li Sport Package",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2855.html",
+        "BMW 3 Series",
+        730421,
+        "Белый /Чёрный",
+        "2023 320Li Sport Package ",
+        "2023г сентябрь",
+        26000,
+        "Оригинальный цвет",
+        "Предзаказ",
+        "136 л.с.",
+        189800,
+        27114.2857142857
+      ]
+    },
+    {
+      "source_row": 90,
+      "page_url": "http://avtomirhrb.ru/?car_1/2862.html",
+      "model": "Mercedes-Benz C-Class",
+      "configuration": "2021 C200L Fashion Sport",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2862.html",
+        "Mercedes-Benz C-Class",
+        893885,
+        "Серый/Черный",
+        "2021 C200L Fashion Sport",
+        "2021г май",
+        39000,
+        "Оригинальный цвет",
+        "Готово",
+        "136 л.с.",
+        159800,
+        22828.5714285714
+      ]
+    },
+    {
+      "source_row": 94,
+      "page_url": "http://avtomirhrb.ru/?car_1/2243.html",
+      "model": "AUDI Q2L",
+      "configuration": "2022 35T: Stylish and Dynamic",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2243.html",
+        "AUDI Q2L",
+        609414,
+        "Белый/Черный",
+        "2022 35T: Stylish and Dynamic",
+        "2022г май",
+        27000,
+        "Оригинальный цвет",
+        "Готово ",
+        "140 л.с.",
+        125800,
+        17971.4285714286
+      ]
+    },
+    {
+      "source_row": 101,
+      "page_url": "http://avtomirhrb.ru/?car_1/2857.html",
+      "model": "Mazda 3",
+      "configuration": "2022 2.0L AT Shiny Black Light",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2857.html",
+        "Mazda 3",
+        242206,
+        "Серый/Черный",
+        "2022 2.0L AT Shiny Black Light ",
+        "2022г июль",
+        25000,
+        "Оригинальный цвет",
+        "В процессе",
+        "158 л.с.",
+        92800,
+        13257.1428571429
+      ]
+    },
+    {
+      "source_row": 104,
+      "page_url": "http://avtomirhrb.ru/?car_1/2887.html",
+      "model": "Mazda CX-5",
+      "configuration": "2024 2.0L AT 2WD Smart",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2887.html",
+        "Mazda CX-5",
+        "533074",
+        "Серый/Черный",
+        "2024 2.0L AT 2WD Smart ",
+        "2023г декабрь",
+        18000,
+        "Оригинальный цвет",
+        "Готово",
+        "155 л.с.",
+        142800,
+        20400
+      ]
+    },
+    {
+      "source_row": 105,
+      "page_url": "http://avtomirhrb.ru/?car_1/2879.html",
+      "model": "Mazda CX-5",
+      "configuration": "2024 2.0L AT 2WD Comfort",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2879.html",
+        "Mazda CX-5",
+        528639,
+        "Белый/Черный",
+        "2024 2.0L AT 2WD Comfort ",
+        "2023г ноябрь",
+        40000,
+        "Оригинальный цвет",
+        "Предзаказ",
+        "155 л.с.",
+        118800,
+        16971.4285714286
+      ]
+    },
+    {
+      "source_row": 106,
+      "page_url": "http://avtomirhrb.ru/?car_1/2861.html",
+      "model": "Mazda CX-50",
+      "configuration": "2023 2.0L Safe Drive",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2861.html",
+        "Mazda CX-50",
+        "024186",
+        "Черный/Черный",
+        "2023 2.0L Safe Drive ",
+        "2023г июнь",
+        16000,
+        "Оригинальный цвет",
+        "В процессе",
+        "155 л.с.",
+        165800,
+        23685.7142857143
+      ]
+    },
+    {
+      "source_row": 108,
+      "page_url": "http://avtomirhrb.ru/?car_1/2792.html",
+      "model": "Geely Emgrand S",
+      "configuration": "2023 4th Generation Champion Edition 1.5L Flagship",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2792.html",
+        "Geely Emgrand S",
+        "053419",
+        "Белый/Черный",
+        "2023 4th Generation Champion Edition 1.5L Flagship",
+        "2023г апрель",
+        35000,
+        "Оригинальный цвет",
+        "Готово",
+        "127 л.с.",
+        62800,
+        8971.42857142857
+      ]
+    },
+    {
+      "source_row": 114,
+      "page_url": "http://avtomirhrb.ru/?car_1/2871.html",
+      "model": "Škoda Kamiq",
+      "configuration": "2023 1.5L Automatic Premium Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2871.html",
+        "Škoda Kamiq",
+        "017607",
+        "Белый /Чёрный",
+        "2023 1.5L Automatic Premium Edition",
+        "2022 июль",
+        38000,
+        "Покраска под толщиномер крышки багажника",
+        "Готово",
+        "112 л.с.",
+        89800,
+        12828.5714285714
+      ]
+    },
+    {
+      "source_row": 118,
+      "page_url": "http://avtomirhrb.ru/?car_1/2850.html",
+      "model": "Lexus NX200",
+      "configuration": "2020 200 FWD Edge Travel",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2850.html",
+        "Lexus NX200",
+        "083675",
+        "Белый/Черный",
+        "2020 200 FWD Edge Travel",
+        "2020г ноябрь",
+        40000,
+        "Покраска под толщиномер правой задней двери",
+        "В процессе",
+        "150 л.с.",
+        155800,
+        22257.1428571429
+      ]
+    },
+    {
+      "source_row": 125,
+      "page_url": "http://avtomirhrb.ru/?car_1/2858.html",
+      "model": "GAC GS4",
+      "configuration": "2022 270T AT Galaxy Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2858.html",
+        "GAC GS4",
+        137954,
+        "Белый/Черный",
+        "2022 270T AT Galaxy Edition",
+        "2023г январь",
+        47000,
+        "Оригинальный цвет",
+        "Предзаказ",
+        "159 л.с.",
+        99800,
+        14257.1428571429
+      ]
+    },
+    {
+      "source_row": 135,
+      "page_url": "http://avtomirhrb.ru/?car_1/2846.html",
+      "model": "Haval H6",
+      "configuration": "2023 Guochao 1.5T AT Urban",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2846.html",
+        "Haval H6",
+        601290,
+        "Черный/Черный",
+        "2023 Guochao 1.5T AT Urban",
+        "2023г май",
+        30000,
+        "Оригинальный цвет",
+        "В процессе",
+        "150 л.с",
+        75800,
+        10828.5714285714
+      ]
+    },
+    {
+      "source_row": 136,
+      "page_url": "http://avtomirhrb.ru/?car_1/2849.html",
+      "model": "Haval H6",
+      "configuration": "2023 Guochao 1.5T AT Urban",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2849.html",
+        "Haval H6",
+        550813,
+        "Серый/Черный",
+        "2023 Guochao 1.5T AT Urban",
+        "2022г июнь",
+        34000,
+        "Оригинальный цвет",
+        "Готово",
+        "150 л.с",
+        73800,
+        10542.8571428571
+      ]
+    },
+    {
+      "source_row": 138,
+      "page_url": "http://avtomirhrb.ru/?car_1/2876.html",
+      "model": "Haval H6",
+      "configuration": "2021 Guochao 1.5T AT Urban",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2876.html",
+        "Haval H6",
+        508523,
+        "Белый/Черный",
+        "2021 Guochao 1.5T AT Urban",
+        "2023г февраль",
+        28000,
+        "Оригинальный цвет",
+        "Готово",
+        "150 л.с.",
+        71800,
+        10257.1428571429
+      ]
+    },
+    {
+      "source_row": 139,
+      "page_url": "http://avtomirhrb.ru/?car_1/2874.html",
+      "model": "Haval H6",
+      "configuration": "2023 Guochao 1.5T AT Urban",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2874.html",
+        "Haval H6",
+        612890,
+        "Белый/Черный",
+        "2023 Guochao 1.5T AT Urban",
+        "2023г июль",
+        32000,
+        "Оригинальный цвет",
+        "Готово",
+        "150 л.с.",
+        78800,
+        11257.1428571429
+      ]
+    },
+    {
+      "source_row": 151,
+      "page_url": "http://avtomirhrb.ru/?car_1/2869.html",
+      "model": "Chevrolet Monza",
+      "configuration": "2023 1.5L DCT Enjoy Edition",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2869.html",
+        "Chevrolet Monza",
+        "120121",
+        "Черный/Черный",
+        "2023 1.5L DCT Enjoy Edition",
+        "2023г август",
+        35000,
+        "Оригинальный цвет",
+        "Предзаказ",
+        "133л.с",
+        63800,
+        9114.28571428571
+      ]
+    },
+    {
+      "source_row": 156,
+      "page_url": "http://avtomirhrb.ru/?car_1/2888.html",
+      "model": "Peugeot 2008",
+      "configuration": "2022 230THP The One",
+      "reason": "Нужна проверка двигателя и коробки конкретной версии",
+      "source_values": [
+        "http://avtomirhrb.ru/?car_1/2888.html",
+        "Peugeot 2008",
+        "011471",
+        "Белый /Чёрный",
+        "2022 230THP The One",
+        "2022г март",
+        56000,
+        "Покраска под толщиномер правого переднего крыла, правой передней двери и капота",
+        "Готово",
+        "96 л.с.",
+        59800,
+        8542.85714285714
+      ]
     }
   ]
 }

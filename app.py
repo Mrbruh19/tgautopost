@@ -2349,14 +2349,14 @@ def choose_car_for_slot(slot: datetime) -> sqlite3.Row | None:
                     priority_cars,
                     key=lambda row: (
                         int(row["publish_priority"] or 0),
-                        -int(row["source_row"] or 0),
+                        int(row["source_row"] or 0),
                     ),
                 )
             else:
-                car = min(
+                car = max(
                     safe,
                     key=lambda row: (
-                        int(row["source_row"] or 2_147_483_647),
+                        int(row["source_row"] or 0),
                         int(row["id"]),
                     ),
                 )
