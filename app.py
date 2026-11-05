@@ -28,7 +28,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.6.1"
+APP_VERSION = "3.6.2"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -107,6 +107,7 @@ WEEKLY_TOP_CYCLE_START_DATE = date.fromisoformat(
 CONTACT_TELEGRAM = os.getenv("CONTACT_TELEGRAM", "@latypovars").strip()
 COMMISSION_RUB = int(os.getenv("COMMISSION_RUB", "50000"))
 BROKER_RUB = int(os.getenv("BROKER_RUB", "49000"))
+DELIVERY_RUB = 200_000
 INTERNAL_MARKUP_CNY = int(os.getenv("INTERNAL_MARKUP_CNY", "6000"))
 
 WEEKLY_TOP_CATEGORIES = (
@@ -685,6 +686,15 @@ def resize_for_processing(image: np.ndarray) -> np.ndarray:
 PHOTO_SOURCE_POSITIONS = (1, 2, 3, 4, 7, 8, 9, 10)
 
 
+class SourceTemporarilyUnavailable(HTTPException):
+    def __init__(self, detail: str):
+        super().__init__(status_code=503, detail=detail)
+
+
+def is_temporary_source_http_status(status: int) -> bool:
+    return status in {401, 403, 408, 429} or 500 <= status < 600
+
+
 async def download_selected_eight_images(
     page_url: str,
     output_dir: Path,
@@ -694,9 +704,22 @@ async def download_selected_eight_images(
         follow_redirects=True,
         headers=HTTP_HEADERS,
     ) as client:
-        page_response = await client.get(page_url)
+        try:
+            page_response = await client.get(page_url)
+        except httpx.RequestError as exc:
+            raise SourceTemporarilyUnavailable(
+                "Не удалось подключиться к сайту поставщика."
+            ) from exc
+        if is_temporary_source_http_status(page_response.status_code):
+            raise SourceTemporarilyUnavailable(
+                f"Сайт поставщика недоступен (HTTP {page_response.status_code})."
+            )
         page_response.raise_for_status()
         html = page_response.text
+        if re.search(r"<title[^>]*>\s*Site Unavailable\s*</title\s*>", html, re.I):
+            raise SourceTemporarilyUnavailable(
+                "Сайт поставщика вернул Site Unavailable вместо объявления."
+            )
         candidates = collect_image_candidates(str(page_response.url), html)
         page_details = extract_page_details(html)
 
@@ -709,6 +732,7 @@ async def download_selected_eight_images(
         accepted: list[dict] = []
         hashes: set[str] = set()
         valid_position = 0
+        temporary_photo_error = False
         selected_positions = set(PHOTO_SOURCE_POSITIONS)
         for candidate in candidates[:120]:
             if valid_position >= max(PHOTO_SOURCE_POSITIONS):
@@ -716,7 +740,13 @@ async def download_selected_eight_images(
             try:
                 response = await client.get(candidate, headers={**HTTP_HEADERS, "Referer": page_url})
                 response.raise_for_status()
-            except httpx.HTTPError:
+            except httpx.HTTPStatusError as exc:
+                temporary_photo_error |= is_temporary_source_http_status(
+                    exc.response.status_code
+                )
+                continue
+            except httpx.RequestError:
+                temporary_photo_error = True
                 continue
 
             content = response.content
@@ -774,6 +804,10 @@ async def download_selected_eight_images(
             gc.collect()
 
     if valid_position < max(PHOTO_SOURCE_POSITIONS) or len(accepted) < 8:
+        if temporary_photo_error:
+            raise SourceTemporarilyUnavailable(
+                "Часть фотографий временно недоступна у поставщика."
+            )
         raise HTTPException(
             status_code=400,
             detail=(
@@ -1171,6 +1205,44 @@ def initialize_queue_database() -> None:
             )
 
 
+        # Recheck active listings once after the source outage. Do not restore
+        # published, removed or uncertain deliveries, or confirmed 404/410s.
+        source_recovery_key = "recheck_active_cars_after_source_outage_20261105"
+        if active_car_ids and connection.execute(
+            "SELECT 1 FROM maintenance_state WHERE key=?",
+            (source_recovery_key,),
+        ).fetchone() is None:
+            placeholders = ",".join("?" for _ in active_car_ids)
+            recovered = connection.execute(
+                f"""
+                UPDATE cars
+                SET status='pending', attempts=0, last_error=NULL
+                WHERE status='failed' AND id IN ({placeholders})
+                  AND COALESCE(last_error, '') NOT LIKE 'HTTPStatusError:%404%'
+                  AND COALESCE(last_error, '') NOT LIKE 'HTTPStatusError:%410%'
+                """,
+                active_car_ids,
+            ).rowcount
+            connection.execute(
+                "INSERT INTO maintenance_state(key, applied_at) VALUES (?, ?)",
+                (source_recovery_key, datetime.now(ZoneInfo(AUTO_PUBLISH_TZ)).isoformat()),
+            )
+            if recovered:
+                connection.execute(
+                    """
+                    UPDATE publish_slots
+                    SET status='pending', last_error=NULL, retry_at=NULL
+                    WHERE status='no_content' AND car_id IS NULL
+                      AND scheduled_at>=?
+                    """,
+                    (
+                        datetime.now(ZoneInfo(AUTO_PUBLISH_TZ))
+                        .replace(hour=0, minute=0, second=0, microsecond=0)
+                        .isoformat(),
+                    ),
+                )
+            logger.info("Restored %s active listings for source recheck", recovered)
+
         # Reopen today's slots blocked by the retired weekly model rule.
         # The scheduler still enforces its normal catch-up window.
         connection.execute(
@@ -1467,7 +1539,10 @@ def calculate_final_price(
         recycling_fee = recycling_fee_override
 
     duty_rub = duty_eur * eur_rub
-    total = car_value_rub + duty_rub + recycling_fee + COMMISSION_RUB + BROKER_RUB
+    total = (
+        car_value_rub + duty_rub + recycling_fee + COMMISSION_RUB + BROKER_RUB
+        + DELIVERY_RUB
+    )
     rounded_total = int(math.floor(total / 1000 + 0.5) * 1000)
 
     return {
@@ -1676,15 +1751,13 @@ def build_auto_caption(
         [
             f"▫️ Состояние: {condition}",
             "",
-            f"💰 <b>Цена с растаможкой и оформлением: {price} ₽</b>",
+            f"💰 <b>Цена с доставкой, растаможкой и оформлением: {price} ₽</b>",
             "",
             (
                 "В стоимость включены таможенная пошлина, утильсбор, комиссия, "
                 "услуги брокера, полный пакет документов, лаборатория и хранение "
                 "на СВХ до 7 дней."
             ),
-            "",
-            "ГЛОНАСС и доставка до города покупателя в стоимость не включены.",
             "",
             f"📩 По вопросам приобретения автомобиля: {contact}",
         ]
@@ -2177,8 +2250,7 @@ def build_weekly_top_caption(title: str, cars: list[dict]) -> str:
         )
     lines.extend(
         [
-            "В ценах учтены растаможка, утильсбор, комиссия и брокер.",
-            "Доставка до города и ГЛОНАСС рассчитываются отдельно.",
+            "Цены с доставкой, растаможкой, утильсбором, комиссией и брокером.",
             "",
             f"📩 Подбор автомобиля: {html.escape(CONTACT_TELEGRAM)}",
         ]
@@ -2460,6 +2532,7 @@ def mark_slot_failure(
     *,
     permanent: bool = False,
     preserve_car: bool = False,
+    source_unavailable: bool = False,
 ) -> None:
     timezone = ZoneInfo(AUTO_PUBLISH_TZ)
     now = datetime.now(timezone)
@@ -2469,6 +2542,20 @@ def mark_slot_failure(
         else now + timedelta(minutes=AUTO_PUBLISH_RETRY_MINUTES)
     )
     with db_connect() as connection:
+        if source_unavailable:
+            connection.execute(
+                "UPDATE cars SET status='pending', last_error=? WHERE id=?",
+                (error[:1000], car_id),
+            )
+            connection.execute(
+                """
+                UPDATE publish_slots
+                SET status='failed', last_error=?, retry_at=?
+                WHERE slot_key=?
+                """,
+                (error[:1000], retry_at.isoformat(), slot.isoformat()),
+            )
+            return
         car = connection.execute(
             "SELECT attempts FROM cars WHERE id=?", (car_id,)
         ).fetchone()
@@ -2952,6 +3039,9 @@ async def process_scheduled_slot(slot: datetime) -> None:
                 "Auto-published %s for slot %s; Telegram IDs: %s; VK ID: %s",
                 car["model"], slot.isoformat(), message_ids, vk_post_id,
             )
+        except SourceTemporarilyUnavailable as exc:
+            logger.warning("Source unavailable for slot %s: %s", slot.isoformat(), exc.detail)
+            mark_slot_failure(slot, int(car["id"]), exc.detail, source_unavailable=True)
         except TelegramDeliveryUncertainError as exc:
             logger.exception("Telegram delivery status is uncertain")
             mark_slot_uncertain(slot, int(car["id"]), str(exc))
