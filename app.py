@@ -28,7 +28,7 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, HttpUrl
 
-APP_VERSION = "3.6.2"
+APP_VERSION = "3.6.3"
 app = FastAPI(title="Auto Arsen Publisher", version=APP_VERSION)
 logger = logging.getLogger("tgautopost")
 PREPARE_LOCK = asyncio.Lock()
@@ -3035,6 +3035,10 @@ async def process_scheduled_slot(slot: datetime) -> None:
                 message_ids,
                 vk_post_id,
             )
+            try:
+                save_instagram_album(job_dir, car, int(price["rounded_total_rub"]), message_ids)
+            except Exception:
+                logger.exception("Could not archive confirmed Telegram album for Instagram")
             logger.info(
                 "Auto-published %s for slot %s; Telegram IDs: %s; VK ID: %s",
                 car["model"], slot.isoformat(), message_ids, vk_post_id,
@@ -3282,6 +3286,81 @@ async def prepare_car_photos(
             "page_details": page_details,
             "message": "Фотографии подготовлены. Покажите их пользователю до публикации.",
         }
+
+
+# Only confirmed Telegram publications enter this separate archive.
+INSTAGRAM_ARCHIVE = STATE_ROOT / "instagram_archive"
+INSTAGRAM_ARCHIVE_DAYS = 21
+
+
+def save_instagram_album(job_dir: Path, car, price_rub: int, message_ids: list[int]) -> None:
+    if len(message_ids) != 8:
+        return
+    INSTAGRAM_ARCHIVE.mkdir(parents=True, exist_ok=True)
+    target = INSTAGRAM_ARCHIVE / job_dir.name
+    with tempfile.TemporaryDirectory(dir=INSTAGRAM_ARCHIVE, prefix=".stage-") as staging:
+        album = Path(staging) / "album"
+        album.mkdir()
+        for index in range(1, 9):
+            name = f"photo_{index}.jpg"
+            shutil.copyfile(job_dir / name, album / name)
+        record = {
+            "id": job_dir.name,
+            "published_at": datetime.now(ZoneInfo("UTC")).isoformat(),
+            "telegram_message_ids": message_ids,
+            "telegram_post_url": (
+                f"https://t.me/{CHAT_ID[1:]}/{message_ids[0]}"
+                if re.fullmatch(r"@[A-Za-z0-9_]+", CHAT_ID) else None
+            ),
+            "stock_number": car["stock_number"],
+            "model": car["model"],
+            "configuration": car["configuration"],
+            "production_year": car["production_year"],
+            "production_month": car["production_month"],
+            "transmission": car["transmission"],
+            "engine_display": car["engine_display"],
+            "horsepower": car["horsepower"],
+            "price_rub": price_rub,
+        }
+        (album / "manifest.json").write_text(
+            json.dumps(record, ensure_ascii=False), encoding="utf-8"
+        )
+        album.rename(target)
+    cutoff = time.time() - INSTAGRAM_ARCHIVE_DAYS * 86400
+    for path in INSTAGRAM_ARCHIVE.iterdir():
+        if re.fullmatch(r"[0-9a-f]{32}", path.name) and path.is_dir():
+            if path.stat().st_mtime < cutoff:
+                shutil.rmtree(path, ignore_errors=True)
+
+
+@app.get("/instagram/archive")
+def list_instagram_albums():
+    cutoff = time.time() - INSTAGRAM_ARCHIVE_DAYS * 86400
+    albums = []
+    for path in INSTAGRAM_ARCHIVE.glob("*/manifest.json"):
+        try:
+            if not re.fullmatch(r"[0-9a-f]{32}", path.parent.name) or path.parent.stat().st_mtime < cutoff:
+                continue
+            album = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        album["photos"] = [
+            f"/instagram/archive/{path.parent.name}/photo_{index}.jpg" for index in range(1, 9)
+        ]
+        albums.append(album)
+    albums.sort(key=lambda album: album["published_at"], reverse=True)
+    return {"albums": albums[:30]}
+
+
+@app.get("/instagram/archive/{album_id}/{filename}")
+def get_instagram_photo(album_id: str, filename: str):
+    if not re.fullmatch(r"[0-9a-f]{32}", album_id) or not re.fullmatch(r"photo_[1-8]\.jpg", filename):
+        raise HTTPException(status_code=404, detail="Файл не найден.")
+    folder = INSTAGRAM_ARCHIVE / album_id
+    path = folder / filename
+    if not path.is_file() or folder.stat().st_mtime < time.time() - INSTAGRAM_ARCHIVE_DAYS * 86400:
+        raise HTTPException(status_code=404, detail="Файл не найден.")
+    return FileResponse(path, media_type="image/jpeg")
 
 
 @app.get("/media/{job_id}/{filename}")
